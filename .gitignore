@@ -1,0 +1,4 @@
+build
+build/*
+WebContent/WEB-INF/lib/*
+WebContent/WEB-INF/lib
