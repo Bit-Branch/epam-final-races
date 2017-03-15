@@ -1,22 +1,15 @@
 package by.malinouski.horserace.servlet;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.annotation.security.DeclareRoles;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.malinouski.horserace.command.Command;
-import by.malinouski.horserace.command.receiver.initiator.CommandInitiator;
 import by.malinouski.horserace.connection.ConnectionPool;
 import by.malinouski.horserace.constant.RequestConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
@@ -26,28 +19,17 @@ import by.malinouski.horserace.entity.User;
  * Servlet implementation class MainServlet
  */
 @WebServlet("/main")
-public class MainServlet extends HttpServlet {
-	private static final Logger logger = LogManager.getLogger(MainServlet.class);
+public class MainServlet extends AbstractServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LogManager.getLogger(MainServlet.class);
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MainServlet() {
-        super();
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 												throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 												throws ServletException, IOException {
 		processRequest(request, response);
@@ -58,29 +40,19 @@ public class MainServlet extends HttpServlet {
 		
 		request.getServletContext().log(
 				String.valueOf("Log level is enabled: " + logger.getLevel().toString()));
-		logger.debug(request.getParameterNames());
+		logger.debug(request.getQueryString());
 		
-		// copy the parameters to a new request map to be used for transfer
-		Map<String, Object> requestMap = new HashMap<>();
-		requestMap.putAll(request.getParameterMap());
-		
-		// initiate appropriate command and execute it
-		CommandInitiator init = new CommandInitiator(requestMap);
-		Command command = init.init();
-		command.execute();
+		// parent's method
+		execCommand(request);
 		
 		// authenticate the user
 		if ((Boolean) requestMap.get(RequestMapKeys.IS_LOGGED_IN)) {
 			User user = (User)requestMap.get(RequestMapKeys.RESULT);
-			logger.debug(user.getLogin() + user.getPassword());
-			request.getSession().setAttribute("role", "user");
-			Cookie cookie = new Cookie("login", user.getLogin());
-			cookie.setMaxAge(60*60*24*30);
-			response.addCookie(cookie);
-//			request.login(user.getLogin(), user.getPassword());
-//			request.authenticate(response);
+			logger.debug(user.getLogin());
+			request.getSession().setAttribute(RequestConsts.ROLE_ATTR_KEY, user.getRole().toString());
+			request.getSession().setAttribute(RequestConsts.LOGIN_ATTR_KEY, user.getLogin());
 		}
-
+		
 		request.setAttribute(
 				RequestMapKeys.RESULT, requestMap.get(RequestMapKeys.RESULT));
 		
@@ -94,10 +66,4 @@ public class MainServlet extends HttpServlet {
 	public void destroy() {
 		ConnectionPool.getConnectionPool().close();
 	}
-	
-//	@Override
-//	public void init() throws ServletException {
-//		try (ConnectionPool pool = ConnectionPool.getConnectionPool()) {
-//		};
-//	}
 }

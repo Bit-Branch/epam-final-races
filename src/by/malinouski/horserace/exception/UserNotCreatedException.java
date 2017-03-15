@@ -1,29 +1,29 @@
 package by.malinouski.horserace.exception;
 
-public class AddingNegativeAmountException extends Exception {
+public class UserNotCreatedException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public AddingNegativeAmountException() {
+	public UserNotCreatedException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AddingNegativeAmountException(String message) {
+	public UserNotCreatedException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AddingNegativeAmountException(Throwable cause) {
+	public UserNotCreatedException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AddingNegativeAmountException(String message, Throwable cause) {
+	public UserNotCreatedException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public AddingNegativeAmountException(String message, Throwable cause, boolean enableSuppression,
+	public UserNotCreatedException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub

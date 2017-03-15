@@ -119,7 +119,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void close() throws SQLException {
-		throw new UnsupportedOperationException("Not yet implemented");
+		conn.close();
 	}
 
 	/* (non-Javadoc)
@@ -135,8 +135,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public DatabaseMetaData getMetaData() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -144,7 +143,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void setReadOnly(boolean readOnly) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -153,8 +152,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public boolean isReadOnly() throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -162,7 +160,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void setCatalog(String catalog) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -171,8 +169,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public String getCatalog() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -180,7 +177,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void setTransactionIsolation(int level) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -189,8 +186,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public int getTransactionIsolation() throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -198,8 +194,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public SQLWarning getWarnings() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -207,7 +202,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void clearWarnings() throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -217,8 +212,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public Statement createStatement(int resultSetType, int resultSetConcurrency)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return conn.createStatement(resultSetType, resultSetConcurrency);
 	}
 
 	/* (non-Javadoc)
@@ -227,8 +221,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public PreparedStatement prepareStatement(String sql, int resultSetType,
 			int resultSetConcurrency) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -237,8 +230,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public CallableStatement prepareCall(String sql, int resultSetType,
 			int resultSetConcurrency) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -246,8 +238,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public Map<String, Class<?>> getTypeMap() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -255,7 +246,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -264,7 +255,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void setHoldability(int holdability) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -273,8 +264,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public int getHoldability() throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -282,8 +272,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public Savepoint setSavepoint() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -291,8 +280,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public Savepoint setSavepoint(String name) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -300,7 +288,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void rollback(Savepoint savepoint) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -309,7 +297,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -320,8 +308,8 @@ public class ProxyConnection implements Connection {
 	public Statement createStatement(int resultSetType,
 			int resultSetConcurrency, int resultSetHoldability)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return conn.createStatement(
+				resultSetType, resultSetConcurrency, resultSetHoldability);
 	}
 
 	/* (non-Javadoc)
@@ -331,8 +319,8 @@ public class ProxyConnection implements Connection {
 	public PreparedStatement prepareStatement(String sql, int resultSetType,
 			int resultSetConcurrency, int resultSetHoldability)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return conn.prepareStatement(
+				sql, resultSetType, resultSetConcurrency, resultSetHoldability);
 	}
 
 	/* (non-Javadoc)
@@ -342,8 +330,7 @@ public class ProxyConnection implements Connection {
 	public CallableStatement prepareCall(String sql, int resultSetType,
 			int resultSetConcurrency, int resultSetHoldability)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -352,8 +339,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return conn.prepareStatement(sql, autoGeneratedKeys);
 	}
 
 	/* (non-Javadoc)
@@ -362,8 +348,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public PreparedStatement prepareStatement(String sql, int[] columnIndexes)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return conn.prepareStatement(sql, columnIndexes);
 	}
 
 	/* (non-Javadoc)
@@ -372,8 +357,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public PreparedStatement prepareStatement(String sql, String[] columnNames)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return conn.prepareStatement(sql, columnNames);
 	}
 
 	/* (non-Javadoc)
@@ -381,8 +365,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public Clob createClob() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -390,8 +373,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public Blob createBlob() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -399,8 +381,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public NClob createNClob() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -408,8 +389,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public SQLXML createSQLXML() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -417,8 +397,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public boolean isValid(int timeout) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -427,7 +406,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public void setClientInfo(String name, String value)
 			throws SQLClientInfoException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -437,7 +416,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public void setClientInfo(Properties properties)
 			throws SQLClientInfoException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -446,8 +425,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public String getClientInfo(String name) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -455,8 +433,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public Properties getClientInfo() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -465,8 +442,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public Array createArrayOf(String typeName, Object[] elements)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -475,8 +451,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public Struct createStruct(String typeName, Object[] attributes)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -484,7 +459,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void setSchema(String schema) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -493,8 +468,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public String getSchema() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/* (non-Javadoc)
@@ -502,7 +476,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public void abort(Executor executor) throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -512,7 +486,7 @@ public class ProxyConnection implements Connection {
 	@Override
 	public void setNetworkTimeout(Executor executor, int milliseconds)
 			throws SQLException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not implemented yet");
 
 	}
 
@@ -521,8 +495,7 @@ public class ProxyConnection implements Connection {
 	 */
 	@Override
 	public int getNetworkTimeout() throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 }

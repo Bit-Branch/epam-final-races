@@ -4,5 +4,6 @@
 		<footer>
 			<p>&#169;makarymalinouski</p>
 		</footer>
+		<script src="${ pageContext.servletContext.contextPath }/js/scripts.js"></script>
 	</body>
 </html>

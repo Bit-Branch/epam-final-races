@@ -1,7 +1,7 @@
 /**
  * 
  */
-package by.malinouski.horserace.servlet;
+package by.malinouski.horserace.filter;
 
 import java.io.IOException;
 
@@ -13,9 +13,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import by.malinouski.horserace.constant.PathConsts;
 
 /**
  * @author makarymalinouski
@@ -32,9 +35,10 @@ public class LogoutFilter implements Filter {
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) arg0;
+		HttpServletResponse response = (HttpServletResponse) arg1;
 		request.getSession().invalidate();
 		logger.debug("session " + request.getSession(false));
-		request.getRequestDispatcher("/index.jsp").forward(arg0, arg1);
+		response.sendRedirect(request.getContextPath() + PathConsts.INDEX);
 	}
 
 	@Override

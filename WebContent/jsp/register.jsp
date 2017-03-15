@@ -1,12 +1,12 @@
 <%@ include file="header.jspf" %>
-<form action="main" method="POST">
+<form id="register-form" action="${ pageContext.servletContext.contextPath }/main" 
+		onsubmit="return validateForm()" method="POST">
 	<input type="hidden" name="requestType" value="register"/><br/>
-	<input type="text" name="login" pattern="^\w{5,20}" required/><br/>
-	<input type="password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{6,}$" required/><br/>
-	<input type="password" name="password-repeat" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{6,}$" required/><br/>
-	<input type="file" formenctype="multipart/form-data" value="fileToSubmit"/>
-	<input type="submit" value="Submit"/>
+	<input type="text" name="login" placeholder="Login" pattern="^\w{5,20}" required/><br/>
+	<input type="email" name="email" placeholder="E-mail" disabled/><br/>
+	<input type="password" id="pass" name="password" placeholder="Password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required/><br/>
+	<input type="password" id="repeat-pass" name="password-repeat" placeholder="Repeat password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required/><br/>
+	<input type="submit" name="submit" value="Submit"/>
 </form>
-<p>${ result }</p>
-<a href="/register.jsp"></a>
+<p id="message">${ result }</p>
 <%@ include file="footer.jspf" %>

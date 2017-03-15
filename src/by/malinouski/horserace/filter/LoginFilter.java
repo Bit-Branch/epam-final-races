@@ -1,14 +1,13 @@
 /**
  * 
  */
-package by.malinouski.horserace.servlet;
+package by.malinouski.horserace.filter;
 
 import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
 
 /**
  * @author makarymalinouski
@@ -61,11 +58,9 @@ public class LoginFilter implements Filter {
 			
 			request.getRequestDispatcher("/jsp/home.jsp").forward(request, response);
 		} else {
-//			chain.doFilter(arg0, arg1);
-//			request.getRequestDispatcher("/index.jsp").forward(request, response);
-			logger.debug("redirecting");
-			chain.doFilter(arg0, arg1);
-//			response.sendRedirect(request.getContextPath()+"/index.jsp");
+			logger.debug("chaining");
+			chain.doFilter(request, response);
+			
 		}
 	}
 

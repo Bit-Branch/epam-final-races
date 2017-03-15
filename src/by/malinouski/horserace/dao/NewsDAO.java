@@ -7,7 +7,7 @@ package by.malinouski.horserace.dao;
  * @author makarymalinouski
  *
  */
-public class NewsDAO {
+public class NewsDao {
 
 	public Object getNews() {
 		// TODO Auto-generated method stub

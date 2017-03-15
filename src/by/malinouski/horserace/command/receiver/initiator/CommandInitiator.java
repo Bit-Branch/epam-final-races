@@ -3,9 +3,9 @@ package by.malinouski.horserace.command.receiver.initiator;
 import java.util.Map;
 
 import by.malinouski.horserace.command.Command;
-import by.malinouski.horserace.command.factory.RequestFactory;
+import by.malinouski.horserace.command.factory.CommandFactory;
 import by.malinouski.horserace.command.receiver.CommandReceiver;
-import by.malinouski.horserace.command.receiver.factory.RequestReceiverFactory;
+import by.malinouski.horserace.command.receiver.factory.CommandReceiverFactory;
 
 /*
  * This class plays the role of client in command pattern
@@ -18,9 +18,9 @@ public class CommandInitiator {
 	}
 
 	public Command init() {
-		RequestReceiverFactory fact = new RequestReceiverFactory(requestMap);
+		CommandReceiverFactory fact = new CommandReceiverFactory(requestMap);
 		CommandReceiver receiver = fact.getReceiver();
-		RequestFactory reqFact = new RequestFactory();
+		CommandFactory reqFact = new CommandFactory();
 		Command req = reqFact.getRequest(receiver);
 		return req;
 		

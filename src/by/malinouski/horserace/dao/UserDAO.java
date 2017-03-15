@@ -14,82 +14,92 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.connection.ConnectionPool;
+import by.malinouski.horserace.constant.EntityConsts;
 import by.malinouski.horserace.entity.User;
 import by.malinouski.horserace.entity.User.Role;
+import by.malinouski.horserace.exception.UserDAOException;
+import by.malinouski.horserace.exception.UserNotCreatedException;
 
 /**
  * @author makarymalinouski
  *
  */
-public class UserDAO {
-	private static final Logger logger = LogManager.getLogger(UserDAO.class);
-	private static final String CHECK_PASS = "SELECT `id`, `password`, `role` FROM `users` WHERE `login`=? and `password`=MD5(?)";
+public class UserDao {
+	private static final Logger logger = LogManager.getLogger(UserDao.class);
+	private static final String CHECK_PASS = 
+			"SELECT `id`, `password`, `role` FROM `users` WHERE `login`=? and `password`=MD5(?);";
+	private static final String INSERT_USER = 
+			"INSERT INTO `users`(`login`, `password`) VALUES(?, MD5(?));";
+	private static final String LAST_ID = "SELECT LAST_INSERT_ID();";
 	private ConnectionPool pool;
 	private User user;
 	
-	public UserDAO() {
+	public UserDao() {
 		pool = ConnectionPool.getConnectionPool();
 	}
 	
 	/**
-	 * @return  User created with createUser 
-	 * 			or null !!!!!
+	 * @return  User created with find/addUser 
+	 * @throws UserNotCreatedException 
 	 * 			if user wasn't created, i.e
-	 * 			createUser wasn't called,
+	 * 			findUser wasn't called,
 	 * 			or returned false
 	 */
-	public User getUser() {
+	public User getUser() throws UserNotCreatedException {
+		if (user == null) {
+			throw new UserNotCreatedException(
+					"User was not created. To create user find/addUser must return true");
+		}
 		return user;
 	}
 	
-	/** 
-	 * Creates user, which has given parameters.
-	 * To get the user, call getUser() 
-	 * @param login 
-	 * @param password
-	 * @return  true if succeeded, 
-	 * 			false, if user wasn't found
-	 */
-	public boolean createUser(String login, String password) {
+	public boolean findUser(String login, String password) throws UserDAOException {
 		Connection conn = pool.getConnection();
-		logger.debug(conn);
+
 		try (PreparedStatement statement = conn.prepareStatement(CHECK_PASS)) {
 			statement.setString(1, login);
 			statement.setString(2, password);
-			statement.execute();
-			
-			ResultSet res = statement.getResultSet();
+			ResultSet res = statement.executeQuery();
 			boolean hasRow = res.next();
-			
 			logger.debug("hasRow: " + hasRow);
+
 			if (hasRow) {
-				long id = res.getLong("id");
-				User.Role role = Role.valueOf(res.getString("role").toUpperCase());
-				String hash = res.getString("password");
-				user = new User(id, role, login, hash);
+				long id = res.getLong(EntityConsts.ID);
+				User.Role role = Role.valueOf(res.getString(EntityConsts.ROLE).toUpperCase());
+				user = new User(id, role, login);
 			}
 			return hasRow;
 		} catch (SQLException e) { 
-			// I suppose it's better to throw runtime here,
-			// since it wouldn't be nice to user to say password is incorrect
-			logger.error("Could not check password: " + e);
-			throw new RuntimeException();
+			throw new UserDAOException(e);
 		} finally {
 			pool.returnConnection(conn);
 		}
 	}
 	
-	
-	public boolean compareMD5(String pass, String dbPass) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			byte[] passHash = md.digest(pass.getBytes());
+	public boolean addUser(String login, String password) throws UserDAOException {
+		Connection conn = pool.getConnection();
+
+		try (PreparedStatement insertStatement = conn.prepareStatement(INSERT_USER);
+				PreparedStatement lastIdStatement = conn.prepareStatement(LAST_ID)) {
+			insertStatement.setString(1, login);
+			insertStatement.setString(2, password);
+			int rowsAffected = insertStatement.executeUpdate();
+			logger.debug(rowsAffected);
+			boolean succeeded = rowsAffected > 0;
 			
-			throw new UnsupportedOperationException("Not implemented yet");
-		
-		} catch (NoSuchAlgorithmException e) {
-			logger.error(e);
-			return false;
+			if (succeeded) {
+				ResultSet idRes = lastIdStatement.executeQuery();
+				if (succeeded = idRes.next()) {
+					long id = Long.valueOf(idRes.getString(1));
+					User.Role role = Role.USER;
+					user = new User(id, role, login);
+				}
+			}
+			return succeeded;
+		} catch (SQLException e) { 
+			throw new UserDAOException(e);
+		} finally {
+			pool.returnConnection(conn);
 		}
 	}
 }

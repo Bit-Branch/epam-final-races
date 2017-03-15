@@ -14,7 +14,8 @@
 	</nav>
 	<main class="content">
 		<section>
-			Welcome ${ cookie.login.value }!<br/>
+			Welcome ${ sessionScope.login }!<br/>
+			
 		</section>
     </main>
 <%@ include file="footer.jspf" %>
