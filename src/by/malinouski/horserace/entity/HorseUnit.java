@@ -19,16 +19,11 @@ public class HorseUnit {
 	private Horse horse;
 	private Odds odds;
 	private double realProb;
-	private short positionAtStart;
-	private short finalPosition;
+	private int positionAtStart;
+	private int finalPosition;
 	
-	public HorseUnit(Horse horse, short oddsAgainst, short oddsInfavor, 
-			double realProb, short posAtStart) {
+	public HorseUnit(Horse horse) {
 		this.horse = horse;
-		this.odds.against = oddsAgainst;
-		this.odds.infavor = oddsInfavor;
-		this.realProb = realProb;
-		positionAtStart = posAtStart;
 	}
 	
 	public Horse getHorse() {
@@ -39,20 +34,32 @@ public class HorseUnit {
 		return odds;
 	}
 	
+	public void setOdds(Odds odds) {
+		this.odds = odds;
+	}
+	
 	public double getRealProb() {
 		return realProb;
 	}
 	
-	public short getPositionAtStart() {
+	public void setRealProb(double realProb) {
+		this.realProb = realProb;
+	}
+	
+	public int getPositionAtStart() {
 		return positionAtStart;
 	}
 	
-	public short getFinalPosition() {
+	public void setPositionAtStart(int positionAtStart) {
+		this.positionAtStart = positionAtStart;
+	}
+	
+	public int getFinalPosition() {
 		return finalPosition;
 	}
 	
-	public void setFinalPosition(short finalPosition) {
-		this.finalPosition = finalPosition;
+	public void setFinalPosition(int i) {
+		this.finalPosition = i;
 	}
 	
 	/**
@@ -63,19 +70,19 @@ public class HorseUnit {
 	 * @author makarymalinouski
 	 */
 	public class Odds {
-		private short against;
-		private short infavor;
+		private int against;
+		private int infavor;
 		
-		public Odds(short against, short infavor) {
+		public Odds(int against, int infavor) {
 			this.against = against;
 			this.infavor = infavor;
 		}
 		
-		public short getAgainst() {
+		public int getAgainst() {
 			return against;
 		}
 		
-		public short getInfavor() {
+		public int getInfavor() {
 			return infavor;
 		}
 		

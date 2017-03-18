@@ -20,6 +20,9 @@ import java.util.Locale;
 public class UtilConsts {
 
 
+	public static final int NUM_HORSES_IN_RACE = 7;
+	public static final int FIN_POS_FIRST = 1;
+
 	private UtilConsts() {
 	}
 }

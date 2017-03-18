@@ -8,9 +8,12 @@
  */
 package by.malinouski.horserace.logic.generator;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-import by.malinouski.horserace.entity.Horse;
+import by.malinouski.horserace.constant.UtilConsts;
+import by.malinouski.horserace.entity.HorseUnit;
 
 /**
  * @author makarymalinouski
@@ -19,11 +22,21 @@ import by.malinouski.horserace.entity.Horse;
 public class HorsesLineupGenerator {
 	
 	/**
-	 * Generates a random selection of horses
-	 * @param allHorses set of all Horses available
-	 * @return set of randomly selected Horses
+	 * Generates a random selection of HorseUnits
+	 * @param allHorseUnits list of all HorseUnits available
+	 * @return list of randomly selected HorseUnits
+	 * 	for convenience index in the list represents matches position at start
 	 */
-	public Set<Horse> generate(Set<Horse> allHorses) {
-		throw new UnsupportedOperationException("Not yet implemented");
+	public List<HorseUnit> generate(List<HorseUnit> allHorseUnits) {
+		List<HorseUnit> resultList = new ArrayList<>();
+		
+		Random random = new Random();
+		for (int i = 0; i < UtilConsts.NUM_HORSES_IN_RACE; i++) {
+			int index = random.nextInt(allHorseUnits.size());
+			HorseUnit unit = allHorseUnits.get(index);
+			unit.setPositionAtStart((short)i);
+			resultList.add(unit);
+		}
+		return resultList;
 	}
 }

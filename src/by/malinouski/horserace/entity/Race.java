@@ -61,11 +61,6 @@ public class Race {
 	public List<String> getFinalPositions() {
 		if (finalPositions == null && isOver()) {
 			finalPositions = new ArrayList<String>();
-			horseUnits.forEach(
-				unit -> finalPositions.add(
-							unit.getHorse().getFinalPos(),
-							unit.getHorse().getName())
-			);
 		} 
 		return Collections.unmodifiableList(finalPositions);
 	}

@@ -1,6 +1,5 @@
 package test.by.malinouski.horserace.connection;
 
-import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.Test;
