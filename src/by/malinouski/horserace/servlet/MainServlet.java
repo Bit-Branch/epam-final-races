@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import by.malinouski.horserace.connection.ConnectionPool;
 import by.malinouski.horserace.constant.RequestConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
-import by.malinouski.horserace.entity.User;
+import by.malinouski.horserace.logic.entity.User;
 
 /**
  * Servlet implementation class MainServlet

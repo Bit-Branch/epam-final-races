@@ -6,7 +6,7 @@
  * Instructor Ihar Blinou
  * Student Makary Malinouski
  */
-package by.malinouski.horserace.entity;
+package by.malinouski.horserace.logic.entity;
 
 
 /**
@@ -89,5 +89,13 @@ public class HorseUnit {
 		public String toString() {
 			return String.format("%d/%d", against, infavor);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format(
+				"HorseUnit: Horse %s, Odds %s, real prob %s, position at start %s, final position %s\n", 
+				horse, odds, realProb, positionAtStart, finalPosition);
 	}
 }

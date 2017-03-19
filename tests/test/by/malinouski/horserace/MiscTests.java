@@ -13,6 +13,9 @@ public class MiscTests {
 
 	@Test
 	public void test() {
+		int i = 1;
+		double d = 0.5;
+		System.out.println(d%0.4);
 	}
 
 }

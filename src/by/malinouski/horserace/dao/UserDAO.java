@@ -15,10 +15,10 @@ import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.connection.ConnectionPool;
 import by.malinouski.horserace.constant.EntityConsts;
-import by.malinouski.horserace.entity.User;
-import by.malinouski.horserace.entity.User.Role;
 import by.malinouski.horserace.exception.UserDAOException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
+import by.malinouski.horserace.logic.entity.User;
+import by.malinouski.horserace.logic.entity.User.Role;
 
 /**
  * @author makarymalinouski

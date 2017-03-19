@@ -6,7 +6,7 @@
  * Instructor Ihar Blinou
  * Student Makary Malinouski
  */
-package by.malinouski.horserace.entity;
+package by.malinouski.horserace.logic.entity;
 
 import java.time.LocalDate;
 

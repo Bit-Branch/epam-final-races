@@ -10,7 +10,7 @@ package by.malinouski.horserace.command.receiver;
 
 import java.util.Map;
 
-import by.malinouski.horserace.entity.Race;
+import by.malinouski.horserace.logic.entity.Race;
 
 /**
  * @author makarymalinouski

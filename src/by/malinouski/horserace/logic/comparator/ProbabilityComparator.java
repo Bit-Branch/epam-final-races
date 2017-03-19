@@ -10,7 +10,7 @@ package by.malinouski.horserace.logic.comparator;
 
 import java.util.Comparator;
 
-import by.malinouski.horserace.entity.HorseUnit;
+import by.malinouski.horserace.logic.entity.HorseUnit;
 
 /**
  * @author makarymalinouski

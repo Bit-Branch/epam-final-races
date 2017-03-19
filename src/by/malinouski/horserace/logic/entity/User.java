@@ -1,7 +1,7 @@
 /**
  * 
  */
-package by.malinouski.horserace.entity;
+package by.malinouski.horserace.logic.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import by.malinouski.horserace.constant.UtilConsts;
-import by.malinouski.horserace.entity.HorseUnit;
+import by.malinouski.horserace.logic.entity.HorseUnit;
 
 /**
  * @author makarymalinouski
