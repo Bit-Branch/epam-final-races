@@ -53,7 +53,6 @@ public abstract class AbstractServlet extends HttpServlet {
 	protected void execCommand(HttpServletRequest request) {
 		// copy the parameters to a new request map to be used for transfer
 		requestMap.putAll(request.getParameterMap());
-		System.out.println(requestMap);
 		
 		// initiate appropriate command and execute it
 		CommandInitiator init = new CommandInitiator(requestMap);

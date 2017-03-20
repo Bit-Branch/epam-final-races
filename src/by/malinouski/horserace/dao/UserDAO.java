@@ -3,8 +3,6 @@
  */
 package by.malinouski.horserace.dao;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,9 +11,8 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.malinouski.horserace.connection.ConnectionPool;
 import by.malinouski.horserace.constant.EntityConsts;
-import by.malinouski.horserace.exception.UserDAOException;
+import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
 import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.logic.entity.User.Role;
@@ -24,19 +21,14 @@ import by.malinouski.horserace.logic.entity.User.Role;
  * @author makarymalinouski
  *
  */
-public class UserDao {
+public class UserDao extends Dao {
 	private static final Logger logger = LogManager.getLogger(UserDao.class);
 	private static final String CHECK_PASS = 
 			"SELECT `id`, `password`, `role` FROM `users` WHERE `login`=? and `password`=MD5(?);";
 	private static final String INSERT_USER = 
 			"INSERT INTO `users`(`login`, `password`) VALUES(?, MD5(?));";
 	private static final String LAST_ID = "SELECT LAST_INSERT_ID();";
-	private ConnectionPool pool;
 	private User user;
-	
-	public UserDao() {
-		pool = ConnectionPool.getConnectionPool();
-	}
 	
 	/**
 	 * @return  User created with find/addUser 
@@ -53,7 +45,14 @@ public class UserDao {
 		return user;
 	}
 	
-	public boolean findUser(String login, String password) throws UserDAOException {
+	/**
+	 * Finds user with specified params
+	 * @param login
+	 * @param password
+	 * @return true if found, false if not
+	 * @throws DaoException
+	 */
+	public boolean findUser(String login, String password) throws DaoException {
 		Connection conn = pool.getConnection();
 
 		try (PreparedStatement statement = conn.prepareStatement(CHECK_PASS)) {
@@ -70,13 +69,20 @@ public class UserDao {
 			}
 			return hasRow;
 		} catch (SQLException e) { 
-			throw new UserDAOException(e);
+			throw new DaoException(e);
 		} finally {
 			pool.returnConnection(conn);
 		}
 	}
 	
-	public boolean addUser(String login, String password) throws UserDAOException {
+	/**
+	 * adds new user with specified params
+	 * @param login
+	 * @param password
+	 * @return true if succeeded, else false
+	 * @throws DaoException
+	 */
+	public boolean addUser(String login, String password) throws DaoException {
 		Connection conn = pool.getConnection();
 
 		try (PreparedStatement insertStatement = conn.prepareStatement(INSERT_USER);
@@ -97,7 +103,7 @@ public class UserDao {
 			}
 			return succeeded;
 		} catch (SQLException e) { 
-			throw new UserDAOException(e);
+			throw new DaoException(e);
 		} finally {
 			pool.returnConnection(conn);
 		}

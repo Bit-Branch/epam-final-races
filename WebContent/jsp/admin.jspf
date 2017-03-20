@@ -1,0 +1,6 @@
+<a href="${ pageContext.servletContext.contextPath }/logout">Logout</a>
+<form action="admin">
+	<input type="hidden" name="requestType" value="startRaces"/>
+	<input type="number" min="1" name="interval" placeholder="interval"/>
+	<input type="submit" name="startRaces" value="<fmt:message key="button.submit"/>">
+</form>

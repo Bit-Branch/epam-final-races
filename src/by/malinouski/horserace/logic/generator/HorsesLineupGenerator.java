@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import by.malinouski.horserace.constant.UtilConsts;
+import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.logic.entity.HorseUnit;
 
 /**
@@ -31,10 +31,10 @@ public class HorsesLineupGenerator {
 		List<HorseUnit> resultList = new ArrayList<>();
 		
 		Random random = new Random();
-		for (int i = 0; i < UtilConsts.NUM_HORSES_IN_RACE; i++) {
+		for (int i = 0; i < NumericConsts.NUM_HORSES_IN_RACE; i++) {
 			int index = random.nextInt(allHorseUnits.size());
 			HorseUnit unit = allHorseUnits.get(index);
-			unit.setPositionAtStart((short)i);
+			unit.setNumberInRace((short)i);
 			resultList.add(unit);
 		}
 		return resultList;

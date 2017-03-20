@@ -17,7 +17,7 @@ import java.util.Locale;
  * @author makarymalinouski
  *
  */
-public class UtilConsts {
+public class NumericConsts {
 
 
 	public static final int NUM_HORSES_IN_RACE = 7;
@@ -31,6 +31,6 @@ public class UtilConsts {
 	public static final int HUNDRED = 100;
 	public static final int TEN = 10;
 
-	private UtilConsts() {
+	private NumericConsts() {
 	}
 }

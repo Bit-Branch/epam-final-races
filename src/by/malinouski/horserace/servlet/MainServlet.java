@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.connection.ConnectionPool;
+import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.logic.entity.User;
@@ -19,7 +20,7 @@ import by.malinouski.horserace.logic.entity.User;
 /**
  * Servlet implementation class MainServlet
  */
-@WebServlet("/main")
+@WebServlet(urlPatterns={"/main", "/register", "/login"})
 public class MainServlet extends AbstractServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger(MainServlet.class);
@@ -38,18 +39,14 @@ public class MainServlet extends AbstractServlet {
 		Object res = requestMap.get(RequestMapKeys.IS_LOGGED_IN);
 		if (res != null && (Boolean) res) {
 			User user = (User)requestMap.get(RequestMapKeys.RESULT);
-			logger.debug(user.getLogin());
-			request.getSession().setAttribute(RequestConsts.ROLE_ATTR_KEY, user.getRole().toString());
-			request.getSession().setAttribute(RequestConsts.LOGIN_ATTR_KEY, user.getLogin());
+			request.getSession().setAttribute(
+						RequestConsts.ROLE_ATTR_KEY, user.getRole().toString());
+			request.getSession().setAttribute(
+						RequestConsts.LOGIN_ATTR_KEY, user.getLogin());
 		}
 		
-		request.setAttribute(
-				RequestMapKeys.RESULT, requestMap.get(RequestMapKeys.RESULT));
-		
-		logger.debug(requestMap.get(RequestMapKeys.REDIRECT_PATH));
-		request.getRequestDispatcher((String) requestMap.get(RequestMapKeys.REDIRECT_PATH))
-				.forward(request, response);
-
+		response.sendRedirect(
+				PathConsts.ROOT + requestMap.get(RequestMapKeys.REDIRECT_PATH));
 	}
 	
 	@Override

@@ -10,13 +10,12 @@ package by.malinouski.horserace.command.receiver;
 
 import java.util.Map;
 
-import by.malinouski.horserace.logic.entity.Race;
 
 /**
  * @author makarymalinouski
  *
  */
-public class ScheduleReceiver implements CommandReceiver {
+public class ScheduleReceiver extends CommandReceiver {
 	
 	Map<String, Object> requestMap;
 	
@@ -24,7 +23,7 @@ public class ScheduleReceiver implements CommandReceiver {
 	 * @param requestMap 
 	 */
 	public ScheduleReceiver(Map<String, Object> requestMap) {
-		this.requestMap = requestMap;
+		super(requestMap);
 	}
 
 	/* (non-Javadoc)
@@ -32,6 +31,7 @@ public class ScheduleReceiver implements CommandReceiver {
 	 */
 	@Override
 	public void act() {
+		
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 

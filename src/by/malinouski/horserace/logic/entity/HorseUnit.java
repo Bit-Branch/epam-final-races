@@ -19,7 +19,7 @@ public class HorseUnit {
 	private Horse horse;
 	private Odds odds;
 	private double realProb;
-	private int positionAtStart;
+	private int numberInRace;
 	private int finalPosition;
 	
 	public HorseUnit(Horse horse) {
@@ -46,12 +46,12 @@ public class HorseUnit {
 		this.realProb = realProb;
 	}
 	
-	public int getPositionAtStart() {
-		return positionAtStart;
+	public int getNumberInRace() {
+		return numberInRace;
 	}
 	
-	public void setPositionAtStart(int positionAtStart) {
-		this.positionAtStart = positionAtStart;
+	public void setNumberInRace(int numberInRace) {
+		this.numberInRace = numberInRace;
 	}
 	
 	public int getFinalPosition() {
@@ -96,6 +96,6 @@ public class HorseUnit {
 		// TODO Auto-generated method stub
 		return String.format(
 				"HorseUnit: Horse %s, Odds %s, real prob %s, position at start %s, final position %s\n", 
-				horse, odds, realProb, positionAtStart, finalPosition);
+				horse, odds, realProb, numberInRace, finalPosition);
 	}
 }

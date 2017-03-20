@@ -1,0 +1,14 @@
+
+<nav>
+	<ul>
+		<li><a href="#">Schedule</a></li>				
+		<li><a href="#">Results</a></li>
+		<li><a href="#">My bets</a></li>
+		<li><a href="#">Account</a></li>
+		<li><a href="${ pageContext.servletContext.contextPath }/logout">Logout</a></li>
+	</ul>
+</nav>
+<section>
+	Welcome ${ sessionScope.login }!<br/>
+	
+</section>

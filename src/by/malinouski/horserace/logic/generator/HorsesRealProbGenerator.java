@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import by.malinouski.horserace.constant.UtilConsts;
+import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.logic.entity.Horse;
 import by.malinouski.horserace.logic.entity.HorseUnit;
 import by.malinouski.horserace.logic.entity.HorseUnit.Odds;
@@ -67,13 +67,13 @@ public class HorsesRealProbGenerator {
 	 * with some min and max bounds
 	 */
 	private double calcAbsProb(int age, int numWins, int numRaces) {
-		int primeAge = UtilConsts.HORSE_PRIME_AGE;
-		double coeff = UtilConsts.GROW_AGE_COEFF;
-		double minInitCoeff = UtilConsts.MIN_INIT_COEFF;
-		double maxInitCoeff = UtilConsts.MAX_INIT_COEFF;
+		int primeAge = NumericConsts.HORSE_PRIME_AGE;
+		double coeff = NumericConsts.GROW_AGE_COEFF;
+		double minInitCoeff = NumericConsts.MIN_INIT_COEFF;
+		double maxInitCoeff = NumericConsts.MAX_INIT_COEFF;
 		int pow = age <= primeAge 
-				? UtilConsts.BEFORE_PRIME_POWER 
-				: UtilConsts.AFTER_PRIME_POWER;
+				? NumericConsts.BEFORE_PRIME_POWER 
+				: NumericConsts.AFTER_PRIME_POWER;
 		
 		Random rand = new Random();
 		double priorWinProb = (numWins != 0 && numRaces != 0) 
@@ -87,8 +87,8 @@ public class HorsesRealProbGenerator {
 	}
 	
 	private Odds genOdds(HorseUnit unit, double realProb) {
-		int oddsFor = (int) Math.round(realProb * UtilConsts.TEN + UtilConsts.EXTRA_PROB);
-		int oddsAgainst = UtilConsts.TEN - oddsFor;
+		int oddsFor = (int) Math.round(realProb * NumericConsts.TEN + NumericConsts.EXTRA_PROB);
+		int oddsAgainst = NumericConsts.TEN - oddsFor;
 		int gcd = calcGcd(oddsFor, oddsAgainst);
 		oddsFor /= gcd;
 		oddsAgainst /= gcd;

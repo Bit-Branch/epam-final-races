@@ -10,20 +10,13 @@ package by.malinouski.horserace.command.receiver;
 
 import java.util.Map;
 
-import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
-
 /**
  * @author makarymalinouski
  *
  */
-public class RedirectHomeReceiver extends CommandReceiver {
+public class StartRacesReceiver extends CommandReceiver {
 
-	private Map<String, Object> requestMap;
-	/**
-	 * @param requestMap 
-	 */
-	public RedirectHomeReceiver(Map<String, Object> requestMap) {
+	public StartRacesReceiver(Map<String, Object> requestMap) {
 		super(requestMap);
 	}
 
@@ -32,7 +25,8 @@ public class RedirectHomeReceiver extends CommandReceiver {
 	 */
 	@Override
 	public void act() {
-		requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
+		// TODO Auto-generated method stub
+
 	}
 
 }

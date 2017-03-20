@@ -3,7 +3,7 @@ package by.malinouski.horserace.command.receiver.initiator;
 import java.util.Map;
 
 import by.malinouski.horserace.command.Command;
-import by.malinouski.horserace.command.factory.CommandFactory;
+import by.malinouski.horserace.command.CommandAll;
 import by.malinouski.horserace.command.receiver.CommandReceiver;
 import by.malinouski.horserace.command.receiver.factory.CommandReceiverFactory;
 
@@ -20,9 +20,9 @@ public class CommandInitiator {
 	public Command init() {
 		CommandReceiverFactory fact = new CommandReceiverFactory(requestMap);
 		CommandReceiver receiver = fact.getReceiver();
-		CommandFactory reqFact = new CommandFactory();
-		Command req = reqFact.getRequest(receiver);
-		return req;
+		CommandAll command = new CommandAll(receiver);
+		
+		return command;
 		
 	}
 

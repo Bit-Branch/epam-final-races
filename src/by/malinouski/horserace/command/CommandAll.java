@@ -14,23 +14,14 @@ import by.malinouski.horserace.command.receiver.CommandReceiver;
  * @author makarymalinouski
  *
  */
-public class RedirectHomeCommand implements Command {
-
+public class CommandAll implements Command {
 	private CommandReceiver receiver;
-
-	/**
-	 * 
-	 */
-	public RedirectHomeCommand(CommandReceiver receiver) {
+	
+	public CommandAll(CommandReceiver receiver) {
 		this.receiver = receiver;
 	}
-
-	/* (non-Javadoc)
-	 * @see by.malinouski.horserace.command.Command#execute()
-	 */
-	@Override
+	
 	public void execute() {
 		receiver.act();
 	}
-
 }

@@ -1,25 +1,25 @@
 package by.malinouski.horserace.exception;
 
-public class UserDAOException extends Exception {
+public class DaoException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public UserDAOException() {
+	public DaoException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserDAOException(String reason) {
+	public DaoException(String reason) {
 		super(reason);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserDAOException(Throwable cause) {
+	public DaoException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public UserDAOException(String reason, Throwable cause) {
+	public DaoException(String reason, Throwable cause) {
 		super(reason, cause);
 		// TODO Auto-generated constructor stub
 	}

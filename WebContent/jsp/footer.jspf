@@ -1,3 +1,4 @@
+		<a href="${pageContext.servletContext.contextPath }">Back</a>  
 		</div>
 		<aside>
 		</aside>

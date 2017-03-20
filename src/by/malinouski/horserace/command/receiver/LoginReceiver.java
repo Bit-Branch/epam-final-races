@@ -11,20 +11,20 @@ import org.apache.logging.log4j.Logger;
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.dao.UserDao;
-import by.malinouski.horserace.exception.UserDAOException;
+import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
 
 /**
  * @author makarymalinouski
  */
-public class LoginReceiver implements CommandReceiver {
+public class LoginReceiver extends CommandReceiver {
 	private static final Logger logger = LogManager.getLogger(CommandReceiver.class);
 	private static final String NO_MATCH_FOUND = "Passwords do not match. Please try again";
 	private static final Object SMTH_WRONG = "Something went wrong. Please, try again.";
 	private Map<String, Object> requestMap;
 	
 	public LoginReceiver(Map<String, Object> requestMap) {
-		this.requestMap = requestMap;
+		super(requestMap);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class LoginReceiver implements CommandReceiver {
 				requestMap.put(RequestMapKeys.RESULT, NO_MATCH_FOUND);
 				requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.LOGIN);
 			}
-		} catch (UserDAOException e) {
+		} catch (DaoException e) {
 			logger.error("Error while finding user: " + e);
 			requestMap.put(RequestMapKeys.RESULT, SMTH_WRONG);
 		} catch (UserNotCreatedException e) {

@@ -8,5 +8,5 @@
 <p>${ result }</p>
 <a href="${ pageContext.servletContext.contextPath }/jsp/register.jsp">
 <fmt:message key="label.register"/>
-</a>
+</a><br>
 <%@ include file="footer.jspf" %>

@@ -13,20 +13,20 @@ import org.apache.logging.log4j.Logger;
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.dao.UserDao;
-import by.malinouski.horserace.exception.UserDAOException;
+import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
 
 /**
  * @author makarymalinouski
  *
  */
-public class RegisterReceiver implements CommandReceiver {
+public class RegisterReceiver extends CommandReceiver {
 	private static final Logger logger = LogManager.getLogger(CommandReceiver.class);
 	private static final Object SMTH_WRONG = "Something went wrong. Please, try again.";
 	private Map<String, Object> requestMap;
 	
 	public RegisterReceiver(Map<String, Object> requestMap) {
-		this.requestMap = requestMap;
+		super(requestMap);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class RegisterReceiver implements CommandReceiver {
 				requestMap.put(RequestMapKeys.RESULT, SMTH_WRONG);
 				requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.LOGIN);
 			}
-		} catch (UserDAOException e) {
+		} catch (DaoException e) {
 			logger.error("Error while creating user " + e);
 			requestMap.put(RequestMapKeys.RESULT, SMTH_WRONG);
 		} catch (UserNotCreatedException e) {
