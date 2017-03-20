@@ -40,7 +40,7 @@ public class PartServlet extends AbstractServlet {
 		processRequest(request, response);
 	}
 
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			requestMap.put(RequestMapKeys.PART, request.getPart(RequestConsts.PART_NAME));
 		} catch (IOException e) {

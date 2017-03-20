@@ -49,16 +49,8 @@ public class Horse {
 		return totalRaces;
 	}
 	
-	public void incrementNumRaces() {
-		totalRaces++;
-	}
-	
 	public int getNumWins() {
 		return totalWins;
-	}
-	
-	public void incrementNumWins() {
-		totalWins++;
 	}
 	
 	@Override

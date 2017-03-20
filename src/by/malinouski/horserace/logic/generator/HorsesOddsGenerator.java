@@ -8,17 +8,17 @@
  */
 package by.malinouski.horserace.logic.generator;
 
+import java.util.List;
+
+import by.malinouski.horserace.logic.entity.HorseUnit;
+
 /**
  * @author makarymalinouski
  *
  */
 public class HorsesOddsGenerator {
 
-	/**
-	 * 
-	 */
-	public HorsesOddsGenerator() {
-		// TODO Auto-generated constructor stub
+	public void generateOdds(List<HorseUnit> horseUnits) {
+		
 	}
-
 }

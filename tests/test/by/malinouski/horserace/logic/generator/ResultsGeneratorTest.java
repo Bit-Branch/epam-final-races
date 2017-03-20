@@ -130,13 +130,11 @@ public class ResultsGeneratorTest {
 	@Test
 	public void generateTestProbManyHorses() {
 		List<HorseUnit> units = Arrays.asList(u0, u1, u2, u3, u4, u5);
-		probGen.generate(units);
-		System.out.println(resGen.generate(units));
 		double sum = 0;
 		for(HorseUnit unit : units) {
 			sum += unit.getRealProb();
 		}
-		assertEquals("all probs must add up to 1", sum, 1.0, 0.05);
+		assertEquals("all real probs must add up to 1", sum, 1.0, 0.05);
 	}
 
 }

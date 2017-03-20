@@ -48,14 +48,11 @@ public class LoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain chain)
 			throws IOException, ServletException {
-		
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
 		logger.debug(request.getSession().getAttribute("role"));
 
 		if (request.getSession().getAttribute("role") != null) {
-			logger.debug(request.getCookies()[1].getValue());
-			
 			request.getRequestDispatcher("/jsp/home.jsp").forward(request, response);
 		} else {
 			logger.debug("chaining");
