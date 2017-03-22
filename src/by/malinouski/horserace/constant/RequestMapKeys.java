@@ -10,6 +10,10 @@ public class RequestMapKeys {
 	public static final String LOGIN = "login";
 	public static final String PASSWORD = "password";
 	public static final String IS_LOGGED_IN = "isLoggedIn";
+	public static final String MESSAGE = "message";
+	public static final String START_DATETIME = "startTime";
+	public static final String NUM_OF_RACES = "numRaces";
+	public static final String INTERVAL_BT_RACES = "interval";
 
 	private RequestMapKeys() {
 	}

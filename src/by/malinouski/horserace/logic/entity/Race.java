@@ -54,8 +54,8 @@ public class Race {
 		return dateTime;
 	}
 	
-	public SortedSet<HorseUnit> getUnits() {
-		return Collections.unmodifiableSortedSet(horseUnits);
+	public SortedSet<HorseUnit> getHorseUnits() {
+		return horseUnits;
 	}
 	
 	public List<String> getFinalPositions() {

@@ -17,17 +17,16 @@ import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Race;
 
-
 /**
  * @author makarymalinouski
  *
  */
-public class ScheduleReceiver extends CommandReceiver {
-	
+public class ResultsReceiver extends CommandReceiver {
+
 	/**
-	 * @param requestMap 
+	 * @param requestMap
 	 */
-	public ScheduleReceiver(Map<String, Object> requestMap) {
+	public ResultsReceiver(Map<String, Object> requestMap) {
 		super(requestMap);
 	}
 
@@ -38,10 +37,10 @@ public class ScheduleReceiver extends CommandReceiver {
 	public void act() {
 		RaceDao dao = new RaceDao();
 		try {
-			SortedSet<Race> raceSet = dao.prepareNextRaces();
+			SortedSet<Race> raceSet = dao.preparePastRaces();
 			requestMap.put(RequestMapKeys.RESULT, raceSet);
 		} catch (DaoException e) {
-			logger.error("Exception while preparing schedule: " + e);
+			logger.error("Exception while preparing results: " + e);
 		} finally {
 			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		}

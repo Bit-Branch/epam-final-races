@@ -8,6 +8,9 @@
  */
 package by.malinouski.horserace.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.malinouski.horserace.connection.ConnectionPool;
 
 /**
@@ -15,6 +18,7 @@ import by.malinouski.horserace.connection.ConnectionPool;
  *
  */
 public abstract class Dao {
+	static final Logger logger = LogManager.getLogger(Dao.class);
 	protected ConnectionPool pool;
 	
 	public Dao() {

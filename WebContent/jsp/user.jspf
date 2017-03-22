@@ -1,14 +1,30 @@
 
 <nav>
 	<ul>
-		<li><a href="#">Schedule</a></li>				
-		<li><a href="#">Results</a></li>
+		<li><a href="${ pageContext.servletContext.contextPath }/main?requestType=schedule">
+				<fmt:message key="nav.schedule"/>
+			</a>
+		</li><li>
+			<a href="${ pageContext.servletContext.contextPath }/main?requestType=results">
+				<fmt:message key="nav.results"/>
+			</a>
+		</li>
 		<li><a href="#">My bets</a></li>
 		<li><a href="#">Account</a></li>
-		<li><a href="${ pageContext.servletContext.contextPath }/logout">Logout</a></li>
+		<li>
+			<a href="${ pageContext.servletContext.contextPath }/logout">
+				<fmt:message key="nav.logout"/>
+			</a>
+		</li>
 	</ul>
 </nav>
 <section>
-	Welcome ${ sessionScope.login }!<br/>
+		Welcome ${ sessionScope.login }!<br/>
 	
+		<c:forEach var="race" items="${ result }">
+			<c:out value="${ race.dateTime }"/><br/>
+			<c:forEach var="horseUnit" items="${ race.horseUnits }">
+				<c:out value="${ horseUnit.horse }"/><br/>
+			</c:forEach>
+		</c:forEach>
 </section>

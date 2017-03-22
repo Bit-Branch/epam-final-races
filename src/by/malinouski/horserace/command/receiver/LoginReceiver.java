@@ -18,10 +18,8 @@ import by.malinouski.horserace.exception.UserNotCreatedException;
  * @author makarymalinouski
  */
 public class LoginReceiver extends CommandReceiver {
-	private static final Logger logger = LogManager.getLogger(CommandReceiver.class);
 	private static final String NO_MATCH_FOUND = "Passwords do not match. Please try again";
 	private static final Object SMTH_WRONG = "Something went wrong. Please, try again.";
-	private Map<String, Object> requestMap;
 	
 	public LoginReceiver(Map<String, Object> requestMap) {
 		super(requestMap);
@@ -30,6 +28,7 @@ public class LoginReceiver extends CommandReceiver {
 	@Override
 	public void act() {
 		UserDao dao = new UserDao();
+		logger.debug(requestMap);
 		String login = ((String[]) requestMap.get(RequestMapKeys.LOGIN))[0];
 		String password = ((String[]) requestMap.get(RequestMapKeys.PASSWORD))[0];
 		boolean isUserCreated;

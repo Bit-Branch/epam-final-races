@@ -14,6 +14,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,45 +35,31 @@ public class ResultsGenerator {
 	 * and mutates the objects by setting final positions
 	 * @param allHorses set of horses without final position
 	 */
-	public List<HorseUnit> generate(List<HorseUnit> allHorseUnits) {
-		List<HorseUnit> resultList = new ArrayList<>(allHorseUnits.size());
+	public List<HorseUnit> generate(SortedSet<HorseUnit> allHorseUnits) {
+		List<HorseUnit> results = new ArrayList<>(allHorseUnits.size()); 
+		
 		List<HorseUnit> copy = new ArrayList<>(allHorseUnits.size());
-		for (int i = 0; i < allHorseUnits.size(); i++) {
-			copy.add(i, null);
-		}
-		Collections.copy(copy, allHorseUnits);
-		// set sorted by probability of winning
-//		TreeSet<HorseUnit> sorted = new TreeSet<>(new Comparator<HorseUnit>() {
-//			public int compare(HorseUnit unit1, HorseUnit unit2) {
-//				return Double.compare(unit2.getRealProb(), unit1.getRealProb());
-//			}
-//		}.thenComparing(new Comparator<HorseUnit>() {
-//			public int compare(HorseUnit unit1, HorseUnit unit2) {
-//				return Long.compare(unit2.getHorse().getHorseId(), unit1.getHorse().getHorseId());
-//			}
-//		}));
-		
-//		allHorseUnits.forEach(unit -> sorted.add(unit));
-		
+		copy.addAll(allHorseUnits);
+
 		Iterator<HorseUnit> iter;
 		Random rand = new Random();
-
+		int finPos = 0;
 		while (!copy.isEmpty()) {
 			Collections.shuffle(copy);
 			iter = copy.iterator();
+			
 			while (iter.hasNext()) {
 				HorseUnit unit = iter.next();
-//				logger.debug(unit.getHorse().toString() + " " + (double) (allHorseUnits.size() / copy.size()));
 				// prob of winning for each horse increases as the places are taken by other horses
 				if (rand.nextDouble() < unit.getRealProb() * ((double)allHorseUnits.size() / copy.size())) {
-					resultList.add(unit);
-					unit.setFinalPosition(resultList.size());
+					results.add(unit);
+					unit.setFinalPosition(++finPos);
 					iter.remove();
 					break;
 				}
 			}
 		}
 		
-		return resultList;
+		return results;
 	}
 }

@@ -1,6 +1,29 @@
-<a href="${ pageContext.servletContext.contextPath }/logout">Logout</a>
+<nav>
+	<ul>
+		<li><a href="${ pageContext.servletContext.contextPath }/main?requestType=schedule">
+				<fmt:message key="nav.schedule"/>
+			</a>
+		</li><li>
+			<a href="${ pageContext.servletContext.contextPath }/main?requestType=results">
+				<fmt:message key="nav.results"/>
+			</a>
+		</li><li>
+			<a href="#">
+				<fmt:message key="nav.manageRaces"/>
+			</a>
+		</li><li>
+			<a href="${ pageContext.servletContext.contextPath }/logout">
+				<fmt:message key="nav.logout"/>
+			</a>
+		</li>
+	</ul>
+</nav>
+
 <form action="admin">
+	<p><fmt:message key="label.startRaces"/></p>
 	<input type="hidden" name="requestType" value="startRaces"/>
-	<input type="number" min="1" name="interval" placeholder="interval"/>
-	<input type="submit" name="startRaces" value="<fmt:message key="button.submit"/>">
+	<input type="number" min="1" name="numberOfRaces" placeholder="<fmt:message key="label.numRaces"/>"/>
+	<input type="datetime-local" name="startDateTime" placeholder="<fmt:message key="label.startDateTime"/>"/>
+	<input type="number" min="1" name="interval" placeholder="<fmt:message key="label.interval"/>"/>
+	<input type="submit" name="startRaces" value="<fmt:message key="button.start"/>">
 </form>

@@ -19,7 +19,6 @@ import by.malinouski.horserace.constant.RequestMapKeys;
  */
 public class RedirectHomeReceiver extends CommandReceiver {
 
-	private Map<String, Object> requestMap;
 	/**
 	 * @param requestMap 
 	 */

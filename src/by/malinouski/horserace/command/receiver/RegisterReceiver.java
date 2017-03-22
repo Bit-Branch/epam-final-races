@@ -21,9 +21,7 @@ import by.malinouski.horserace.exception.UserNotCreatedException;
  *
  */
 public class RegisterReceiver extends CommandReceiver {
-	private static final Logger logger = LogManager.getLogger(CommandReceiver.class);
 	private static final Object SMTH_WRONG = "Something went wrong. Please, try again.";
-	private Map<String, Object> requestMap;
 	
 	public RegisterReceiver(Map<String, Object> requestMap) {
 		super(requestMap);

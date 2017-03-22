@@ -11,6 +11,7 @@ public class RequestConsts {
 	public static final String REFERER = "referer";
 	public static final String COUNTRY = "cntr";
 	public static final String PASSWORD_ATTR_KEY = "password";
+	public static final String START_RACES = "startRaces";
 
 	private RequestConsts() {
 	}

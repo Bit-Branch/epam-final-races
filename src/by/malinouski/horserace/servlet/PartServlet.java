@@ -1,6 +1,7 @@
 package by.malinouski.horserace.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ import by.malinouski.horserace.constant.RequestMapKeys;
  */
 @WebServlet("/part")
 @MultipartConfig
-public class PartServlet extends AbstractServlet {
+public class PartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getLogger(PartServlet.class);
 
@@ -41,6 +42,7 @@ public class PartServlet extends AbstractServlet {
 	}
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> requestMap = new HashMap<>();
 		try {
 			requestMap.put(RequestMapKeys.PART, request.getPart(RequestConsts.PART_NAME));
 		} catch (IOException e) {
@@ -48,8 +50,6 @@ public class PartServlet extends AbstractServlet {
 		} catch (ServletException e) {
 			logger.error("The request is not multipart " + e);
 		}
-		
-		execCommand(request);
 	}
 	
 	
