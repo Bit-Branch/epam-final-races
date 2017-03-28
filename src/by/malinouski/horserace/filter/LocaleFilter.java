@@ -21,7 +21,7 @@ import by.malinouski.horserace.constant.RequestConsts;
 /**
  * Servlet Filter implementation class LocaleFilter
  */
-@WebFilter(value={"/locale"})
+@WebFilter(asyncSupported = true, value={"/locale"})
 public class LocaleFilter implements Filter {
 	private static final Logger logger = LogManager.getLogger(LocaleFilter.class);
 

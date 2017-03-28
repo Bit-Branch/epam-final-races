@@ -2,17 +2,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	
 	<main class="content">
-	${ sessionScope.role }
-		<c:if test="${ sessionScope.role eq 'USER' }">
+	
+		<c:if test="${ sessionScope.user.role eq 'USER' }">
 			<%@ include file="user.jspf" %>
 		</c:if>
-		<c:if test="${ sessionScope.role eq 'ADMIN' }">
+		<c:if test="${ sessionScope.user.role eq 'ADMIN' }">
 			<%@ include file="admin.jspf" %>
 		</c:if>
-		<c:if test="${ empty sessionScope.role }">
+		<c:if test="${ empty sessionScope.user }">
 			<jsp:forward page="/index.jsp"></jsp:forward>
 		</c:if>
+		
+		<c:forEach var="unit" items="${ applicationScope.results.horseUnits }">
+				<c:out value="${ unit.horse }"/><br>
+				Number in race: 
+				<c:out value="${ unit.numberInRace }"/><br>
+				Final position: 
+				<c:out value="${ unit.finalPosition }"/>
+				<br>
+		</c:forEach>
     </main>
 <%@ include file="footer.jspf" %>
-
 

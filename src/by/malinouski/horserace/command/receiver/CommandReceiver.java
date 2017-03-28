@@ -1,9 +1,16 @@
 package by.malinouski.horserace.command.receiver;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.concurrent.Future;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.Race;
 
 public abstract class CommandReceiver {
 	static final Logger logger = LogManager.getLogger(CommandReceiver.class);
@@ -14,5 +21,5 @@ public abstract class CommandReceiver {
 		logger.debug(requestMap);
 	}
 	
-	public abstract void act();
+	public abstract Optional<Queue<? extends Future<? extends Entity>>> act();
 }

@@ -9,7 +9,9 @@
 package by.malinouski.horserace.logic.generator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import by.malinouski.horserace.constant.NumericConsts;
@@ -25,18 +27,16 @@ public class HorsesLineupGenerator {
 	 * Generates a random selection of HorseUnits
 	 * @param allHorseUnits list of all HorseUnits available
 	 * @return list of randomly selected HorseUnits
-	 * 	for convenience index in the list represents matches position at start
+	 * 	for convenience index in the list matches number in race
 	 */
 	public List<HorseUnit> generate(List<HorseUnit> allHorseUnits) {
-		List<HorseUnit> resultList = new ArrayList<>();
-		
-		Random random = new Random();
-		for (int i = 0; i < NumericConsts.NUM_HORSES_IN_RACE; i++) {
-			int index = random.nextInt(allHorseUnits.size());
-			HorseUnit unit = allHorseUnits.get(index);
-			unit.setNumberInRace((short)i);
-			resultList.add(unit);
+		List<HorseUnit> copyList = new ArrayList<>(allHorseUnits.size());
+		copyList.addAll(allHorseUnits);
+		Collections.shuffle(copyList);
+		ListIterator<HorseUnit> iter = copyList.listIterator();
+		while (iter.hasNext()) {
+			iter.next().setNumberInRace(iter.nextIndex());
 		}
-		return resultList;
+		return copyList.subList(0, NumericConsts.NUM_HORSES_IN_RACE);
 	}
 }

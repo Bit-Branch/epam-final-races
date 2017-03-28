@@ -18,6 +18,7 @@ import java.util.concurrent.Future;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.HorseUnit;
@@ -28,7 +29,7 @@ import by.malinouski.horserace.logic.generator.ResultsGenerator;
  * @author makarymalinouski
  *
  */
-public class RacingCallable implements Callable<List<HorseUnit>> {
+public class RacingCallable implements Callable<Race> {
 	static final Logger logger = LogManager.getLogger(RacingCallable.class);
 	private Race race;
 	
@@ -37,18 +38,19 @@ public class RacingCallable implements Callable<List<HorseUnit>> {
 	}
 	
 	@Override
-	public List<HorseUnit> call() {
+	public Race call() {
 		
 		LocalDateTime datetime = race.getDateTime();
-		while (LocalDateTime.now().isAfter(datetime)) {
+		logger.debug(datetime+"/now: " + LocalDateTime.now());
+		while (LocalDateTime.now().isBefore(datetime)) {
 			try { 
-				Thread.sleep(30000); 
+				Thread.sleep(NumericConsts.RACING_THREAD_SLEEP_TIME); 
 			} catch (InterruptedException e) { 
 				logger.error("Sleep interrupted: " + e); 
 			}
 		}
-		
 		ResultsGenerator gen = new ResultsGenerator();
-		return gen.generate(race.getHorseUnits());
+		gen.generate(race.getHorseUnits());
+		return race;
 	}
 }

@@ -12,7 +12,7 @@ import org.junit.runners.Parameterized;
 
 import by.malinouski.horserace.logic.entity.Horse;
 import by.malinouski.horserace.logic.entity.HorseUnit;
-import by.malinouski.horserace.logic.generator.HorsesRealProbGenerator;
+import by.malinouski.horserace.logic.generator.HorsesOddsGenerator;
 import by.malinouski.horserace.logic.generator.ResultsGenerator;
 
 @RunWith(Parameterized.class)
@@ -24,7 +24,7 @@ public class ResultsGeneratorTest {
     }
     
 	public static ResultsGenerator resGen;
-	public static HorsesRealProbGenerator probGen;
+	public static HorsesOddsGenerator probGen;
 	public static HorseUnit u0;
 	public static HorseUnit u1;
 	public static HorseUnit u2;
@@ -36,7 +36,7 @@ public class ResultsGeneratorTest {
 	@BeforeClass
 	public static void initGen() {
 		resGen = new ResultsGenerator();
-		probGen = new HorsesRealProbGenerator();
+		probGen = new HorsesOddsGenerator();
 		u0 = new HorseUnit(new Horse(0, "new", 2014, 0, 0));
 		u1 = new HorseUnit(new Horse(1, "lucky", 2013, 40, 10));
 		u2 = new HorseUnit(new Horse(2, "smart", 2014, 20, 2));

@@ -30,6 +30,9 @@ public class NumericConsts {
 	public static final double EXTRA_PROB = 0.05;
 	public static final int HUNDRED = 100;
 	public static final int TEN = 10;
+	public static final long RACING_THREAD_SLEEP_TIME = 30000;
+	public static final int ONE_HORSE = 1;
+	public static final int TWO_HORSES = 2;
 
 	private NumericConsts() {
 	}

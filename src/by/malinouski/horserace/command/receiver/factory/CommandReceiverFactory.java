@@ -3,11 +3,14 @@ package by.malinouski.horserace.command.receiver.factory;
 import java.util.Map;
 
 import by.malinouski.horserace.command.receiver.LoginReceiver;
+import by.malinouski.horserace.command.receiver.PlaceBetReceiver;
 import by.malinouski.horserace.command.receiver.RedirectHomeReceiver;
 import by.malinouski.horserace.command.receiver.RegisterReceiver;
 import by.malinouski.horserace.command.receiver.ResultsReceiver;
 import by.malinouski.horserace.command.receiver.ScheduleReceiver;
+import by.malinouski.horserace.command.receiver.StartRacesReceiver;
 import by.malinouski.horserace.command.receiver.CommandReceiver;
+import by.malinouski.horserace.command.receiver.GenerateRacesReceiver;
 import by.malinouski.horserace.constant.RequestMapKeys;
 
 public class CommandReceiverFactory {
@@ -16,6 +19,8 @@ public class CommandReceiverFactory {
 	private static final String SCHEDULE_REQ_TYPE = "schedule";
 	private static final String LOGIN_REQ_TYPE = "login";
 	private static final String RESULTS_REQ_TYPE = "results";
+	private static final String GENERATE_RACES_REQ_TYPE = "generateRaces";
+	private static final String PLACE_BET_REQ_TYPE = "placeBet";
 	private Map<String, Object> requestMap;
 	
 	/**
@@ -38,6 +43,10 @@ public class CommandReceiverFactory {
 					return new LoginReceiver(requestMap);
 				case RESULTS_REQ_TYPE:
 					return new ResultsReceiver(requestMap);
+				case GENERATE_RACES_REQ_TYPE:
+					return new GenerateRacesReceiver(requestMap);
+				case PLACE_BET_REQ_TYPE:
+					return new PlaceBetReceiver(requestMap);
 				default:
 					return new RedirectHomeReceiver(requestMap);
 			}

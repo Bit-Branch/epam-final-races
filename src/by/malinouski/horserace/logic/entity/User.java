@@ -3,16 +3,14 @@
  */
 package by.malinouski.horserace.logic.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * @author makarymalinouski
  *
  */
-public class User implements Serializable {
+public class User implements Entity {
 	
-	private static final long serialVersionUID = 1L;
 	private long userId;
 	private Role role;
 	private String login;
@@ -53,5 +51,11 @@ public class User implements Serializable {
 	
 	private class UserAccount {
 		public BigDecimal balance;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("User ID: %s, role: %s, login: %s, balance: %s", 
+								userId, role, login, account.balance);
 	}
 }

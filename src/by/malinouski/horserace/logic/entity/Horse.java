@@ -14,19 +14,19 @@ import java.time.LocalDate;
  * @author makarymalinouski
  *
  */
-public class Horse {
+public class Horse implements Entity {
 	private long horseId;
 	private String name;
 	private int yearBorn;
 	private int totalRaces;
 	private int totalWins;
 	
-	public Horse(long id, String name, int yearBorn, int numRaces, int numWins) {
+	public Horse(long id, String name, int yearBorn, int totRaces, int totWins) {
 		horseId = id;
 		this.name = name;
 		this.yearBorn = yearBorn;
-		this.totalRaces = numRaces;
-		this.totalWins = numWins;
+		this.totalRaces = totRaces;
+		this.totalWins = totWins;
 	}
 	
 	public long getHorseId() {

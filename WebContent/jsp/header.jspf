@@ -10,7 +10,10 @@
 		<fmt:setBundle basename="resources.pagecontent"/>
 		<title><fmt:message key="label.title"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<script src="${ pageContext.servletContext.contextPath }/js/jquery-3.1.1.slim.js"></script>
+<%-- 		<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/js/jquery-3.1.1.slim.js"></script> --%>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/js/scripts.js"></script>
+		
 <%-- 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="https://fonts.googleapis.com/css?family=Raleway|Patua+One" rel="stylesheet">        
@@ -22,8 +25,8 @@
 			<h1><span>U</span>Bet</h1>
 			<span class="top-nav menu" onclick="displayMenu()">&#9776;</span> <!-- not working yet -->
 			<h2><fmt:message key="label.title"/></h2>
-			<img src="${ pageContext.request.contextPath }/img/globe.png" alt="lang" width="20">
-			<ul class="lang">
+			<img src="${ pageContext.request.contextPath }/img/globe.png" alt="lang" width="20" onclick="togleLang()">
+			<ul class="lang" id="ul-lang">
 				<li>
 					<a href="${ pageContext.request.contextPath }/locale?lang=en&cntr=US" class="top-nav lang">en</a>
 				</li>

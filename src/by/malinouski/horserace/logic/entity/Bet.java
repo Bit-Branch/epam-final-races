@@ -9,6 +9,7 @@
 package by.malinouski.horserace.logic.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,23 +17,34 @@ import java.util.List;
  * @author makarymalinouski
  *
  */
-public class Bet {
+public class Bet implements Entity {
 
 	private long betId;
 	private User user;
 	private Race race;
+	private BetType type;
 	private BigDecimal amount;
 	/* if horse's order matter in bet type
 	 * then it's reflected in indices, 
 	 * i.e. first horse must be index 0, second 1, etc.
 	 */
-	private List<Horse> horsesInBet;
+	private List<Integer> horsesInBet;
 	
 	/**
 	 * 
 	 */
-	public Bet() {
-		// TODO Auto-generated constructor stub
+	public Bet(long id, 
+					User user, 
+						Race race, 
+							BigDecimal amount, 
+								Bet.BetType type,
+									List<Integer> horsesInBet) {
+		this.betId = id;
+		this.user = user;
+		this.race = race;
+		this.amount = amount;
+		this.type = type;
+		this.horsesInBet = horsesInBet;
 	}
 	
 	public enum BetType {
@@ -47,15 +59,19 @@ public class Bet {
 		return user.getUserId();
 	}
 	
-	public long getRaceId() {
-		return race.getRaceId();
+	public LocalDateTime getRaceDateTime() {
+		return race.getDateTime();
+	}
+	
+	public BetType getType() {
+		return type;
 	}
 	
 	public BigDecimal getAmount() {
 		return amount;
 	}
 	
-	public List<Horse> getHorsesInBet() {
+	public List<Integer> getHorsesInBet() {
 		return Collections.unmodifiableList(horsesInBet);
 	}
 }

@@ -24,7 +24,7 @@ import by.malinouski.horserace.constant.PathConsts;
  * @author makarymalinouski
  *
  */
-@WebFilter(value={"/logout"})
+@WebFilter(asyncSupported = true, value={"/logout"})
 public class LogoutFilter implements Filter {
 	private static final Logger logger = LogManager.getLogger(LogoutFilter.class);
 	@Override
@@ -37,6 +37,8 @@ public class LogoutFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
 		request.getSession().invalidate();
+		
+		
 		logger.debug("session " + request.getSession(false));
 		response.sendRedirect(request.getContextPath() + PathConsts.INDEX);
 	}

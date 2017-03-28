@@ -30,39 +30,24 @@ import by.malinouski.horserace.constant.EntityConsts;
  * and a final position,
  * set once the race is over
  */
-public class Race {
-	private long raceId;
+public class Race implements Entity {
 	private LocalDateTime dateTime;
-	private SortedSet<HorseUnit> horseUnits;
-	/*
-	 * Convenience field for final positions and horses names
-	 * Position of the horse is characterized by the index
-	 */
-	private List<String> finalPositions;
+	/* for convenience, 					 *
+	 * future races indexed by num in race,  *
+	 * past races by final position 		 */
+	private List<HorseUnit> horseUnits;
 	
-	public Race(long id, LocalDateTime dateTime, SortedSet<HorseUnit> horseUnits) {
-		this.raceId = id;
+	public Race(LocalDateTime dateTime, List<HorseUnit> horseUnits) {
 		this.dateTime = dateTime;
 		this.horseUnits = horseUnits;
-	}
-	
-	public long getRaceId() {
-		return raceId;
 	}
 	
 	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
 	
-	public SortedSet<HorseUnit> getHorseUnits() {
+	public List<HorseUnit> getHorseUnits() {
 		return horseUnits;
-	}
-	
-	public List<String> getFinalPositions() {
-		if (finalPositions == null && isOver()) {
-			finalPositions = new ArrayList<String>();
-		} 
-		return Collections.unmodifiableList(finalPositions);
 	}
 	
 	/**
@@ -74,5 +59,11 @@ public class Race {
 		Instant inst = dateTime.toInstant(
 				ZoneOffset.of(ZoneId.of(EntityConsts.TIME_ZONE).getId()));
 		return inst.isAfter(Instant.now());
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format("%s %s", dateTime, horseUnits);
 	}
 }

@@ -5,15 +5,15 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import by.malinouski.horserace.logic.generator.HorsesRealProbGenerator;
+import by.malinouski.horserace.logic.generator.HorsesOddsGenerator;
 
 public class HorsesOddsGeneratorTest {
 
-	public static HorsesRealProbGenerator gen;
+	public static HorsesOddsGenerator gen;
 	
 	@BeforeClass
 	public static void initGen() {
-		gen = new HorsesRealProbGenerator();
+		gen = new HorsesOddsGenerator();
 	}
 	
 	@Test

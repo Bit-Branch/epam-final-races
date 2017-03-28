@@ -35,11 +35,11 @@ public class ResultsGenerator {
 	 * and mutates the objects by setting final positions
 	 * @param allHorses set of horses without final position
 	 */
-	public List<HorseUnit> generate(SortedSet<HorseUnit> allHorseUnits) {
-		List<HorseUnit> results = new ArrayList<>(allHorseUnits.size()); 
+	public List<HorseUnit> generate(List<HorseUnit> list) {
+		List<HorseUnit> results = new ArrayList<>(list.size()); 
 		
-		List<HorseUnit> copy = new ArrayList<>(allHorseUnits.size());
-		copy.addAll(allHorseUnits);
+		List<HorseUnit> copy = new ArrayList<>(list.size());
+		copy.addAll(list);
 
 		Iterator<HorseUnit> iter;
 		Random rand = new Random();
@@ -50,10 +50,15 @@ public class ResultsGenerator {
 			
 			while (iter.hasNext()) {
 				HorseUnit unit = iter.next();
-				// prob of winning for each horse increases as the places are taken by other horses
-				if (rand.nextDouble() < unit.getRealProb() * ((double)allHorseUnits.size() / copy.size())) {
-					results.add(unit);
+				/* prob of winning for each horse increases *
+				 * as the places are taken by other horses  */
+				if (unit.getRealProb() <= 0) { // check to prevent locking 
+					iter.remove();
+				} else if (rand.nextDouble() < 
+						unit.getRealProb() * ((double)list.size()/copy.size())) {
+					
 					unit.setFinalPosition(++finPos);
+					results.add(unit);
 					iter.remove();
 					break;
 				}

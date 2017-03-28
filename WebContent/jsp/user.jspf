@@ -18,13 +18,45 @@
 		</li>
 	</ul>
 </nav>
+<h4>Welcome ${ sessionScope.login }!</h4><br/>
 <section>
-		Welcome ${ sessionScope.login }!<br/>
-	
-		<c:forEach var="race" items="${ result }">
-			<c:out value="${ race.dateTime }"/><br/>
-			<c:forEach var="horseUnit" items="${ race.horseUnits }">
-				<c:out value="${ horseUnit.horse }"/><br/>
-			</c:forEach>
+	<c:forEach var="race" items="${ result }">
+		<c:out value="${ race.dateTime }"/><br/>
+		<c:out value="${ race.horseUnits }"/><br/>
+		<c:forEach var="horseUnit" items="${ race.horseUnits }">
+			<c:out value="${ horseUnit.horse }"/><br/>
 		</c:forEach>
+	</c:forEach>
+</section>
+<section>
+	<h4><fmt:message key="header.placeBet"/></h4>
+	
+	<form action="${ pageContext.servletContext.contextPath }/placeBet" method="post">
+		<input type="hidden" name="requestType" value="placeBet"/>
+		<input type="hidden" name="login" value="${ sessionScope.login }"/>
+		<fmt:message key="label.raceDateTime"/>:
+		<input type="datetime-local" name="raceDateTime" required/>
+		<input type="number" name="amount" required
+				placeholder="<fmt:message key="label.amount"/>"/><br/>
+		
+		win<input type="radio" name="betType" value="win" checked/>
+		show<input type="radio" name="betType" value="show"/>
+		place<input type="radio" name="betType" value="place"/>
+		quinella<input type="radio" name="betType" value="quinella"/>
+		exacta<input type="radio" name="betType" value="exacta"/>
+		trifecta<input type="radio" name="betType" value="trifecta"/><br/>
+		
+		<input type="number" min="1" name="horseNumber" required
+				placeholder="<fmt:message key="label.horse1Number"/>"/>
+		<input type="number" min="1" name="horseNumber"
+				placeholder="<fmt:message key="label.horse2Number"/>"/>
+		<input type="number" min="1" name="horseNumber"
+				placeholder="<fmt:message key="label.horse3Number"/>"/>
+		<input type="submit" value="<fmt:message key="button.submit"/>"/>
+	</form>
+	
+</section>
+<section>
+	<h4><fmt:message key="header.results"/></h4>
+	<p id="results"></p>
 </section>

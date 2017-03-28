@@ -8,13 +8,18 @@
  */
 package by.malinouski.horserace.command.receiver;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
 import java.util.SortedSet;
+import java.util.concurrent.Future;
 
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
+import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Race;
 
 
@@ -35,7 +40,7 @@ public class ScheduleReceiver extends CommandReceiver {
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public void act() {
+	public Optional<Queue<? extends Future<? extends Entity>>> act() {
 		RaceDao dao = new RaceDao();
 		try {
 			SortedSet<Race> raceSet = dao.prepareNextRaces();
@@ -45,6 +50,7 @@ public class ScheduleReceiver extends CommandReceiver {
 		} finally {
 			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		}
+		return Optional.empty();
 	}
 
 }

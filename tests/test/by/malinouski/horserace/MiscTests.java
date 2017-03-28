@@ -2,8 +2,12 @@ package test.by.malinouski.horserace;
 
 import static org.junit.Assert.*;
 
+import java.lang.management.ThreadInfo;
+
 import org.junit.AfterClass;
 import org.junit.Test;
+
+import com.sun.jmx.snmp.tasks.ThreadService;
 
 public class MiscTests {
 
@@ -13,9 +17,8 @@ public class MiscTests {
 
 	@Test
 	public void test() {
-		int i = 1;
-		double d = 0.5;
-		System.out.println(d%0.4);
+		new Thread(() -> Thread.getAllStackTraces().keySet().forEach(thread -> thread.interrupt()));
+		System.out.println(Thread.getAllStackTraces());
 	}
 
 }

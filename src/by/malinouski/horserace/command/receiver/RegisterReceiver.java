@@ -5,7 +5,11 @@
  */
 package by.malinouski.horserace.command.receiver;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.concurrent.Future;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +19,8 @@ import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
+import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.Race;
 
 /**
  * @author makarymalinouski
@@ -28,7 +34,7 @@ public class RegisterReceiver extends CommandReceiver {
 	}
 
 	@Override
-	public void act() {
+	public Optional<Queue<? extends Future<? extends Entity>>> act() {
 		UserDao dao = new UserDao();
 		String login = ((String[]) requestMap.get(RequestMapKeys.LOGIN))[0];
 		String password = ((String[]) requestMap.get(RequestMapKeys.PASSWORD))[0];
@@ -50,6 +56,7 @@ public class RegisterReceiver extends CommandReceiver {
 		} catch (UserNotCreatedException e) {
 			logger.error("User was not created " + e);
 		}
+		return Optional.empty();
 	}
 
 }

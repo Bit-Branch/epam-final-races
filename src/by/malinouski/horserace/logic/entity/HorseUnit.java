@@ -15,7 +15,7 @@ package by.malinouski.horserace.logic.entity;
  * particular horse at particular race
  * @author makarymalinouski
  */
-public class HorseUnit {
+public class HorseUnit implements Entity {
 	private Horse horse;
 	private Odds odds;
 	private double realProb;
@@ -96,7 +96,7 @@ public class HorseUnit {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return String.format(
-				"HorseUnit: Horse %s, Odds %s, real prob %s, position at start %s, final position %s\n", 
+				"HorseUnit: Horse %s, Odds %s, real prob %s, number in race %s, final position %s\n", 
 				horse, odds, realProb, numberInRace, finalPosition);
 	}
 }

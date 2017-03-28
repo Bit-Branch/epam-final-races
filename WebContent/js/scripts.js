@@ -1,8 +1,11 @@
-//$(function() {
-//	$(".lang").click( function() {
-//		
-//	});
-//});
+/*global $*/
+	
+$(function() {
+	console.log("works");
+	$.get("ajax", function(data) {
+		console.log(data);
+	});
+});
 
 function validateForm() {
     var form = document.getElementById("register-form");
@@ -10,9 +13,10 @@ function validateForm() {
         !== document.getElementById("repeat-pass").value) {
         document.getElementById("message").innerHTML = "Passwords do not match";
         return false;
-    } else {
-        document.getElementById("message").innerHTML = "Submitted";
-        return true;
     }
 }
+
+function toggleLang() {
+}
+
 

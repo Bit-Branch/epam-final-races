@@ -18,12 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.PathConsts;
+import by.malinouski.horserace.constant.RequestMapKeys;
+
 
 /**
  * @author makarymalinouski
  *
  */
-@WebFilter(urlPatterns = {"/index.jsp"})
+@WebFilter(asyncSupported = true, urlPatterns = {"/index.jsp"})
 public class LoginFilter implements Filter {
 	private static final Logger logger = LogManager.getLogger(LoginFilter.class);
 	/* (non-Javadoc)
@@ -50,12 +53,13 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
-		logger.debug(request.getSession().getAttribute("role"));
+		logger.debug(request.getSession().getAttribute(RequestMapKeys.USER));
 
-		if (request.getSession().getAttribute("role") != null) {
-			request.getRequestDispatcher("/jsp/home.jsp").forward(request, response);
+		if (request.getSession().getAttribute(RequestMapKeys.USER) != null) {
+			logger.info("loggin in");
+			request.getRequestDispatcher(PathConsts.HOME).forward(request, response);
 		} else {
-			logger.debug("chaining");
+			logger.info("chaining");
 			chain.doFilter(request, response);
 			
 		}

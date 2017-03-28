@@ -12,6 +12,7 @@ public class RequestConsts {
 	public static final String COUNTRY = "cntr";
 	public static final String PASSWORD_ATTR_KEY = "password";
 	public static final String START_RACES = "startRaces";
+	public static final String RACE = "race";
 
 	private RequestConsts() {
 	}

@@ -34,15 +34,13 @@ public class BettingPool {
 	}
 	
 	public void addBet(Bet bet) {
-		Horse horse = bet.getHorsesInBet().get(0);
+		Integer horse = bet.getHorsesInBet().get(0);
 		Set<Bet> bets = betsByHorse.get(horse);
 		if (bets == null) {
 			bets = new HashSet<>();
 		}
 		bets.add(bet);
 		// if first bet on a horse, add new amount, otherwise sum it 
-		sumsByHorse.merge(horse, bet.getAmount(), 
-				(amount, addingAmount) -> amount.add(addingAmount));
 		
 		totalSum = totalSum.add(bet.getAmount());
 	}

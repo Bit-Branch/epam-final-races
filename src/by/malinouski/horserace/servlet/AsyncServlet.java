@@ -1,17 +1,35 @@
 package by.malinouski.horserace.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
+import java.util.concurrent.Future;
+
+import javax.servlet.AsyncContext;
+import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import by.malinouski.horserace.command.receiver.CommandReceiver;
+import by.malinouski.horserace.command.receiver.factory.CommandReceiverFactory;
+import by.malinouski.horserace.listener.AsyncResultsListener;
+import by.malinouski.horserace.listener.RaceResultsAttributeListener;
+import by.malinouski.horserace.logic.entity.Entity;
+
 /**
  * Servlet implementation class AsyncServlet
  */
-@WebServlet("/AsyncServlet")
+//@WebServlet(asyncSupported = true, urlPatterns = { "/placeBet" })
 public class AsyncServlet extends HttpServlet {
+	private static final Logger logger = LogManager.getLogger(AsyncServlet.class);
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -27,7 +45,6 @@ public class AsyncServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -40,7 +57,14 @@ public class AsyncServlet extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		request.getServletContext().log(
+				String.valueOf("Log level is enabled: " + logger.getLevel()));
+		
+		Map<String, Object> requestMap = new HashMap<>();
+		requestMap.putAll(request.getParameterMap());
+
+		CommandReceiver receiver = new CommandReceiverFactory(requestMap).getReceiver();
+		Optional<Queue<? extends Future<? extends Entity>>> opt = receiver.act();	
 		
 	}
 

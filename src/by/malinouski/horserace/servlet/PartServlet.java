@@ -20,8 +20,8 @@ import by.malinouski.horserace.constant.RequestMapKeys;
 /**
  * Servlet implementation class PartServlet
  */
-@WebServlet("/part")
-@MultipartConfig
+//@WebServlet("/part")
+//@MultipartConfig
 public class PartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getLogger(PartServlet.class);

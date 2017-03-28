@@ -19,9 +19,9 @@
 	</ul>
 </nav>
 
-<form action="admin">
-	<p><fmt:message key="label.startRaces"/></p>
-	<input type="hidden" name="requestType" value="startRaces"/>
+<form action="${ pageContext.servletContext.contextPath }/admin" method="POST">
+	<p><fmt:message key="label.generateRaces"/></p>
+	<input type="hidden" name="requestType" value="generateRaces"/>
 	<input type="number" min="1" name="numberOfRaces" placeholder="<fmt:message key="label.numRaces"/>"/>
 	<input type="datetime-local" name="startDateTime" placeholder="<fmt:message key="label.startDateTime"/>"/>
 	<input type="number" min="1" name="interval" placeholder="<fmt:message key="label.interval"/>"/>
