@@ -24,6 +24,7 @@ import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Horse;
 import by.malinouski.horserace.logic.entity.HorseUnit;
+import by.malinouski.horserace.logic.entity.Odds;
 import by.malinouski.horserace.logic.entity.Race;
 
 /**
@@ -31,22 +32,25 @@ import by.malinouski.horserace.logic.entity.Race;
  *
  */
 public class RaceDao extends Dao {
-	private static final String SELECT_UPCOMING_RACES =
+	private static final String SELECT_RACES =
 			"SELECT `races_datetime`, `horses_id`, `name`, `birth_year`, `tot_races`, `tot_wins`, "
 			+ "`num_in_race`, `odds_against`, `odds_for`, `real_prob`, `fin_pos` FROM `races_stat` "
 			+ "INNER JOIN `horses` on `horses`.`id` = `horses_id` ";
-	private static final String WHERE_DATETIME_GT_NOW = "WHERE `races_datetime` > NOW()";
-	private static final String WHERE_DATETIME_LT_NOW = "WHERE `races_datetime` < NOW()";
-	private static final String ORDER_LIMIT_1 = " ORDER BY `datetime` DESC LIMIT 1";
+	private static final String WHERE_DATETIME_GT_NOW = 
+			"WHERE `races_datetime` > NOW() ORDER BY `races_datetime` DESC";
+	private static final String WHERE_DATETIME_LT_NOW = 
+			"WHERE `races_datetime` < NOW() ORDER BY `races_datetime` DESC";
+	private static final String ORDER_LIMIT_1 = " ORDER BY `races_datetime` DESC LIMIT 1";
 	private static final String INSERT_NEW_RACES = "INSERT INTO `races`(`datetime`) VALUES(?)";
 	private static final String INSERT_NEW_RACES_STAT = 
 			"INSERT INTO `races_stat`(`races_datetime`, `horses_id`, `num_in_race`, "
 			+ "`odds_against`, `odds_for`, `real_prob`, `fin_pos`) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
 	private static final String LAST_ID = "SELECT LAST_INSERT_ID();";
+	private static final String UPDATE_RACES = 
+			"UPDATE `races_stat` SET `fin_pos` = ? "
+			+ "WHERE `races_datetime` = ? AND `horses_id` = ?";
 
-	private static final String ID_KEY = "id";
-	private static final String RACES_ID_KEY = "races_id";
 	private static final String DATETIME_KEY = "races_datetime";
 	private static final String HORSES_ID_KEY = "horses_id";
 	private static final String NAME_KEY = "name";
@@ -65,7 +69,7 @@ public class RaceDao extends Dao {
 	 * @return set of future races sorted by datetime
 	 * @throws DaoException
 	 */
-	public SortedSet<Race> prepareNextRaces() throws DaoException {
+	public SortedSet<Race> selectNextRaces() throws DaoException {
 		SortedSet<Race> races = new TreeSet<>((r1, r2) -> 
 										r1.getDateTime().compareTo(r2.getDateTime()));
 		selectRaces(races, WHERE_DATETIME_GT_NOW);
@@ -78,14 +82,14 @@ public class RaceDao extends Dao {
 	 * @return set of past races sorted by datetime from latest to earliest
 	 * @throws DaoException
 	 */
-	public SortedSet<Race> preparePastRaces() throws DaoException {
+	public SortedSet<Race> selectPastRaces() throws DaoException {
 		SortedSet<Race> races = new TreeSet<>((r1, r2) -> 
 										r2.getDateTime().compareTo(r1.getDateTime()));
 		selectRaces(races, WHERE_DATETIME_LT_NOW);
 		return races;
 	}
 	
-	public Race prepareNextRaceOnly() throws DaoException {
+	public Race selectNextRaceOnly() throws DaoException {
 		SortedSet<Race> races = new TreeSet<>((r1, r2) -> 
 							r1.getDateTime().compareTo(r2.getDateTime()));
 		selectRaces(races, WHERE_DATETIME_GT_NOW + ORDER_LIMIT_1);
@@ -98,7 +102,7 @@ public class RaceDao extends Dao {
 		Connection conn = pool.getConnection();
 		
 		try (PreparedStatement stm = conn.prepareStatement(
-										SELECT_UPCOMING_RACES + whereClause)) {
+										SELECT_RACES + whereClause)) {
 			ResultSet res = stm.executeQuery();
 			boolean hasRow = res.next();
 			
@@ -110,22 +114,22 @@ public class RaceDao extends Dao {
 
 				LocalDateTime datetime = res.getTimestamp(DATETIME_KEY).toLocalDateTime();
 				do {
-					HorseUnit unit = new HorseUnit(new Horse(res.getLong(HORSES_ID_KEY), 
+					HorseUnit unit = new HorseUnit(new Horse(
+													 res.getLong(HORSES_ID_KEY), 
 													 res.getString(NAME_KEY), 
 													 res.getInt(BIRTH_YEAR_KEY), 
 													 res.getInt(TOT_RACES_KEY), 
 													 res.getInt(TOT_WINS_KEY)));
 					
-					unit.setOdds(unit.new Odds(res.getInt(ODDS_AGAINST_KEY),
+					unit.setOdds(new Odds(res.getInt(ODDS_AGAINST_KEY),
 									   res.getInt(ODDS_FOR_KEY)));
 					unit.setRealProb(res.getDouble(REAL_PROB_KEY));
 					unit.setNumberInRace(res.getInt(NUM_IN_RACE_KEY));
 					unit.setFinalPosition(res.getInt(FIN_POS_KEY));
 					units.add(unit);
 					hasRow = res.next();
-				} while (hasRow && !datetime.equals(
+				} while (hasRow && datetime.equals(
 									res.getTimestamp(DATETIME_KEY).toLocalDateTime()));
-				
 				unitsList.addAll(units);
 				races.add(new Race(datetime, unitsList));
 			}
@@ -137,41 +141,66 @@ public class RaceDao extends Dao {
 
 	}
 
+	/**
+	 * Updates results of the `races_stat`
+	 * @param race
+	 * @throws DaoException
+	 */
 	public void updateResults(Race race) throws DaoException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented");
+		Connection conn = pool.getConnection();
+		
+		try (PreparedStatement update = conn.prepareStatement(UPDATE_RACES)) {
+			Timestamp stamp = Timestamp.valueOf(race.getDateTime());
+			
+			for (HorseUnit unit : race.getHorseUnits()) {
+				update.setInt(1, unit.getFinalPosition());
+				update.setTimestamp(2, stamp);
+				update.setLong(3, unit.getHorse().getHorseId());
+				update.addBatch();
+			}
+			
+			update.executeBatch();
+			
+		} catch (SQLException e) {
+			throw new DaoException("Exception while updating results: " + e.getMessage());
+		} finally {
+			pool.returnConnection(conn);
+		}
 	}
 
+	/**
+	 * Inserts new races statistics to `races_stat`
+	 * @param races
+	 * @throws DaoException
+	 */
 	public void insertNewRaces(SortedSet<Race> races) throws DaoException {
-		
-//		if (true) throw new UnsupportedOperationException();
-		
 		Connection conn = pool.getConnection();
 		try (PreparedStatement insertRacesStm = conn.prepareStatement(INSERT_NEW_RACES);
 			 PreparedStatement insertStatStm = conn.prepareStatement(INSERT_NEW_RACES_STAT)) {
 			
 			for (Race race : races) {
 				insertRacesStm.setTimestamp(1, Timestamp.valueOf(race.getDateTime()));
-				int res = insertRacesStm.executeUpdate();
+				insertRacesStm.addBatch();
+				
+				// `races_datetime`, `horses_id`, `num_in_race`,
+			    // `odds_agains`, `odds_for`, `real_prob`, `fin_pos`
+				for(HorseUnit unit : race.getHorseUnits()) {
+					insertStatStm.setTimestamp(1, Timestamp.valueOf(race.getDateTime()));
+					insertStatStm.setLong(2, unit.getHorse().getHorseId());
+					insertStatStm.setInt(3, unit.getNumberInRace());
+					insertStatStm.setInt(4, unit.getOdds().getAgainst());
+					insertStatStm.setInt(5, unit.getOdds().getInfavor());
+					insertStatStm.setDouble(6, unit.getRealProb());
+					insertStatStm.setInt(7, unit.getFinalPosition());
 
-				if (res == 1) {
-					// `races_datetime`, `horses_id`, `num_in_race`,
-				    // `odds_agains`, `odds_for`, `real_prob`, `fin_pos`
-					for(HorseUnit unit : race.getHorseUnits()) {
-						insertStatStm.setTimestamp(1, Timestamp.valueOf(race.getDateTime()));
-						insertStatStm.setLong(2, unit.getHorse().getHorseId());
-						insertStatStm.setInt(3, unit.getNumberInRace());
-						insertStatStm.setInt(4, unit.getOdds().getAgainst());
-						insertStatStm.setInt(5, unit.getOdds().getInfavor());
-						insertStatStm.setDouble(6, unit.getRealProb());
-						insertStatStm.setInt(7, unit.getFinalPosition());
-
-						insertStatStm.execute();
-					}
+					insertStatStm.addBatch();
 				}
 			}
+			insertRacesStm.executeBatch();
+			insertStatStm.executeBatch();
+			
 		} catch (SQLException e) {
-			throw new DaoException("Couldn't insert: " + e);
+			throw new DaoException("Couldn't insert: " + e.getMessage());
 		} finally {
 			pool.returnConnection(conn);
 		}

@@ -17,6 +17,8 @@ import java.util.Set;
 
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Horse;
+import by.malinouski.horserace.logic.entity.HorseUnit;
+import by.malinouski.horserace.logic.entity.Race;
 
 /**
  * @author makarymalinouski
@@ -26,6 +28,10 @@ public class HorseDao extends Dao {
 
 	private static final String SELECT_ALL = 
 			"SELECT `id`, `name`, `birth_year`, `tot_races`, `tot_wins` from `horses`";
+	private static final String UPDATE_NUM_RACES = 
+			"UPDATE `horses` SET `tot_races` = `tot_races` + 1";
+	private static final String UPDATE_NUM_WINS = 
+			"UPDATE `horses` SET `tot_wins` = `tot_wins` + 1 WHERE `id` = ?";
 	
 	private static final String ID_KEY = "id";
 	private static final String NAME_KEY = "name";
@@ -48,6 +54,23 @@ public class HorseDao extends Dao {
 			return horses;
 		} catch (SQLException e) {
 			throw new DaoException("Exception while selecting horses: " + e);
+		} finally {
+			pool.returnConnection(conn);
+		}
+	}
+
+	public void updateHorsesAfterRace(Horse winner) throws DaoException {
+		Connection conn = pool.getConnection();
+		
+		try (PreparedStatement numRacesStm = 
+					 conn.prepareStatement(UPDATE_NUM_RACES);
+			 PreparedStatement numWinsStm  = 
+					 conn.prepareStatement(UPDATE_NUM_WINS)) {
+			numRacesStm.executeUpdate();
+			numWinsStm.setLong(1, winner.getHorseId());
+			numWinsStm.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Couldn't update " + e.getMessage());
 		} finally {
 			pool.returnConnection(conn);
 		}

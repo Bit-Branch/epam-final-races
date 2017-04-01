@@ -8,12 +8,9 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
 import java.util.SortedSet;
-import java.util.concurrent.Future;
 
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
@@ -40,10 +37,10 @@ public class ScheduleReceiver extends CommandReceiver {
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<Queue<? extends Future<? extends Entity>>> act() {
+	public Optional<? extends Entity> act() {
 		RaceDao dao = new RaceDao();
 		try {
-			SortedSet<Race> raceSet = dao.prepareNextRaces();
+			SortedSet<Race> raceSet = dao.selectNextRaces();
 			requestMap.put(RequestMapKeys.RESULT, raceSet);
 		} catch (DaoException e) {
 			logger.error("Exception while preparing schedule: " + e);

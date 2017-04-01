@@ -13,6 +13,10 @@ public class RequestConsts {
 	public static final String PASSWORD_ATTR_KEY = "password";
 	public static final String START_RACES = "startRaces";
 	public static final String RACE = "race";
+	public static final String NEXT_RACE_DATETIME = "nextRaceDateTime";
+	public static final String BET = "bet";
+	public static final String USER = "user";
+	public static final Object CONFIRM = "confirm";
 
 	private RequestConsts() {
 	}

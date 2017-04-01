@@ -19,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.constant.NumericConsts;
+import by.malinouski.horserace.dao.HorseDao;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.HorseUnit;
@@ -29,11 +30,11 @@ import by.malinouski.horserace.logic.generator.ResultsGenerator;
  * @author makarymalinouski
  *
  */
-public class RacingCallable implements Callable<Race> {
-	static final Logger logger = LogManager.getLogger(RacingCallable.class);
+public class RacesCallable implements Callable<Race> {
+	static final Logger logger = LogManager.getLogger(RacesCallable.class);
 	private Race race;
 	
-	public RacingCallable(Race race) {
+	public RacesCallable(Race race) {
 		this.race = race;
 	}
 	
@@ -47,10 +48,25 @@ public class RacingCallable implements Callable<Race> {
 				Thread.sleep(NumericConsts.RACING_THREAD_SLEEP_TIME); 
 			} catch (InterruptedException e) { 
 				logger.error("Sleep interrupted: " + e); 
-			}
+			} 
 		}
 		ResultsGenerator gen = new ResultsGenerator();
-		gen.generate(race.getHorseUnits());
+		List<Integer> finalPos = gen.generate(race.getHorseUnits());
+		logger.debug(String.format("Final positions for race %s\n%s", 
+											race.getDateTime(), finalPos));
+		int winnersNumber = finalPos.get(0);
+		race.getHorseUnits().get(winnersNumber - 1).getHorse().incrNumWins();
+		race.setFinalPositions();
+		race.setImmutable();
+		
+		try {
+			new RaceDao().updateResults(race);
+			new HorseDao().updateHorsesAfterRace(
+						race.getHorseUnits().get(winnersNumber - 1).getHorse());
+		} catch (DaoException e) {
+			logger.error("Couldn't update results " + e);
+		}
+		
 		return race;
 	}
 }

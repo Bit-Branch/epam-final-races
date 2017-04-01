@@ -16,7 +16,7 @@ import java.util.Random;
 import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.logic.entity.Horse;
 import by.malinouski.horserace.logic.entity.HorseUnit;
-import by.malinouski.horserace.logic.entity.HorseUnit.Odds;
+import by.malinouski.horserace.logic.entity.Odds;
 
 /**
  * @author makarymalinouski
@@ -92,7 +92,7 @@ public class HorsesOddsGenerator {
 		int gcd = calcGcd(oddsFor, oddsAgainst);
 		oddsFor /= gcd;
 		oddsAgainst /= gcd;
-		Odds odds = unit.new Odds(oddsAgainst, oddsFor); 
+		Odds odds = new Odds(oddsAgainst, oddsFor); 
 		return odds;
 	}
 	

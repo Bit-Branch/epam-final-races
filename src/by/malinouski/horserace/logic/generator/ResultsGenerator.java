@@ -32,11 +32,12 @@ public class ResultsGenerator {
 
 	/**
 	 * generates final positions for each horse in the set,
-	 * and mutates the objects by setting final positions
+	 * and mutates the objects by setting their final positions
 	 * @param allHorses set of horses without final position
+	 * @return convenience list with index corresponding to final pos - 1
 	 */
-	public List<HorseUnit> generate(List<HorseUnit> list) {
-		List<HorseUnit> results = new ArrayList<>(list.size()); 
+	public List<Integer> generate(List<HorseUnit> list) {
+		List<Integer> results = new ArrayList<>(list.size()); 
 		
 		List<HorseUnit> copy = new ArrayList<>(list.size());
 		copy.addAll(list);
@@ -46,7 +47,7 @@ public class ResultsGenerator {
 		int finPos = 0;
 		while (!copy.isEmpty()) {
 			Collections.shuffle(copy);
-			iter = copy.iterator();
+			iter = copy.listIterator();
 			
 			while (iter.hasNext()) {
 				HorseUnit unit = iter.next();
@@ -55,10 +56,10 @@ public class ResultsGenerator {
 				if (unit.getRealProb() <= 0) { // check to prevent locking 
 					iter.remove();
 				} else if (rand.nextDouble() < 
-						unit.getRealProb() * ((double)list.size()/copy.size())) {
+						unit.getRealProb() * ((double) list.size()/copy.size())) {
 					
 					unit.setFinalPosition(++finPos);
-					results.add(unit);
+					results.add(unit.getNumberInRace());
 					iter.remove();
 					break;
 				}

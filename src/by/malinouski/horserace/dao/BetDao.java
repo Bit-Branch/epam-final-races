@@ -8,6 +8,7 @@
  */
 package by.malinouski.horserace.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,9 +30,18 @@ public class BetDao extends Dao {
 			"INSERT INTO bets(users_id, races_datetime, bet_type, amount, "
 			+ "horse_num1, horse_num2, horse_num3) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE_WINNING = 
+			"UPDATE bets SET winning = ? WHERE id = ?";
 	private static final String LAST_INS_ID = "SELECT LAST_INSERT_ID()";
 	
-	public long placeBet(Bet bet) throws DaoException {
+	/**
+	 * Inserts a new bet into database.
+	 * Sets the bet id (mutating bet parameter)
+	 * @param bet
+	 * @return id of the inserted bet
+	 * @throws DaoException
+	 */
+	public void placeBet(Bet bet) throws DaoException {
 		Connection conn = pool.getConnection();
 		
 		try (PreparedStatement insertNewBet = conn.prepareStatement(INSERT_NEW_BET);
@@ -43,6 +53,7 @@ public class BetDao extends Dao {
 			insertNewBet.setString(3, bet.getType().toString());
 			insertNewBet.setBigDecimal(4, bet.getAmount());
 			insertNewBet.setInt(5, bet.getHorsesInBet().get(0));
+			
 			if (bet.getHorsesInBet().size() > NumericConsts.TWO_HORSES) {
 				insertNewBet.setInt(6, bet.getHorsesInBet().get(NumericConsts.ONE_HORSE));
 				insertNewBet.setInt(7, bet.getHorsesInBet().get(NumericConsts.TWO_HORSES));
@@ -57,14 +68,27 @@ public class BetDao extends Dao {
 			if (1 == insertNewBet.executeUpdate()) {
 				ResultSet resSet = lastInsId.executeQuery();
 				resSet.next();
-				return resSet.getLong(1);
+				bet.setBetId(resSet.getLong(1));
 			}
 		} catch (SQLException e) {
-			throw new DaoException("Couldn't insert bet " + e);
+			throw new DaoException("Couldn't insert bet " + e.getMessage());
 		} finally {
 			pool.returnConnection(conn);
 		}
-		throw new DaoException("Couldn't insert bet");
+	}
+
+	public void updateWinBet(Bet bet) throws DaoException {
+		Connection conn = pool.getConnection();
+		
+		try (PreparedStatement updateBet = conn.prepareStatement(UPDATE_WINNING)) {
+			updateBet.setBigDecimal(1, bet.getWinning());
+			updateBet.setLong(2,  bet.getBetId());
+			updateBet.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Couldn't update bet " + e);
+		} finally {
+			pool.returnConnection(conn);
+		}
 	}
 
 }

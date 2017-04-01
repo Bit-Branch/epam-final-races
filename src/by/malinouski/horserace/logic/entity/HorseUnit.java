@@ -15,18 +15,22 @@ package by.malinouski.horserace.logic.entity;
  * particular horse at particular race
  * @author makarymalinouski
  */
-public class HorseUnit implements Entity {
+public class HorseUnit implements Entity, Cloneable {
 	private Horse horse;
 	private Odds odds;
 	private double realProb;
 	private int numberInRace;
 	private int finalPosition;
+	private boolean immutable;
 	
 	public HorseUnit(Horse horse) {
 		this.horse = horse;
 	}
 	
 	public Horse getHorse() {
+		if (immutable) {
+			horse.setImmutable();
+		}
 		return horse;
 	}
 	
@@ -35,7 +39,9 @@ public class HorseUnit implements Entity {
 	}
 	
 	public void setOdds(Odds odds) {
-		this.odds = odds;
+		if (!immutable) {
+			this.odds = odds;
+		}
 	}
 	
 	public double getRealProb() {
@@ -43,7 +49,9 @@ public class HorseUnit implements Entity {
 	}
 	
 	public void setRealProb(double realProb) {
-		this.realProb = realProb;
+		if (!immutable) {
+			this.realProb = realProb;
+		}
 	}
 	
 	public int getNumberInRace() {
@@ -51,7 +59,9 @@ public class HorseUnit implements Entity {
 	}
 	
 	public void setNumberInRace(int numberInRace) {
-		this.numberInRace = numberInRace;
+		if (!immutable) {
+			this.numberInRace = numberInRace;
+		}
 	}
 	
 	public int getFinalPosition() {
@@ -59,44 +69,69 @@ public class HorseUnit implements Entity {
 	}
 	
 	public void setFinalPosition(int i) {
-		this.finalPosition = i;
-	}
-	
-	/**
-	 * Represents odds of winning
-	 * as shown to clients
-	 * having odds agains, 
-	 * and odds in favor of winning
-	 * @author makarymalinouski
-	 */
-	public class Odds {
-		private int against;
-		private int infavor;
-		
-		public Odds(int against, int infavor) {
-			this.against = against;
-			this.infavor = infavor;
-		}
-		
-		public int getAgainst() {
-			return against;
-		}
-		
-		public int getInfavor() {
-			return infavor;
-		}
-		
-		public String toString() {
-			return String.format("%d/%d", against, infavor);
+		if (!immutable) {
+			this.finalPosition = i;
 		}
 	}
 	
+	public void setImmutable() {
+		immutable = true;
+	}
+	
+	public boolean isImmutable() {
+		return immutable;
+	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return String.format(
 				"HorseUnit: Horse %s, Odds %s, real prob %s, number in race %s, final position %s\n", 
 				horse, odds, realProb, numberInRace, finalPosition);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else if (obj == null || obj.getClass() != getClass()) {
+			return false;
+		}
+		
+		HorseUnit other = (HorseUnit) obj;
+		if (horse.equals(other.horse) && realProb == other.realProb
+				&& numberInRace == other.numberInRace
+				&& finalPosition == other.finalPosition
+				&& immutable == other.immutable
+				&& (odds == null ? other.odds == null 
+								  : odds.equals(other.odds))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 31 * result + horse.hashCode();
+		result = 31 * result + odds.hashCode();
+		long realProbLong = Double.doubleToLongBits(realProb);
+		result = 31 * result + (int) (realProbLong ^ (realProbLong >>> 32));
+		result = 31 * result + numberInRace;
+		result = 31 * result + finalPosition;
+		result = 31 * result + (immutable ? 1 : 0);
+
+		return result;
+	}
+	
+	/**
+	 * Makes a shallow copy of the horseUnit
+	 * Horse objects are not cloned,
+	 * hence all HorseUnits with the same horses
+	 * will point to the same horse
+	 */
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }

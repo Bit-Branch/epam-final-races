@@ -19,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.constant.PathConsts;
+import by.malinouski.horserace.constant.RequestConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 
 
@@ -55,13 +56,15 @@ public class LoginFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) arg1;
 		logger.debug(request.getSession().getAttribute(RequestMapKeys.USER));
 
-		if (request.getSession().getAttribute(RequestMapKeys.USER) != null) {
+		if (RequestConsts.CONFIRM.equals(request.getParameter(RequestMapKeys.REQUEST_TYPE))) {
+			logger.info("chaining confirm");
+			chain.doFilter(request, response);
+		} else if (request.getSession().getAttribute(RequestMapKeys.USER) != null) {
 			logger.info("loggin in");
 			request.getRequestDispatcher(PathConsts.HOME).forward(request, response);
 		} else {
 			logger.info("chaining");
 			chain.doFilter(request, response);
-			
 		}
 	}
 

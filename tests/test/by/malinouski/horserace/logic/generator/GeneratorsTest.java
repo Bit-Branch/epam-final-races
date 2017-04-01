@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -16,7 +17,7 @@ import by.malinouski.horserace.logic.generator.HorsesOddsGenerator;
 import by.malinouski.horserace.logic.generator.ResultsGenerator;
 
 @RunWith(Parameterized.class)
-public class ResultsGeneratorTest {
+public class GeneratorsTest {
 	
 	@Parameterized.Parameters
     public static List<Object[]> data() {
@@ -49,28 +50,60 @@ public class ResultsGeneratorTest {
 	@Test
 	public void generateTestResults() {
 		u1.setRealProb(0.5);
+		u1.setNumberInRace(1);
 		u2.setRealProb(0.1);
+		u2.setNumberInRace(2);
 		List<HorseUnit> list = Arrays.asList(u1, u2);
 		
 		int smartNumWins = 0;
 		
 		// run generator sufficient number of times for statistics to become true
 		for (int i = 0; i < trials; i++) {
-			List<HorseUnit> l = resGen.generate(list);
-			if (l.get(0).getHorse().getHorseId() == 2) {
+			List<Integer> l = resGen.generate(list);
+			if (l.get(0) == 2) {
 				smartNumWins++;
 			}
 		}
-		assertEquals("must be approximately equal", smartNumWins/100.0, 1/5.0, 0.1);
+		assertEquals("must be approximately equal", smartNumWins/(double) trials, 1/5.0, 0.1);
+	}
+	
+	/**
+	 * The same as generateTestResults
+	 * but checking the mutated list
+	 * instead of the returned one
+	 */
+	@Test
+	public void generateTestResultsMutated() {
+		u1.setRealProb(0.5);
+		u1.setNumberInRace(1);
+		u2.setRealProb(0.1);
+		u2.setNumberInRace(2);
+		List<HorseUnit> list = Arrays.asList(u1, u2);
+		
+		int smartNumWins = 0;
+		
+		// run generator sufficient number of times for statistics to become true
+		for (int i = 0; i < trials; i++) {
+			List<Integer> l = resGen.generate(list);
+			if (list.get(list.indexOf(u2)).getFinalPosition() == 1) {
+				smartNumWins++;
+			}
+		}
+		assertEquals("must be approximately equal", smartNumWins/(double) trials, 1/5.0, 0.1);
 	}
 	
 	@Test
 	public void generateTestResultsMore() {
 		u1.setRealProb(0.4);
+		u1.setNumberInRace(1);
 		u2.setRealProb(0.1);
+		u2.setNumberInRace(2);
 		u3.setRealProb(0.2);
+		u3.setNumberInRace(3);
 		u4.setRealProb(0.2);
+		u4.setNumberInRace(4);
 		u5.setRealProb(0.1);
+		u5.setNumberInRace(5);
 		List<HorseUnit> list = Arrays.asList(u1, u2, u3, u4, u5);
 		
 		int luckyCount = 0;
@@ -81,8 +114,9 @@ public class ResultsGeneratorTest {
 		
 		// run generator sufficient number of times for statistics to become true
 		for (int i = 0; i < trials; i++) {
-			List<HorseUnit> l = resGen.generate(list);
-			switch ((int)l.get(0).getHorse().getHorseId()) {
+			List<Integer> l = resGen.generate(list);
+//			System.out.printf("%s\n%s\n", l, list);
+			switch (l.get(0)) {
 				case 1: luckyCount++;
 				break;
 				case 2: smartCount++;
@@ -100,14 +134,14 @@ public class ResultsGeneratorTest {
 				luckyCount/(double)trials, smartCount/(double)trials, 
 				joyCount/(double)trials, warCount/(double)trials, indigoCount/(double)trials);
 		
-		assertEquals("approx equals", luckyCount/(double)trials, 0.4, 0.05);
+		assertEquals("approx equals", 0.4, luckyCount/(double)trials, 0.05);
 	}
 	
 	@Test
 	public void generateTestProbOneHorse() {
 		List<HorseUnit> units = Arrays.asList(u0);
 		probGen.generate(units);
-		assertEquals("must be 1", units.get(0).getRealProb(), 1.0, 0);
+		assertEquals("must be 1", 1.0, units.get(0).getRealProb(), 0);
 		
 	}
 	
@@ -130,11 +164,12 @@ public class ResultsGeneratorTest {
 	@Test
 	public void generateTestProbManyHorses() {
 		List<HorseUnit> units = Arrays.asList(u0, u1, u2, u3, u4, u5);
+		probGen.generate(units);
 		double sum = 0;
 		for(HorseUnit unit : units) {
 			sum += unit.getRealProb();
 		}
-		assertEquals("all real probs must add up to 1", sum, 1.0, 0.05);
+		assertEquals("all real probs must add up to 1", 1.0, sum, 0.05);
 	}
 
 }

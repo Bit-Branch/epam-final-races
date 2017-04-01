@@ -13,15 +13,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import by.malinouski.horserace.exception.BetForDifferentRaceException;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Horse;
+import by.malinouski.horserace.logic.entity.Race;
 
 /**
  * @author makarymalinouski
  *
  */
 public class BettingPool {
-
+	private Race race;
 	private ConcurrentHashMap<Horse, Set<Bet>> betsByHorse;
 	private ConcurrentHashMap<Horse, BigDecimal> sumsByHorse;
 	private BigDecimal totalSum;
@@ -29,11 +31,15 @@ public class BettingPool {
 	/**
 	 * 
 	 */
-	public BettingPool() {
+	public BettingPool(Race race) {
+		this.race = race;
 		betsByHorse = new ConcurrentHashMap<>();
 	}
 	
-	public void addBet(Bet bet) {
+	public void addBet(Bet bet) throws BetForDifferentRaceException {
+		if (bet.getRaceDateTime() != race.getDateTime()) {
+			throw new BetForDifferentRaceException("This bet is for a different race");
+		}
 		Integer horse = bet.getHorsesInBet().get(0);
 		Set<Bet> bets = betsByHorse.get(horse);
 		if (bets == null) {

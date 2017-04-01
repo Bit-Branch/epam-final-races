@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Race;
 
@@ -21,5 +22,6 @@ public abstract class CommandReceiver {
 		logger.debug(requestMap);
 	}
 	
-	public abstract Optional<Queue<? extends Future<? extends Entity>>> act();
+	public abstract Optional<? extends Entity> act();
+
 }

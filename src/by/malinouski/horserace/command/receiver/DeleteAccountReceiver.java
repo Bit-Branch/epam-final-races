@@ -8,30 +8,26 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
-import java.util.SortedSet;
-import java.util.concurrent.Future;
 
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
-import by.malinouski.horserace.dao.RaceDao;
+import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
-import by.malinouski.horserace.logic.entity.Race;
+import by.malinouski.horserace.logic.entity.User;
 
 /**
  * @author makarymalinouski
  *
  */
-public class ResultsReceiver extends CommandReceiver {
+public class DeleteAccountReceiver extends CommandReceiver {
 
 	/**
 	 * @param requestMap
 	 */
-	public ResultsReceiver(Map<String, Object> requestMap) {
+	public DeleteAccountReceiver(Map<String, Object> requestMap) {
 		super(requestMap);
 	}
 
@@ -40,15 +36,16 @@ public class ResultsReceiver extends CommandReceiver {
 	 */
 	@Override
 	public Optional<? extends Entity> act() {
-		RaceDao dao = new RaceDao();
+		User user = (User) requestMap.get(RequestMapKeys.USER);
+		
+		UserDao dao = new UserDao();
 		try {
-			SortedSet<Race> raceSet = dao.selectPastRaces();
-			requestMap.put(RequestMapKeys.RESULT, raceSet);
+			dao.deleteUser(user);
 		} catch (DaoException e) {
-			logger.error("Exception while preparing results: " + e);
-		} finally {
-			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
-		}
+			logger.error("Exception while deleting user " + e.getMessage());
+		} 
+		
+		requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		return Optional.empty();
 	}
 

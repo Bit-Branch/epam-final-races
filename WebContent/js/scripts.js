@@ -1,12 +1,22 @@
 /*global $*/
 	
 $(function() {
-	console.log("works");
-	$.get("ajax", function(data) {
-		console.log(data);
-	});
+//	$.get("ajax", function(data) {
+//		console.log(data);
+//	});
+	
 });
-
+function placeBet() {
+	console.log("works");
+	var formdata = new FormData($("#place-bet"));
+	$.post("placeBet", formdata).done(function(data) {
+		console.log(data);
+		$(".content#results").html(data);
+	});
+	return false;
+}
+	
+	
 function validateForm() {
     var form = document.getElementById("register-form");
     if (document.getElementById("pass").value 

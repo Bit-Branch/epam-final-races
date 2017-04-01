@@ -12,15 +12,6 @@
 		<c:if test="${ empty sessionScope.user }">
 			<jsp:forward page="/index.jsp"></jsp:forward>
 		</c:if>
-		
-		<c:forEach var="unit" items="${ applicationScope.results.horseUnits }">
-				<c:out value="${ unit.horse }"/><br>
-				Number in race: 
-				<c:out value="${ unit.numberInRace }"/><br>
-				Final position: 
-				<c:out value="${ unit.finalPosition }"/>
-				<br>
-		</c:forEach>
     </main>
 <%@ include file="footer.jspf" %>
 

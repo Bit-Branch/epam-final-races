@@ -14,14 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
@@ -35,7 +31,9 @@ import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.generator.HorsesLineupGenerator;
 import by.malinouski.horserace.logic.generator.HorsesOddsGenerator;
 import by.malinouski.horserace.logic.generator.RacesGenerator;
-import by.malinouski.horserace.logic.racing.RacingCallable;
+import by.malinouski.horserace.logic.racing.RacesResults;
+import by.malinouski.horserace.logic.racing.RacesRunner;
+import by.malinouski.horserace.logic.racing.RacesCallable;
 
 /**
  * @author makarymalinouski
@@ -48,59 +46,52 @@ public class GenerateRacesReceiver extends CommandReceiver {
 	 */
 	public GenerateRacesReceiver(Map<String, Object> requestMap) {
 		super(requestMap);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<Queue<? extends Future<? extends Entity>>> act() {
+	public Optional<? extends Entity> act() {
 		logger.debug("in " + this.getClass().getName());
-		LocalDateTime datetime = LocalDateTime.parse( 
-				((String[]) requestMap.get(RequestMapKeys.START_DATETIME))[0]); 
-		int numRaces = Integer.parseInt( 
-				((String[]) requestMap.get(RequestMapKeys.NUM_OF_RACES))[0]); 
-		int interval = Integer.parseInt( 
-				((String[]) requestMap.get(RequestMapKeys.INTERVAL_BT_RACES))[0]); 
+		String[] dateTimeArr = (String[]) requestMap.get(
+									RequestMapKeys.START_DATETIME);
+		String[] numRacesArr = (String[]) requestMap.get(
+									RequestMapKeys.NUM_OF_RACES);
+		String[] intervalArr = (String[]) requestMap.get(
+									RequestMapKeys.INTERVAL_BT_RACES);
 		
-		Queue<Future<Race>> futureResults = new ArrayBlockingQueue<>(numRaces);
+		LocalDateTime datetime = LocalDateTime.parse(dateTimeArr[0]); 
+		int numRaces = Integer.parseInt(numRacesArr[0]); 
+		int interval = Integer.parseInt(intervalArr[0]); 
+		
 		HorseDao horseDao = new HorseDao();
 		try {
 			Set<Horse> horses = horseDao.selectAllHorses();
+			
 			List<HorseUnit> allUnits = new ArrayList<>(horses.size());
 			HorsesLineupGenerator lineupGen = new HorsesLineupGenerator();
 			HorsesOddsGenerator oddsGen = new HorsesOddsGenerator();
 			RacesGenerator racesGen = new RacesGenerator();
 
-			horses.forEach(horse -> allUnits.add(new HorseUnit(horse)));
+			horses.forEach(horse -> allUnits.add(new HorseUnit(horse.incrNumRaces())));
 			List<HorseUnit> units = lineupGen.generate(allUnits);
 			oddsGen.generate(units);
 			
-			SortedSet<Race> races = racesGen.generate(datetime, numRaces, interval, units);
-			ExecutorService service = Executors.newSingleThreadExecutor();
+			SortedSet<Race> races = racesGen.generate(datetime, numRaces, 
+															interval, units);
 			
-			Iterator<Race> iter = races.iterator();
-			while (iter.hasNext()) {
-				futureResults.add(service.submit(new RacingCallable(iter.next())));
-			}
-
-			requestMap.put(RequestMapKeys.RESULT, futureResults);
+			new RaceDao().insertNewRaces(races);
+			RacesRunner runner = RacesRunner.getInstance();
+			runner.run(races);
 			
-			new Thread(() -> {
-				RaceDao dao = new RaceDao();
-				try {
-					dao.insertNewRaces(races);
-				} catch (DaoException e) {
-					logger.error("Exception while inserting new races" + e);
-				}
-			}).start(); 
+			return Optional.of(races.first());
 		} catch (DaoException e) {
 			logger.error("Exception while accessing db: " + e);
+			return Optional.empty();
+		} finally {
+			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		}
-
-		requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
-		return Optional.of(futureResults);
 	}
 
 }

@@ -14,11 +14,12 @@ public class RequestMapKeys {
 	public static final String START_DATETIME = "startDateTime";
 	public static final String NUM_OF_RACES = "numberOfRaces";
 	public static final String INTERVAL_BT_RACES = "interval";
-	public static final Object HORSE_NUMBER = "horseNumber";
-	public static final Object AMOUNT = "amount";
-	public static final Object BET_TYPE = "betType";
-	public static final Object DATETIME = "raceDateTime";
+	public static final String HORSE_NUMBER = "horseNumber";
+	public static final String AMOUNT = "amount";
+	public static final String BET_TYPE = "betType";
+	public static final String DATETIME = "raceDateTime";
 	public static final String USER = "user";
+	public static final String FUTURE_RESULT = "futureResult";
 
 	private RequestMapKeys() {
 	}

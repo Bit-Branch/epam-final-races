@@ -1,14 +1,14 @@
 package by.malinouski.horserace.servlet;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import javax.servlet.AsyncContext;
-import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,16 +18,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.malinouski.horserace.command.receiver.CommandReceiver;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import by.malinouski.horserace.command.receiver.factory.CommandReceiverFactory;
+import by.malinouski.horserace.constant.RequestConsts;
+import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.listener.AsyncResultsListener;
-import by.malinouski.horserace.listener.RaceResultsAttributeListener;
+import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.Race;
+import by.malinouski.horserace.logic.racing.RacesResults;
 
 /**
  * Servlet implementation class AsyncServlet
  */
-//@WebServlet(asyncSupported = true, urlPatterns = { "/placeBet" })
+@WebServlet(asyncSupported = true, urlPatterns = { "/placeBet" })
 public class AsyncServlet extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger(AsyncServlet.class);
 	private static final long serialVersionUID = 1L;
@@ -43,29 +49,68 @@ public class AsyncServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, 
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		AsyncContext async = request.startAsync();
+		async.addListener(new AsyncResultsListener());
+	
+		try {
+			LocalDateTime datetime = 
+					(LocalDateTime) request.getServletContext()
+								.getAttribute(RequestConsts.NEXT_RACE_DATETIME);
+			
+			Future<Race> future = RacesResults.getInstance().getFutureRace(datetime);
+			Race race = (Race) future.get();
+			logger.debug(race);
+			request.getServletContext().setAttribute(RequestConsts.RACE, race);
+		} catch (InterruptedException | ExecutionException e) {
+			logger.error(e);
+		}
+		async.dispatch();
+		async.complete();
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, 
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		processRequest(request, response);
 	}
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void processRequest(HttpServletRequest request, 
+			HttpServletResponse response) throws ServletException, IOException {
+		
 		request.getServletContext().log(
 				String.valueOf("Log level is enabled: " + logger.getLevel()));
 		
+		AsyncContext async = request.startAsync();
 		Map<String, Object> requestMap = new HashMap<>();
 		requestMap.putAll(request.getParameterMap());
+		requestMap.put(RequestMapKeys.USER, 
+				request.getSession().getAttribute(RequestMapKeys.USER));
 
-		CommandReceiver receiver = new CommandReceiverFactory(requestMap).getReceiver();
-		Optional<Queue<? extends Future<? extends Entity>>> opt = receiver.act();	
+		Optional<? extends Entity> opt = 
+				new CommandReceiverFactory(requestMap).getReceiver().act();
 		
+		if (opt.isPresent()) {
+			Bet bet = (Bet) opt.get();
+			logger.debug(bet);
+			request.getServletContext().setAttribute(
+											RequestConsts.BET, bet);
+			Gson gson = new GsonBuilder().create();
+			request.getServletContext().setAttribute(RequestConsts.BET, gson.toJson(bet));
+			response.setContentType("application/json");
+			response.getWriter().write(gson.toJson(bet));
+			response.sendRedirect(request.getHeader(RequestConsts.REFERER));
+		} else {
+			response.sendRedirect(request.getHeader(RequestConsts.REFERER));
+		}
+		
+		async.complete();
+
 	}
 
 }

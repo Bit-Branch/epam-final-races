@@ -8,7 +8,7 @@
 				<fmt:message key="nav.results"/>
 			</a>
 		</li><li>
-			<a href="#">
+			<a href="#gen-races">
 				<fmt:message key="nav.manageRaces"/>
 			</a>
 		</li><li>
@@ -18,12 +18,19 @@
 		</li>
 	</ul>
 </nav>
-
-<form action="${ pageContext.servletContext.contextPath }/admin" method="POST">
-	<p><fmt:message key="label.generateRaces"/></p>
-	<input type="hidden" name="requestType" value="generateRaces"/>
-	<input type="number" min="1" name="numberOfRaces" placeholder="<fmt:message key="label.numRaces"/>"/>
-	<input type="datetime-local" name="startDateTime" placeholder="<fmt:message key="label.startDateTime"/>"/>
-	<input type="number" min="1" name="interval" placeholder="<fmt:message key="label.interval"/>"/>
-	<input type="submit" name="startRaces" value="<fmt:message key="button.start"/>">
-</form>
+<section id="results">
+</section>
+<section id="gen-races">
+	<h4><fmt:message key="label.generateRaces"/></h4>
+	<form action="${ pageContext.servletContext.contextPath }/admin" method="POST">
+		<input type="hidden" name="requestType" value="generateRaces"/>
+		<input type="number" min="1" name="numberOfRaces" placeholder="<fmt:message key="label.numRaces"/>"/>
+		<input type="datetime-local" name="startDateTime" placeholder="<fmt:message key="label.startDateTime"/>"/>
+		<input type="number" min="1" name="interval" placeholder="<fmt:message key="label.interval"/>"/>
+		<input type="submit" name="startRaces" value="<fmt:message key="button.start"/>">
+	</form>
+	<fmt:message key="label.startGeneratedRaces"/>
+	<a type="button" href="${ pageContext.servletContext.contextPath }/admin?requestType=startRaces">
+		<fmt:message key="button.start"/>	
+	</a>
+</section>

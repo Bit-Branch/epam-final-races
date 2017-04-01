@@ -24,10 +24,13 @@ import by.malinouski.horserace.logic.entity.User.Role;
 public class UserDao extends Dao {
 	private static final Logger logger = LogManager.getLogger(UserDao.class);
 	private static final String CHECK_PASS = 
-			"SELECT `id`, `password`, `role` FROM `users` WHERE `login`=? and `password`=MD5(?);";
+			"SELECT `id`, `password`, `role` FROM `users` "
+			+ "WHERE `login` = ? and `password` = MD5(?);";
 	private static final String INSERT_USER = 
 			"INSERT INTO `users`(`login`, `password`) VALUES(?, MD5(?));";
 	private static final String LAST_ID = "SELECT LAST_INSERT_ID();";
+	private static final String DELETE_USER = 
+			"DELETE FROM `users` WHERE `id` = ?";
 	private User user;
 	
 	/**
@@ -104,6 +107,19 @@ public class UserDao extends Dao {
 			return succeeded;
 		} catch (SQLException e) { 
 			throw new DaoException(e);
+		} finally {
+			pool.returnConnection(conn);
+		}
+	}
+
+	public void deleteUser(User user) throws DaoException {
+		Connection conn = pool.getConnection();
+
+		try (PreparedStatement deleteUser = conn.prepareStatement(DELETE_USER)) {
+			deleteUser.setLong(1, user.getUserId());
+			deleteUser.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Exception while deleting user");
 		} finally {
 			pool.returnConnection(conn);
 		}

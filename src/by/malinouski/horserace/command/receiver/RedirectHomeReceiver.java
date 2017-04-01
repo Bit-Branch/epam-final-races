@@ -36,7 +36,7 @@ public class RedirectHomeReceiver extends CommandReceiver {
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<Queue<? extends Future<? extends Entity>>> act() {
+	public Optional<? extends Entity> act() {
 		requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		return Optional.empty();
 	}

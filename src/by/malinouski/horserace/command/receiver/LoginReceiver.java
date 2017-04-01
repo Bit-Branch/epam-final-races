@@ -19,6 +19,7 @@ import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Race;
+import by.malinouski.horserace.logic.entity.User;
 
 /**
  * @author makarymalinouski
@@ -32,7 +33,7 @@ public class LoginReceiver extends CommandReceiver {
 	}
 
 	@Override
-	public Optional<Queue<? extends Future<? extends Entity>>> act() {
+	public Optional<? extends Entity> act() {
 		UserDao dao = new UserDao();
 		logger.debug(requestMap);
 		String login = ((String[]) requestMap.get(RequestMapKeys.LOGIN))[0];
@@ -43,19 +44,23 @@ public class LoginReceiver extends CommandReceiver {
 			logger.debug(isUserCreated);
 			requestMap.put(RequestMapKeys.IS_LOGGED_IN, isUserCreated);
 			if (isUserCreated) {
-				requestMap.put(RequestMapKeys.USER, dao.getUser());
+				User user = dao.getUser();
+				requestMap.put(RequestMapKeys.USER, user);
 				requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
+				return Optional.of(user);
 			} else {
 				requestMap.put(RequestMapKeys.RESULT, NO_MATCH_FOUND);
 				requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.LOGIN);
+				return Optional.empty();
 			}
 		} catch (DaoException e) {
 			logger.error("Error while finding user: " + e);
 			requestMap.put(RequestMapKeys.RESULT, SMTH_WRONG);
+			return Optional.empty();
 		} catch (UserNotCreatedException e) {
 			logger.error("User was not created: " + e);
+			return Optional.empty();
 		}
-		return Optional.empty();
 	}
 
 }

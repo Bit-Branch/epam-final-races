@@ -5,6 +5,7 @@ public class PathConsts {
 	public static final String LOGIN = "/jsp/login.jsp";
 	public static final String INDEX = "/index.jsp";
 	public static final String ROOT = "http://localhost:8088/horserace-web";
+	public static final String ACCOUNT = "/jsp/account.jsp";
 	
 	private PathConsts() {
 	}
