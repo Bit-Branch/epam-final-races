@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import by.malinouski.horserace.exception.NoRacesScheduledException;
 import by.malinouski.horserace.logic.entity.Race;
 
 /**
@@ -24,7 +25,6 @@ import by.malinouski.horserace.logic.entity.Race;
 public class RacesResults {
 
 	public static final int MAX_ENTRIES = 100;
-	public static final long MAX_DAYS_OLD = 7;
 	private Lock lock = new ReentrantLock(); 
 	private LinkedHashMap<LocalDateTime, Future<Race>> racesMap;
 	
@@ -32,7 +32,8 @@ public class RacesResults {
 	private RacesResults() {
 		racesMap = new LinkedHashMap<LocalDateTime, Future<Race>>() {
 			@Override
-			protected boolean removeEldestEntry(Map.Entry<LocalDateTime, Future<Race>> eldest) {
+			protected boolean removeEldestEntry(
+					Map.Entry<LocalDateTime, Future<Race>> eldest) {
 				return size() > MAX_ENTRIES;
 			}
 		};
@@ -46,24 +47,36 @@ public class RacesResults {
 		return InstanceHolder.instance;
 	}
 	
-	public Future<Race> getFutureRace(LocalDateTime dateTime) {
+	/**
+	 * Gets the future object holding race
+	 * at a corresponding date & time
+	 * @param dateTime
+	 * @return race
+	 * @throws NoRacesScheduledException
+	 */
+	public Future<Race> getFutureRace(LocalDateTime dateTime) 
+									throws NoRacesScheduledException {
 		lock.lock();
 		try {
-			return racesMap.get(dateTime);
+			Future<Race> race = racesMap.get(dateTime);
+			if (race == null) {
+				throw new NoRacesScheduledException();
+			}
+			return race;
 		} finally {
 			lock.unlock();
 		}
 	}
 	
 	/**
-	 * Adds a Future<Race> only if dateTime is not MAX_DAYS_OLD 
+	 * Adds a Future<Race> only if it is not in the past 
 	 * @param dateTime
 	 * @param race
 	 */
 	public void addFutureRace(LocalDateTime dateTime, Future<Race> race) {
 		lock.lock();
 		try {
-			if (dateTime.isAfter(LocalDateTime.now().minusDays(MAX_DAYS_OLD))) {
+			if (LocalDateTime.now().isBefore(dateTime)) {
 				racesMap.put(dateTime, race);
 			}
 		} finally {

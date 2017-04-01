@@ -22,13 +22,18 @@ import java.util.concurrent.Future;
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.dao.BetDao;
+import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
+import by.malinouski.horserace.exception.NoRacesScheduledException;
+import by.malinouski.horserace.logic.betting.BetsWinTester;
+import by.malinouski.horserace.logic.betting.WinAmountCalculator;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.HorseUnit;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.logic.racing.RacesResults;
+import by.malinouski.horserace.logic.racing.RacesSchedule;
 
 /**
  * @author makarymalinouski
@@ -62,57 +67,47 @@ public class PlaceBetReceiver extends CommandReceiver {
 			horsesNum.add(Integer.parseInt(horsesNumStr[i]));
 		}
 		logger.debug("user " + user);
-		Bet bet = new Bet(0, user, new Race(dateTime, Collections.emptyList()),
-							BigDecimal.valueOf(amount), betType, horsesNum);
 		
-		BetDao dao = new BetDao();
 		
 		try {
-			dao.placeBet(bet);
+			RacesSchedule schedule = RacesSchedule.getInstance();
+			Race race = schedule.getRace(dateTime);
+			Bet bet = new Bet(0, user, race, BigDecimal.valueOf(amount), 
+														betType, horsesNum);
+			BetDao betDao = new BetDao();
+			betDao.placeBet(bet);
 				
 			RacesResults results = RacesResults.getInstance();
 			Future<Race> futureRace = results.getFutureRace(dateTime);
 			requestMap.put(RequestMapKeys.FUTURE_RESULT, futureRace);
-		
-			Race race = futureRace.get();
-			boolean isWinning = true;
-			double multiplFactor = 0;
-			ListIterator<Integer> iter = bet.getHorsesInBet().listIterator();
-			logger.debug("size " + bet.getHorsesInBet().size());
-			while (iter.hasNext()) {
-				int index = iter.nextIndex();
-				int horseNum = iter.next();
-				logger.debug(String.format("finPos %s: %s - %s", index, 
-						race.getFinalPositions().get(index), horseNum));
-				
-				if (horseNum != race.getFinalPositions().get(index)) {
-					logger.debug("is winning set false");
-					isWinning = false;
-					break;
-				}
-				HorseUnit unit = race.getHorseUnits().get(horseNum - 1);
-				multiplFactor += unit.getOdds().getAgainst() / 
-									(double) unit.getOdds().getInfavor();
-				
-			}
 			
-			if (isWinning) {
+			// thread is going to wait here until race occurs
+			Race finishedRace = futureRace.get();
+			
+			BetsWinTester tester = new BetsWinTester();
+			WinAmountCalculator calc = new WinAmountCalculator();
+			
+			if (tester.isWinning(bet, finishedRace.getFinalPositions())) {
 				logger.debug("is winning " + bet);
-				bet.setWinning(multiplFactor);
-				dao.updateWinBet(bet);
+				BigDecimal win = calc.calculate(bet);
+				logger.debug("win " + win);
+				bet.setWinning(win);
+				betDao.updateWinBet(bet);
 			}
 			
 			return Optional.of(bet);
 			
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error("Problem with getting future results " + e);
-			return Optional.empty();
 		} catch (DaoException e) {
 			logger.error("Exception while placing or updating bet " + e);
-			return Optional.empty();
+		} catch (NoRacesScheduledException e) {
+			logger.error("No races at the specified time " + e);
 		} finally {
 			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		}
+
+		return Optional.empty();
 	}
 
 }

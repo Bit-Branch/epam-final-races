@@ -21,6 +21,7 @@ import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.racing.RacesCallable;
 import by.malinouski.horserace.logic.racing.RacesRunner;
+import by.malinouski.horserace.logic.racing.RacesSchedule;
 
 /**
  * @author makarymalinouski
@@ -44,13 +45,17 @@ public class StartRacesReceiver extends CommandReceiver {
 		SortedSet<Race> races;
 		try {
 			races = new RaceDao().selectNextRaces();
-			RacesRunner runner = RacesRunner.getInstance();
-			runner.run(races);
-			return Optional.of(races.first());
+			if (!races.isEmpty()) {
+				RacesSchedule schedule = RacesSchedule.getInstance();
+				races.forEach(race -> schedule.addRace(race));
+				RacesRunner runner = RacesRunner.getInstance();
+				runner.run(races);
+				return Optional.of(races.first());
+			}
 		} catch (DaoException e) {
 			logger.error("Problems with getting races " + e);
-			return Optional.empty();
 		}
+		return Optional.empty();
 	}
 
 }

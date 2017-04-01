@@ -33,6 +33,7 @@ import by.malinouski.horserace.logic.generator.HorsesOddsGenerator;
 import by.malinouski.horserace.logic.generator.RacesGenerator;
 import by.malinouski.horserace.logic.racing.RacesResults;
 import by.malinouski.horserace.logic.racing.RacesRunner;
+import by.malinouski.horserace.logic.racing.RacesSchedule;
 import by.malinouski.horserace.logic.racing.RacesCallable;
 
 /**
@@ -82,6 +83,9 @@ public class GenerateRacesReceiver extends CommandReceiver {
 															interval, units);
 			
 			new RaceDao().insertNewRaces(races);
+			RacesSchedule schedule = RacesSchedule.getInstance();
+			races.forEach(race -> schedule.addRace(race));
+			
 			RacesRunner runner = RacesRunner.getInstance();
 			runner.run(races);
 			

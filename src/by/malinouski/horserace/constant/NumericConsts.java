@@ -33,6 +33,13 @@ public class NumericConsts {
 	public static final long RACING_THREAD_SLEEP_TIME = 30000;
 	public static final int ONE_HORSE = 1;
 	public static final int TWO_HORSES = 2;
+	public static final int WIN_INDEX = 0;
+	public static final double DOUBLE_DIVISOR = 2;
+	public static final double TRIPLE_DIVISOR = 3;
+	public static final int SHOW_INDEX = 1;
+	public static final int PLACE_INDEX = 2;
+	public static final double DIVISOR_COEFF = 1.1;
+	public static final double MIN_FACTOR = 1.1;
 
 	private NumericConsts() {
 	}

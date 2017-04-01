@@ -37,18 +37,19 @@ public class BettingPool {
 	}
 	
 	public void addBet(Bet bet) throws BetForDifferentRaceException {
-		if (bet.getRaceDateTime() != race.getDateTime()) {
-			throw new BetForDifferentRaceException("This bet is for a different race");
-		}
-		Integer horse = bet.getHorsesInBet().get(0);
-		Set<Bet> bets = betsByHorse.get(horse);
-		if (bets == null) {
-			bets = new HashSet<>();
-		}
-		bets.add(bet);
-		// if first bet on a horse, add new amount, otherwise sum it 
-		
-		totalSum = totalSum.add(bet.getAmount());
+		throw new UnsupportedOperationException("Not implemented");
+//		if (bet.getRace().getDateTime() != race.getDateTime()) {
+//			throw new BetForDifferentRaceException("This bet is for a different race");
+//		}
+//		Integer horse = bet.getHorsesInBet().get(0);
+//		Set<Bet> bets = betsByHorse.get(horse);
+//		if (bets == null) {
+//			bets = new HashSet<>();
+//		}
+//		bets.add(bet);
+//		// if first bet on a horse, add new amount, otherwise sum it 
+//		
+//		totalSum = totalSum.add(bet.getAmount());
 	}
 
 }

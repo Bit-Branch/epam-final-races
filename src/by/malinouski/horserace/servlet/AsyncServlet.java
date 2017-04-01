@@ -24,6 +24,7 @@ import com.google.gson.GsonBuilder;
 import by.malinouski.horserace.command.receiver.factory.CommandReceiverFactory;
 import by.malinouski.horserace.constant.RequestConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
+import by.malinouski.horserace.exception.NoRacesScheduledException;
 import by.malinouski.horserace.listener.AsyncResultsListener;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Entity;
@@ -66,6 +67,9 @@ public class AsyncServlet extends HttpServlet {
 			request.getServletContext().setAttribute(RequestConsts.RACE, race);
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error(e);
+		} catch (NoRacesScheduledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		async.dispatch();
 		async.complete();

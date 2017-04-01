@@ -9,6 +9,7 @@
 package by.malinouski.horserace.logic.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +45,7 @@ public class Bet implements Entity {
 		this.betId = id;
 		this.user = user;
 		this.race = race;
-		this.amount = amount;
+		this.amount = amount.setScale(4, RoundingMode.DOWN);
 		this.type = type;
 		this.horsesInBet = horsesInBet;
 	}
@@ -71,8 +72,8 @@ public class Bet implements Entity {
 		return user.getUserId();
 	}
 	
-	public LocalDateTime getRaceDateTime() {
-		return race.getDateTime();
+	public Race getRace() {
+		return race;
 	}
 	
 	public BetType getType() {
@@ -83,8 +84,15 @@ public class Bet implements Entity {
 		return amount;
 	}
 	
-	public void setWinning(double multiplFactor) {
-		winning = amount.multiply(BigDecimal.valueOf(multiplFactor));
+	/**
+	 * Sets the winning amount,
+	 * can be done only once
+	 * @param winning
+	 */
+	public void setWinning(BigDecimal winning) {
+		if (this.winning == null) {
+			this.winning = winning.setScale(4, RoundingMode.DOWN);
+		}
 	}
 	
 	public BigDecimal getWinning() {

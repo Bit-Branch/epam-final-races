@@ -8,7 +8,6 @@
  */
 package by.malinouski.horserace.dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,7 +48,7 @@ public class BetDao extends Dao {
 			/* users_id, races_datetime, bets_types_id,   *
 			 * horses_id1, horses_id2, horses_id3, amount */
 			insertNewBet.setLong(1, bet.getUserId());
-			insertNewBet.setTimestamp(2, Timestamp.valueOf(bet.getRaceDateTime()));
+			insertNewBet.setTimestamp(2, Timestamp.valueOf(bet.getRace().getDateTime()));
 			insertNewBet.setString(3, bet.getType().toString());
 			insertNewBet.setBigDecimal(4, bet.getAmount());
 			insertNewBet.setInt(5, bet.getHorsesInBet().get(0));
