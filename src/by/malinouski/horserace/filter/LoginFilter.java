@@ -54,12 +54,9 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
-		logger.debug(request.getSession().getAttribute(RequestMapKeys.USER));
+		logger.debug(request.getSession().getAttribute(RequestConsts.USER));
 
-		if (RequestConsts.CONFIRM.equals(request.getParameter(RequestMapKeys.REQUEST_TYPE))) {
-			logger.info("chaining confirm");
-			chain.doFilter(request, response);
-		} else if (request.getSession().getAttribute(RequestMapKeys.USER) != null) {
+		if (request.getSession().getAttribute(RequestMapKeys.USER) != null) {
 			logger.info("loggin in");
 			request.getRequestDispatcher(PathConsts.HOME).forward(request, response);
 		} else {

@@ -54,6 +54,7 @@ public class MainServlet extends HttpServlet {
 		Object isLoggedIn = requestMap.get(RequestMapKeys.IS_LOGGED_IN);
 		
 		if (isLoggedIn != null && (Boolean) isLoggedIn) {
+			logger.debug(requestMap.get(RequestMapKeys.USER));
 			request.getSession().setAttribute(RequestMapKeys.USER, 
 										requestMap.get(RequestMapKeys.USER));
 		}

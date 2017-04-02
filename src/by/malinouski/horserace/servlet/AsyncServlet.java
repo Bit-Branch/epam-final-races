@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,14 +40,6 @@ public class AsyncServlet extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger(AsyncServlet.class);
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see AbstractServlet#AbstractServlet()
-     */
-    public AsyncServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -80,8 +73,9 @@ public class AsyncServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		processRequest(request, response);
+		response.sendRedirect(request.getHeader(RequestConsts.REFERER));
 	}
 
 	protected void processRequest(HttpServletRequest request, 
@@ -105,12 +99,11 @@ public class AsyncServlet extends HttpServlet {
 			request.getServletContext().setAttribute(
 											RequestConsts.BET, bet);
 			Gson gson = new GsonBuilder().create();
-			request.getServletContext().setAttribute(RequestConsts.BET, gson.toJson(bet));
+			HttpSession session = request.getSession();
+			session.setAttribute(RequestConsts.BET, bet);
+			session.setAttribute(RequestConsts.USER, bet.getUser());
 			response.setContentType("application/json");
 			response.getWriter().write(gson.toJson(bet));
-			response.sendRedirect(request.getHeader(RequestConsts.REFERER));
-		} else {
-			response.sendRedirect(request.getHeader(RequestConsts.REFERER));
 		}
 		
 		async.complete();

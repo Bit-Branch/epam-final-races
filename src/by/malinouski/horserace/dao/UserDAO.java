@@ -3,6 +3,7 @@
  */
 package by.malinouski.horserace.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,8 +13,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.constant.EntityConsts;
+import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
+import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.logic.entity.User.Role;
 
@@ -24,13 +27,21 @@ import by.malinouski.horserace.logic.entity.User.Role;
 public class UserDao extends Dao {
 	private static final Logger logger = LogManager.getLogger(UserDao.class);
 	private static final String CHECK_PASS = 
-			"SELECT `id`, `password`, `role` FROM `users` "
-			+ "WHERE `login` = ? and `password` = MD5(?);";
+			"SELECT id, role, balance, deleted FROM users "
+			+ "WHERE login = ? and password = MD5(?)";
 	private static final String INSERT_USER = 
-			"INSERT INTO `users`(`login`, `password`) VALUES(?, MD5(?));";
-	private static final String LAST_ID = "SELECT LAST_INSERT_ID();";
+			"INSERT INTO users(login, password, balance) VALUES(?, MD5(?), ?)";
+	private static final String LAST_ID = "SELECT LAST_INSERT_ID()";
 	private static final String DELETE_USER = 
-			"DELETE FROM `users` WHERE `id` = ?";
+			"UPDATE users SET deleted = ? WHERE id = ?";
+	private static final String INCR_USER_BALANCE = 
+			"UPDATE users SET balance = balance + ? WHERE id = ?";
+	private static final String DECR_USER_BALANCE = 
+			"UPDATE users SET balance = balance - ? WHERE id = ?";
+	private static final String ID_COL = "id";
+	private static final String ROLE_COL = "role";
+	private static final String BALANCE_COL = "balance";
+	private static final String DELETED_COL = "deleted";
 	private User user;
 	
 	/**
@@ -66,9 +77,16 @@ public class UserDao extends Dao {
 			logger.debug("hasRow: " + hasRow);
 
 			if (hasRow) {
-				long id = res.getLong(EntityConsts.ID);
-				User.Role role = Role.valueOf(res.getString(EntityConsts.ROLE).toUpperCase());
-				user = new User(id, role, login);
+				boolean isDeleted = res.getBoolean(DELETED_COL);
+				if (isDeleted) {
+					return false;
+				}
+				
+				long id = res.getLong(ID_COL);
+				String roleStr = res.getString(ROLE_COL);
+				BigDecimal balance = res.getBigDecimal(BALANCE_COL);
+				User.Role role = Role.valueOf(roleStr.toUpperCase());
+				user = new User(id, role, login, balance);
 			}
 			return hasRow;
 		} catch (SQLException e) { 
@@ -87,11 +105,14 @@ public class UserDao extends Dao {
 	 */
 	public boolean addUser(String login, String password) throws DaoException {
 		Connection conn = pool.getConnection();
+		BigDecimal balance = BigDecimal.valueOf(NumericConsts.USER_INIT_BALANCE);
 
 		try (PreparedStatement insertStatement = conn.prepareStatement(INSERT_USER);
 				PreparedStatement lastIdStatement = conn.prepareStatement(LAST_ID)) {
 			insertStatement.setString(1, login);
 			insertStatement.setString(2, password);
+			insertStatement.setBigDecimal(3, balance);
+
 			int rowsAffected = insertStatement.executeUpdate();
 			logger.debug(rowsAffected);
 			boolean succeeded = rowsAffected > 0;
@@ -101,7 +122,8 @@ public class UserDao extends Dao {
 				if (succeeded = idRes.next()) {
 					long id = Long.valueOf(idRes.getString(1));
 					User.Role role = Role.USER;
-					user = new User(id, role, login);
+					
+					user = new User(id, role, login, balance);
 				}
 			}
 			return succeeded;
@@ -116,12 +138,30 @@ public class UserDao extends Dao {
 		Connection conn = pool.getConnection();
 
 		try (PreparedStatement deleteUser = conn.prepareStatement(DELETE_USER)) {
-			deleteUser.setLong(1, user.getUserId());
+			deleteUser.setBoolean(1, true);
+			deleteUser.setLong(2, user.getUserId());
 			deleteUser.executeUpdate();
 		} catch (SQLException e) {
-			throw new DaoException("Exception while deleting user");
+			throw new DaoException("UserDao: " + e.getMessage());
 		} finally {
 			pool.returnConnection(conn);
 		}
+	}
+
+	public void updateBalance(User user, Bet bet) throws DaoException {
+		Connection conn = pool.getConnection();
+		BigDecimal updateAmount = bet.getWinning().subtract(bet.getAmount());
+		try (PreparedStatement updateBalance = 
+						conn.prepareStatement(INCR_USER_BALANCE)) {
+			updateBalance.setBigDecimal(1, updateAmount);
+			updateBalance.setLong(2, user.getUserId());
+			updateBalance.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("Exception updating balance" 
+													+ e.getMessage());
+		} finally {
+			pool.returnConnection(conn);
+		}
+		
 	}
 }

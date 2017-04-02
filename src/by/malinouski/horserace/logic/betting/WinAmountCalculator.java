@@ -27,10 +27,10 @@ public class WinAmountCalculator {
 	/**
 	 * Calculates the amount of winning for the bet
 	 * @param bet
+	 * @param race 
 	 * @return winning amount
 	 */
-	public BigDecimal calculate(Bet bet) {
-		Race race = bet.getRace();
+	public BigDecimal calculate(Bet bet, Race race) {
 		List<HorseUnit> units = race.getHorseUnits();
 		List<Integer> horseNums = bet.getHorsesInBet();
 		HorseUnit unitInBet = units.get(

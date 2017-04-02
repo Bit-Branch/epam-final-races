@@ -23,8 +23,8 @@ public class Bet implements Entity {
 
 	private long betId;
 	private User user;
-	private Race race;
 	private BetType type;
+	private LocalDateTime raceDateTime;
 	private BigDecimal amount;
 	private BigDecimal winning;
 	/* if horse's order matter in bet type
@@ -38,13 +38,13 @@ public class Bet implements Entity {
 	 */
 	public Bet(long id, 
 					User user, 
-						Race race, 
+						Bet.BetType type,
 							BigDecimal amount, 
-								Bet.BetType type,
+								LocalDateTime dateTime, 
 									List<Integer> horsesInBet) {
 		this.betId = id;
 		this.user = user;
-		this.race = race;
+		this.raceDateTime = dateTime;
 		this.amount = amount.setScale(4, RoundingMode.DOWN);
 		this.type = type;
 		this.horsesInBet = horsesInBet;
@@ -68,13 +68,13 @@ public class Bet implements Entity {
 		}
 	}
 	
-	public long getUserId() {
-		return user.getUserId();
+	public User getUser() {
+		return user;
 	}
 	
-	public Race getRace() {
-		return race;
-	}
+	public LocalDateTime getRaceDateTime() {
+		return raceDateTime;
+	}	
 	
 	public BetType getType() {
 		return type;
@@ -90,7 +90,7 @@ public class Bet implements Entity {
 	 * @param winning
 	 */
 	public void setWinning(BigDecimal winning) {
-		if (this.winning == null) {
+		if (this.winning == null && winning != null) {
 			this.winning = winning.setScale(4, RoundingMode.DOWN);
 		}
 	}
@@ -108,7 +108,7 @@ public class Bet implements Entity {
 		return String.format(
 				"Bet: id %d, user %s, race %s, type %s, "
 				+ "horses in bet %s, amount %s, winning %s",
-				betId, user.getLogin(), race.getDateTime(), type, 
+				betId, user.getLogin(), raceDateTime, type, 
 				horsesInBet, amount, winning);
 	}
 }

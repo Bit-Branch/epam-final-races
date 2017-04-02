@@ -11,9 +11,7 @@ package by.malinouski.horserace.command.receiver;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -22,18 +20,16 @@ import java.util.concurrent.Future;
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.dao.BetDao;
-import by.malinouski.horserace.dao.RaceDao;
+import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.NoRacesScheduledException;
 import by.malinouski.horserace.logic.betting.BetsWinTester;
 import by.malinouski.horserace.logic.betting.WinAmountCalculator;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Entity;
-import by.malinouski.horserace.logic.entity.HorseUnit;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.logic.racing.RacesResults;
-import by.malinouski.horserace.logic.racing.RacesSchedule;
 
 /**
  * @author makarymalinouski
@@ -70,10 +66,8 @@ public class PlaceBetReceiver extends CommandReceiver {
 		
 		
 		try {
-			RacesSchedule schedule = RacesSchedule.getInstance();
-			Race race = schedule.getRace(dateTime);
-			Bet bet = new Bet(0, user, race, BigDecimal.valueOf(amount), 
-														betType, horsesNum);
+			Bet bet = new Bet(0, user, betType, BigDecimal.valueOf(amount), 
+														dateTime, horsesNum);
 			BetDao betDao = new BetDao();
 			betDao.placeBet(bet);
 				
@@ -89,11 +83,15 @@ public class PlaceBetReceiver extends CommandReceiver {
 			
 			if (tester.isWinning(bet, finishedRace.getFinalPositions())) {
 				logger.debug("is winning " + bet);
-				BigDecimal win = calc.calculate(bet);
+				BigDecimal win = calc.calculate(bet, finishedRace);
 				logger.debug("win " + win);
 				bet.setWinning(win);
 				betDao.updateWinBet(bet);
+			} else {
+				bet.setWinning(BigDecimal.ZERO);
 			}
+			
+			new UserDao().updateBalance(user, bet);
 			
 			return Optional.of(bet);
 			

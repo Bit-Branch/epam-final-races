@@ -18,6 +18,7 @@ import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Race;
+import by.malinouski.horserace.logic.racing.RacesSchedule;
 
 
 /**
@@ -40,6 +41,8 @@ public class ScheduleReceiver extends CommandReceiver {
 	public Optional<? extends Entity> act() {
 		RaceDao dao = new RaceDao();
 		try {
+//			RacesSchedule schedule = RacesSchedule.getInstance();
+//			schedule.getUpcommingRaces();
 			SortedSet<Race> raceSet = dao.selectNextRaces();
 			requestMap.put(RequestMapKeys.RESULT, raceSet);
 		} catch (DaoException e) {

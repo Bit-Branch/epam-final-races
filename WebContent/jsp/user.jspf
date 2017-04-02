@@ -9,8 +9,12 @@
 				<fmt:message key="nav.results"/>
 			</a>
 		</li>
-		<li><a href="#place-bet">My bets</a></li>
-		<li><a href="${ pageContext.servletContext.contextPath }/index.jsp?requestType=confirm">Account</li>
+		<li><a href="${ pageContext.servletContext.contextPath }/main?requestType=allBets">
+				<fmt:message key="nav.bets"/>
+			</a></li>
+		<li><a href="${ pageContext.servletContext.contextPath }/jsp/profile.jsp">
+			<fmt:message key="nav.profile"/>
+		</li>
 		<li>
 			<a href="${ pageContext.servletContext.contextPath }/logout">
 				<fmt:message key="nav.logout"/>
@@ -18,33 +22,12 @@
 		</li>
 	</ul>
 </nav>
-<h4>Welcome ${ sessionScope.login }!</h4><br/>
+<h4>Welcome ${ sessionScope.user.login }!</h4><br/>
+Balance ${ sessionScope.user.balance }
 <section id="races">
-	<table>
-		<thead>
-			<tr>Date and Time</tr>
-			<tr>
-				<td>Number</td>
-				<td>Name</td>
-				<td>Age</td>
-				<td>Odds</td>
-				<td>Finish</td>
-		</thead>
-		<tbody>
 			<c:forEach var="race" items="${ result }">
-				<tr><td colspan=5><c:out value="${ race.dateTime }"/></td></tr>
-				<c:forEach var="horseUnit" items="${ race.horseUnits }">
-				<tr>
-						<td><c:out value="${ horseUnit.numberInRace }"/></td>
-						<td><c:out value="${ horseUnit.horse.name }"/></td>
-						<td><c:out value="${ horseUnit.horse.age }"/></td>
-						<td><c:out value="${ horseUnit.odds }"/></td>
-						<td><c:out value="${ horseUnit.finalPosition }"/></td>
-				</tr>
-				</c:forEach>
+				<c:out value="${ race }"/><br>
 			</c:forEach>
-		</tbody>
-	</table>
 </section>
 <section id="place-bet">
 	<h4><fmt:message key="header.placeBet"/></h4>
@@ -75,6 +58,7 @@
 	
 </section>
 <section id="results">
+	${ sessionScope.bet }
 	<h4><fmt:message key="header.results"/></h4>
 	<div id="content"></div>
 	<c:forEach var="unit" items="${ applicationScope.results.horseUnits }">

@@ -69,4 +69,8 @@ public class RacesSchedule {
 		}
 	}
 
+	public void getUpcommingRaces() {
+		throw new UnsupportedOperationException();
+	}
+
 }

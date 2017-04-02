@@ -33,20 +33,30 @@ import by.malinouski.horserace.logic.entity.Race;
  */
 public class RaceDao extends Dao {
 	private static final String SELECT_RACES =
-			"SELECT `races_datetime`, `horses_id`, `name`, `birth_year`, `tot_races`, `tot_wins`, "
-			+ "`num_in_race`, `odds_against`, `odds_for`, `real_prob`, `fin_pos` FROM `races_stat` "
+			"SELECT `races_datetime`, `horses_id`, `name`, `birth_year`, "
+			+ "`tot_races`, `tot_wins`, `num_in_race`, `odds_against`, "
+			+ "`odds_for`, `real_prob`, `fin_pos` FROM `races_stat` "
 			+ "INNER JOIN `horses` on `horses`.`id` = `horses_id` ";
+	
 	private static final String WHERE_DATETIME_GT_NOW = 
 			"WHERE `races_datetime` > NOW() ORDER BY `races_datetime` DESC";
+	
 	private static final String WHERE_DATETIME_LT_NOW = 
 			"WHERE `races_datetime` < NOW() ORDER BY `races_datetime` DESC";
-	private static final String ORDER_LIMIT_1 = " ORDER BY `races_datetime` DESC LIMIT 1";
-	private static final String INSERT_NEW_RACES = "INSERT INTO `races`(`datetime`) VALUES(?)";
+	
+	private static final String ORDER_LIMIT_1 = 
+							" ORDER BY `races_datetime` DESC LIMIT 1";
+	
+	private static final String INSERT_NEW_RACES = 
+							"INSERT INTO `races`(`datetime`) VALUES(?)";
+	
 	private static final String INSERT_NEW_RACES_STAT = 
 			"INSERT INTO `races_stat`(`races_datetime`, `horses_id`, `num_in_race`, "
 			+ "`odds_against`, `odds_for`, `real_prob`, `fin_pos`) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?)";
+	
 	private static final String LAST_ID = "SELECT LAST_INSERT_ID();";
+	
 	private static final String UPDATE_RACES = 
 			"UPDATE `races_stat` SET `fin_pos` = ? "
 			+ "WHERE `races_datetime` = ? AND `horses_id` = ?";
@@ -97,39 +107,46 @@ public class RaceDao extends Dao {
 	}
 	
 	private void selectRaces(SortedSet<Race> races, 
-												final String whereClause) 
-																throws DaoException {
+							 final String whereClause) throws DaoException {
 		Connection conn = pool.getConnection();
+		SortedSet<HorseUnit> units = new TreeSet<>((u1, u2) -> 
+				Integer.compare(u1.getNumberInRace(), u2.getNumberInRace()));
 		
-		try (PreparedStatement stm = conn.prepareStatement(
-										SELECT_RACES + whereClause)) {
+		try (PreparedStatement stm = 
+				conn.prepareStatement(SELECT_RACES + whereClause)) {
 			ResultSet res = stm.executeQuery();
 			boolean hasRow = res.next();
 			
 			while (hasRow) {
-				SortedSet<HorseUnit> units = new TreeSet<>((u1, u2) -> 
-										Integer.compare(u1.getNumberInRace(), 
-														u2.getNumberInRace()));
-				List<HorseUnit> unitsList = new ArrayList<>(NumericConsts.NUM_HORSES_IN_RACE);
-
-				LocalDateTime datetime = res.getTimestamp(DATETIME_KEY).toLocalDateTime();
+				Timestamp timestamp = res.getTimestamp(DATETIME_KEY);
+				List<HorseUnit> unitsList = 
+						new ArrayList<>(NumericConsts.NUM_HORSES_IN_RACE);
+				LocalDateTime datetime = timestamp.toLocalDateTime();
+				
 				do {
-					HorseUnit unit = new HorseUnit(new Horse(
-													 res.getLong(HORSES_ID_KEY), 
-													 res.getString(NAME_KEY), 
-													 res.getInt(BIRTH_YEAR_KEY), 
-													 res.getInt(TOT_RACES_KEY), 
-													 res.getInt(TOT_WINS_KEY)));
+					Long horseId = res.getLong(HORSES_ID_KEY);
+					String horseName = res.getString(NAME_KEY);
+					int birthYear = res.getInt(BIRTH_YEAR_KEY);
+					int totRaces = res.getInt(TOT_RACES_KEY);
+					int totWins = res.getInt(TOT_WINS_KEY);
+					int oddsAgainst = res.getInt(ODDS_AGAINST_KEY);
+					int oddsFor = res.getInt(ODDS_FOR_KEY);
+					double realProb = res.getDouble(REAL_PROB_KEY);
+					int numInRace = res.getInt(NUM_IN_RACE_KEY);
+					int finPos = res.getInt(FIN_POS_KEY);
 					
-					unit.setOdds(new Odds(res.getInt(ODDS_AGAINST_KEY),
-									   res.getInt(ODDS_FOR_KEY)));
-					unit.setRealProb(res.getDouble(REAL_PROB_KEY));
-					unit.setNumberInRace(res.getInt(NUM_IN_RACE_KEY));
-					unit.setFinalPosition(res.getInt(FIN_POS_KEY));
+					Horse horse = new Horse(horseId, horseName, 
+										birthYear, totRaces, totWins);
+					
+					HorseUnit unit = new HorseUnit(horse);
+					unit.setOdds(new Odds(oddsAgainst, oddsFor));
+					unit.setRealProb(realProb);
+					unit.setNumberInRace(numInRace);
+					unit.setFinalPosition(finPos);
 					units.add(unit);
 					hasRow = res.next();
-				} while (hasRow && datetime.equals(
-									res.getTimestamp(DATETIME_KEY).toLocalDateTime()));
+				} while (hasRow && timestamp.equals(res.getTimestamp(DATETIME_KEY)));
+				
 				unitsList.addAll(units);
 				races.add(new Race(datetime, unitsList));
 			}

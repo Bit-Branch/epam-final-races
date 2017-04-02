@@ -7,12 +7,12 @@ $(function() {
 	
 });
 function placeBet() {
-	console.log("works");
-	var formdata = new FormData($("#place-bet"));
+	var formdata = new FormData($("#place-bet")[0]);
 	$.post("placeBet", formdata).done(function(data) {
 		console.log(data);
 		$(".content#results").html(data);
 	});
+	console.log("works");
 	return false;
 }
 	

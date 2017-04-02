@@ -14,13 +14,13 @@ public class User implements Entity {
 	private long userId;
 	private Role role;
 	private String login;
-	private UserAccount account;
+	private BigDecimal balance;
 	
-	public User(long id, Role role, String login) {
+	public User(long id, Role role, String login, BigDecimal balance) {
 		userId = id;
 		this.role = role;
 		this.login = login;
-		account = new UserAccount();
+		this.balance = balance;
 	}
 	
 	public long getUserId() {
@@ -35,27 +35,17 @@ public class User implements Entity {
 		return login;
 	}
 	
-	public double getAccoutBalance() {
-		return account.balance.doubleValue();
-	}
-	
-	public void addMoney(double howMuch) {
-		if (howMuch > 0) {
-			account.balance.add(BigDecimal.valueOf(howMuch));
-		}
+	public BigDecimal getBalance() {
+		return balance;
 	}
 	
 	public enum Role {
 		USER, ADMIN
 	}
 	
-	private class UserAccount {
-		public BigDecimal balance;
-	}
-	
 	@Override
 	public String toString() {
 		return String.format("User ID: %s, role: %s, login: %s, balance: %s", 
-								userId, role, login, account.balance);
+								userId, role, login, balance);
 	}
 }

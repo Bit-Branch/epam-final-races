@@ -5,14 +5,8 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Queue;
-import java.util.concurrent.Future;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
@@ -20,7 +14,6 @@ import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.UserNotCreatedException;
 import by.malinouski.horserace.logic.entity.Entity;
-import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.entity.User;
 
 /**
@@ -46,7 +39,8 @@ public class RegisterReceiver extends CommandReceiver {
 			requestMap.put(RequestMapKeys.IS_LOGGED_IN, isUserCreated);
 			if (isUserCreated) {
 				User user = dao.getUser();
-				requestMap.put(RequestMapKeys.RESULT, user);
+				logger.debug(user);
+				requestMap.put(RequestMapKeys.USER, user);
 				requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 				return Optional.of(user);
 			} else {
