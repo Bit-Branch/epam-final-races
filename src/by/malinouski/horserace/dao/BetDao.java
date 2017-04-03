@@ -44,6 +44,8 @@ public class BetDao extends Dao {
 			"SELECT id, races_datetime, bet_type, "
 			+ "horse_num1, horse_num2, horse_num3, amount, winning "
 			+ "FROM bets WHERE users_id = ?";
+	private static final String CANCEL_BET = 
+			"UPDATE bets SET cancelled = ? WHERE id = ?";
 	
 	private static final String ID_COL = "id";
 	private static final String RACES_DATETIME_COL = "races_datetime";
@@ -148,6 +150,21 @@ public class BetDao extends Dao {
 		} catch (SQLException e) {
 			throw new DaoException("Couldn't select bets " + e.getMessage());
 		} 
+	}
+
+	public void cancelBet(Bet bet) throws DaoException {
+		Connection conn = pool.getConnection();
+
+		try (PreparedStatement cancel = conn.prepareStatement(CANCEL_BET)) {
+			cancel.setBoolean(1, true);
+			cancel.setLong(2, bet.getBetId());
+			cancel.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("BetDao: " + e.getMessage());
+		} finally {
+			pool.returnConnection(conn);
+		}	
+		
 	}
 
 }

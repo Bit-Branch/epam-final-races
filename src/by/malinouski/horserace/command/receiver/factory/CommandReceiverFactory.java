@@ -10,6 +10,8 @@ import by.malinouski.horserace.command.receiver.ResultsReceiver;
 import by.malinouski.horserace.command.receiver.ScheduleReceiver;
 import by.malinouski.horserace.command.receiver.StartRacesReceiver;
 import by.malinouski.horserace.command.receiver.AllBetsReceiver;
+import by.malinouski.horserace.command.receiver.CancelBetReceiver;
+import by.malinouski.horserace.command.receiver.CancelRaceReceiver;
 import by.malinouski.horserace.command.receiver.CommandReceiver;
 import by.malinouski.horserace.command.receiver.DeleteAccountReceiver;
 import by.malinouski.horserace.command.receiver.GenerateRacesReceiver;
@@ -26,6 +28,8 @@ public class CommandReceiverFactory {
 	private static final String START_RACE_REQ_TYPE = "startRaces";
 	private static final String DELETE_PROFILE_REQ_TYPE = "deleteProfile";
 	private static final String ALL_BETS_REQ_TYPE = "allBets";
+	private static final String CANCEL_BET_REQ_TYPE = "cancelBet";
+	private static final String CANCEL_RACE_REQ_TYPE = "cancelRace";
 	private Map<String, Object> requestMap;
 	
 	/**
@@ -52,12 +56,17 @@ public class CommandReceiverFactory {
 					return new GenerateRacesReceiver(requestMap);
 				case START_RACE_REQ_TYPE:
 					return new StartRacesReceiver(requestMap);
+				case CANCEL_RACE_REQ_TYPE:
+					return new CancelRaceReceiver(requestMap);
 				case PLACE_BET_REQ_TYPE:
 					return new PlaceBetReceiver(requestMap);
+				case CANCEL_BET_REQ_TYPE:
+					return new CancelBetReceiver(requestMap);
 				case DELETE_PROFILE_REQ_TYPE:
 					return new DeleteAccountReceiver(requestMap);
 				case ALL_BETS_REQ_TYPE:
 					return new AllBetsReceiver(requestMap);
+					
 				default:
 					return new RedirectHomeReceiver(requestMap);
 			}

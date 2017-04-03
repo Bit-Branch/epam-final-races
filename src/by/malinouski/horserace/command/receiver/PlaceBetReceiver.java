@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -62,13 +63,12 @@ public class PlaceBetReceiver extends CommandReceiver {
 		for (int i = 0; i < horsesNumStr.length && !horsesNumStr[i].isEmpty(); i++) {
 			horsesNum.add(Integer.parseInt(horsesNumStr[i]));
 		}
-		logger.debug("user " + user);
-		
+
+		BetDao betDao = new BetDao();
+		Bet bet = new Bet(0, user, betType, BigDecimal.valueOf(amount), 
+													dateTime, horsesNum);
 		
 		try {
-			Bet bet = new Bet(0, user, betType, BigDecimal.valueOf(amount), 
-														dateTime, horsesNum);
-			BetDao betDao = new BetDao();
 			betDao.placeBet(bet);
 				
 			RacesResults results = RacesResults.getInstance();
@@ -95,6 +95,8 @@ public class PlaceBetReceiver extends CommandReceiver {
 			
 			return Optional.of(bet);
 			
+		} catch (CancellationException e) {
+			logger.warn("Race was cancelled " + e.getMessage());
 		} catch (InterruptedException | ExecutionException e) {
 			logger.error("Problem with getting future results " + e);
 		} catch (DaoException e) {

@@ -34,3 +34,11 @@
 		<fmt:message key="button.start"/>	
 	</a>
 </section>
+<section>
+	<h4><fmt:message key="label.cancelRace"/></h4>
+	<form action="${ pageContext.servletContext.contextPath }/admin" method="POST">
+		<input type="hidden" name="requestType" value="cancelRace"/>
+		<input type="datetime-local" name="raceDateTime" 
+					placeholder="<fmt:message key="label.raceDateTime"/>"/>
+		<input type="submit" name="cancelRace" value="<fmt:message key="button.cancel"/>">
+</section>

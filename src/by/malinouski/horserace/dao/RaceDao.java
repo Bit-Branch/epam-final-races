@@ -60,6 +60,9 @@ public class RaceDao extends Dao {
 	private static final String UPDATE_RACES = 
 			"UPDATE `races_stat` SET `fin_pos` = ? "
 			+ "WHERE `races_datetime` = ? AND `horses_id` = ?";
+	
+	private static final String CANCEL_RACE = 
+			"UPDATE races SET cancelled = ? WHERE datetime = ?";
 
 	private static final String DATETIME_KEY = "races_datetime";
 	private static final String HORSES_ID_KEY = "horses_id";
@@ -221,6 +224,20 @@ public class RaceDao extends Dao {
 		} finally {
 			pool.returnConnection(conn);
 		}
+	}
+
+	public void cancelRace(LocalDateTime dateTime) throws DaoException {
+		Connection conn = pool.getConnection();
+
+		try (PreparedStatement cancel = conn.prepareStatement(CANCEL_RACE)) {
+			cancel.setBoolean(1, true);
+			cancel.setTimestamp(2, Timestamp.valueOf(dateTime));
+			cancel.executeUpdate();
+		} catch (SQLException e) {
+			throw new DaoException("RaceDao: " + e.getMessage());
+		} finally {
+			pool.returnConnection(conn);
+		}		
 	}
 
 	
