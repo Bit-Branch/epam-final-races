@@ -4,7 +4,11 @@ $(function() {
 //	$.get("ajax", function(data) {
 //		console.log(data);
 //	});
-	
+	$.getScript('js/pagination.js', function() {
+	    $("#races-table") 
+		    .tablesorter({widthFixed: true, widgets: ['zebra']}) 
+		    .tablesorterPager({container: $("#pager")}); 
+	});
 });
 function placeBet() {
 	var formdata = new FormData($("#place-bet")[0]);

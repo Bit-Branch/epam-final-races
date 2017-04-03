@@ -39,8 +39,8 @@ public class MainServlet extends HttpServlet {
 		
     	Map<String, Object> requestMap = processRequest(request, response);
 		
-    	request.setAttribute(RequestMapKeys.RESULT, 
-    							requestMap.get(RequestMapKeys.RESULT));
+    	request.setAttribute(RequestMapKeys.ENTITIES, 
+    							requestMap.get(RequestMapKeys.ENTITIES));
     	request.getRequestDispatcher(
 					(String) requestMap.get(RequestMapKeys.REDIRECT_PATH))
 												.forward(request, response);

@@ -43,7 +43,7 @@ public class ResultsReceiver extends CommandReceiver {
 		RaceDao dao = new RaceDao();
 		try {
 			SortedSet<Race> raceSet = dao.selectPastRaces();
-			requestMap.put(RequestMapKeys.RESULT, raceSet);
+			requestMap.put(RequestMapKeys.ENTITIES, raceSet);
 		} catch (DaoException e) {
 			logger.error("Exception while preparing results: " + e);
 		} finally {

@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+import by.malinouski.horserace.exception.WinAmountAlreadySetException;
+
 
 /**
  * @author makarymalinouski
@@ -88,10 +90,13 @@ public class Bet implements Entity {
 	 * Sets the winning amount,
 	 * can be done only once
 	 * @param winning
+	 * @throws WinAmountAlreadySetException 
 	 */
-	public void setWinning(BigDecimal winning) {
+	public void setWinning(BigDecimal winning) throws WinAmountAlreadySetException {
 		if (this.winning == null && winning != null) {
 			this.winning = winning.setScale(4, RoundingMode.DOWN);
+		} else {
+			throw new WinAmountAlreadySetException("Amount is: " + this.winning);
 		}
 	}
 	

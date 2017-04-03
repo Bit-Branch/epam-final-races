@@ -44,7 +44,7 @@ public class ScheduleReceiver extends CommandReceiver {
 //			RacesSchedule schedule = RacesSchedule.getInstance();
 //			schedule.getUpcommingRaces();
 			SortedSet<Race> raceSet = dao.selectNextRaces();
-			requestMap.put(RequestMapKeys.RESULT, raceSet);
+			requestMap.put(RequestMapKeys.ENTITIES, raceSet);
 		} catch (DaoException e) {
 			logger.error("Exception while preparing schedule: " + e);
 		} finally {

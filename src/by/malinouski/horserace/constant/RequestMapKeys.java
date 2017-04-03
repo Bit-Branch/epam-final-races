@@ -20,6 +20,7 @@ public class RequestMapKeys {
 	public static final String DATETIME = "raceDateTime";
 	public static final String USER = "user";
 	public static final String FUTURE_RESULT = "futureResult";
+	public static final String ENTITIES = "entities";
 
 	private RequestMapKeys() {
 	}

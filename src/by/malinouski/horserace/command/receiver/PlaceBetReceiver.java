@@ -24,6 +24,7 @@ import by.malinouski.horserace.dao.BetDao;
 import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.NoRacesScheduledException;
+import by.malinouski.horserace.exception.WinAmountAlreadySetException;
 import by.malinouski.horserace.logic.betting.BetsWinTester;
 import by.malinouski.horserace.logic.betting.WinAmountCalculator;
 import by.malinouski.horserace.logic.entity.Bet;
@@ -103,6 +104,8 @@ public class PlaceBetReceiver extends CommandReceiver {
 			logger.error("Exception while placing or updating bet " + e);
 		} catch (NoRacesScheduledException e) {
 			logger.error("No races at the specified time " + e);
+		} catch (WinAmountAlreadySetException e) {
+			logger.error("Win amount set second time " + e);
 		} finally {
 			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		}
