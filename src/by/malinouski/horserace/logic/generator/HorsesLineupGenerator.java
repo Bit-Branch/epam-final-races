@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Random;
 
 import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.logic.entity.HorseUnit;

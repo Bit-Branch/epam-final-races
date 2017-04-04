@@ -15,8 +15,10 @@ public class RequestConsts {
 	public static final String RACE = "race";
 	public static final String NEXT_RACE_DATETIME = "nextRaceDateTime";
 	public static final String BET = "bet";
-	public static final String USER = "user";
-	public static final Object CONFIRM = "confirm";
+	public static final String USER = "User";
+	public static final String CONFIRM = "confirm";
+	public static final String COMMAND_PARAM = "command";
+	public static final String MESSAGE = "Message";
 
 	private RequestConsts() {
 	}

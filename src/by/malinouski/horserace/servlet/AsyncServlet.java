@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import by.malinouski.horserace.command.receiver.factory.CommandReceiverFactory;
+import by.malinouski.horserace.command.Command;
 import by.malinouski.horserace.constant.RequestConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.exception.NoRacesScheduledException;
@@ -30,12 +30,15 @@ import by.malinouski.horserace.listener.AsyncResultsListener;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Race;
+import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.logic.racing.RacesResults;
+import by.malinouski.horserace.parser.EntityParser;
+import by.malinouski.horserace.parser.factory.EntityParserFactory;
 
 /**
  * Servlet implementation class AsyncServlet
  */
-@WebServlet(asyncSupported = true, urlPatterns = { "/placeBet" })
+//@WebServlet(asyncSupported = true, urlPatterns = { "/placeBet" })
 public class AsyncServlet extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger(AsyncServlet.class);
 	private static final long serialVersionUID = 1L;
@@ -85,26 +88,28 @@ public class AsyncServlet extends HttpServlet {
 				String.valueOf("Log level is enabled: " + logger.getLevel()));
 		
 		AsyncContext async = request.startAsync();
-		Map<String, Object> requestMap = new HashMap<>();
-		requestMap.putAll(request.getParameterMap());
-		requestMap.put(RequestMapKeys.USER, 
-				request.getSession().getAttribute(RequestMapKeys.USER));
-
-		Optional<? extends Entity> opt = 
-				new CommandReceiverFactory(requestMap).getReceiver().act();
 		
-		if (opt.isPresent()) {
-			Bet bet = (Bet) opt.get();
-			logger.debug(bet);
-			request.getServletContext().setAttribute(
-											RequestConsts.BET, bet);
-			Gson gson = new GsonBuilder().create();
-			HttpSession session = request.getSession();
-			session.setAttribute(RequestConsts.BET, bet);
-			session.setAttribute(RequestConsts.USER, bet.getUser());
-			response.setContentType("application/json");
-			response.getWriter().write(gson.toJson(bet));
-		}
+		User user = (User) request.getSession().getAttribute(RequestMapKeys.USER);
+		String commandStr = request.getParameter(RequestConsts.COMMAND_PARAM);
+		Command command = Command.valueOf(commandStr.toUpperCase());
+		
+		EntityParserFactory fact = new EntityParserFactory();
+		EntityParser parser = fact.getParser(command);
+		Entity reqEntity = parser.parse(request.getParameterMap(), user);
+		Entity retEntity = command.execute(reqEntity);
+		
+//		if (opt.isPresent()) {
+//			Bet bet = (Bet) opt.get();
+//			logger.debug(bet);
+//			request.getServletContext().setAttribute(
+//											RequestConsts.BET, bet);
+//			Gson gson = new GsonBuilder().create();
+//			HttpSession session = request.getSession();
+//			session.setAttribute(RequestConsts.BET, bet);
+//			session.setAttribute(RequestConsts.USER, bet.getUser());
+//			response.setContentType("application/json");
+//			response.getWriter().write(gson.toJson(bet));
+//		}
 		
 		async.complete();
 

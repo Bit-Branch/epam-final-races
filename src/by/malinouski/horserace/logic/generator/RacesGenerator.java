@@ -17,7 +17,6 @@ import java.util.TreeSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.malinouski.horserace.constant.UtilStringConsts;
 import by.malinouski.horserace.logic.entity.HorseUnit;
 import by.malinouski.horserace.logic.entity.Race;
 

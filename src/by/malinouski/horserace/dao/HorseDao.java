@@ -17,8 +17,6 @@ import java.util.Set;
 
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Horse;
-import by.malinouski.horserace.logic.entity.HorseUnit;
-import by.malinouski.horserace.logic.entity.Race;
 
 /**
  * @author makarymalinouski

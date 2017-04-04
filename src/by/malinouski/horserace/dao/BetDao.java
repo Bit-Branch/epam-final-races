@@ -23,6 +23,7 @@ import java.util.TreeSet;
 
 import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.exception.DaoException;
+import by.malinouski.horserace.exception.WinAmountAlreadySetException;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Bet.BetType;
 import by.malinouski.horserace.logic.entity.User;
@@ -118,8 +119,10 @@ public class BetDao extends Dao {
 	 * @param user
 	 * @return set of bets sorted by race's datetime
 	 * @throws DaoException
+	 * @throws WinAmountAlreadySetException 
 	 */
-	public SortedSet<Bet> selectBetsByUser(User user) throws DaoException {
+	public SortedSet<Bet> selectBetsByUser(User user) 
+								throws DaoException, WinAmountAlreadySetException {
 		Connection conn = pool.getConnection();
 		SortedSet<Bet> bets = new TreeSet<>((b1, b2) -> 
 								b1.getRaceDateTime().compareTo(b2.getRaceDateTime()));
@@ -149,7 +152,7 @@ public class BetDao extends Dao {
 			return bets;
 		} catch (SQLException e) {
 			throw new DaoException("Couldn't select bets " + e.getMessage());
-		} 
+		}
 	}
 
 	public void cancelBet(Bet bet) throws DaoException {

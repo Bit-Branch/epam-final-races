@@ -226,12 +226,12 @@ public class RaceDao extends Dao {
 		}
 	}
 
-	public void cancelRace(LocalDateTime dateTime) throws DaoException {
+	public void cancelRace(Race race) throws DaoException {
 		Connection conn = pool.getConnection();
 
 		try (PreparedStatement cancel = conn.prepareStatement(CANCEL_RACE)) {
 			cancel.setBoolean(1, true);
-			cancel.setTimestamp(2, Timestamp.valueOf(dateTime));
+			cancel.setTimestamp(2, Timestamp.valueOf(race.getDateTime()));
 			cancel.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("RaceDao: " + e.getMessage());

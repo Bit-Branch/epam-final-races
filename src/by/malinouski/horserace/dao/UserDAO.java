@@ -12,10 +12,8 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.malinouski.horserace.constant.EntityConsts;
 import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.exception.DaoException;
-import by.malinouski.horserace.exception.UserNotCreatedException;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.logic.entity.User.Role;
@@ -42,22 +40,7 @@ public class UserDao extends Dao {
 	private static final String ROLE_COL = "role";
 	private static final String BALANCE_COL = "balance";
 	private static final String DELETED_COL = "deleted";
-	private User user;
 	
-	/**
-	 * @return  User created with find/addUser 
-	 * @throws UserNotCreatedException 
-	 * 			if user wasn't created, i.e
-	 * 			findUser wasn't called,
-	 * 			or returned false
-	 */
-	public User getUser() throws UserNotCreatedException {
-		if (user == null) {
-			throw new UserNotCreatedException(
-					"User was not created. To create user find/addUser must return true");
-		}
-		return user;
-	}
 	
 	/**
 	 * Finds user with specified params
@@ -66,12 +49,12 @@ public class UserDao extends Dao {
 	 * @return true if found, false if not
 	 * @throws DaoException
 	 */
-	public boolean findUser(String login, String password) throws DaoException {
+	public boolean findUser(User user) throws DaoException {
 		Connection conn = pool.getConnection();
 
 		try (PreparedStatement statement = conn.prepareStatement(CHECK_PASS)) {
-			statement.setString(1, login);
-			statement.setString(2, password);
+			statement.setString(1, user.getLogin());
+			statement.setString(2, user.getPassword());
 			ResultSet res = statement.executeQuery();
 			boolean hasRow = res.next();
 			logger.debug("hasRow: " + hasRow);
@@ -86,7 +69,10 @@ public class UserDao extends Dao {
 				String roleStr = res.getString(ROLE_COL);
 				BigDecimal balance = res.getBigDecimal(BALANCE_COL);
 				User.Role role = Role.valueOf(roleStr.toUpperCase());
-				user = new User(id, role, login, balance);
+				
+				user.setUserId(id);
+				user.setRole(role);
+				user.setBalance(balance);
 			}
 			return hasRow;
 		} catch (SQLException e) { 
@@ -103,14 +89,14 @@ public class UserDao extends Dao {
 	 * @return true if succeeded, else false
 	 * @throws DaoException
 	 */
-	public boolean addUser(String login, String password) throws DaoException {
+	public boolean addUser(User user) throws DaoException {
 		Connection conn = pool.getConnection();
 		BigDecimal balance = BigDecimal.valueOf(NumericConsts.USER_INIT_BALANCE);
 
 		try (PreparedStatement insertStatement = conn.prepareStatement(INSERT_USER);
 				PreparedStatement lastIdStatement = conn.prepareStatement(LAST_ID)) {
-			insertStatement.setString(1, login);
-			insertStatement.setString(2, password);
+			insertStatement.setString(1, user.getLogin());
+			insertStatement.setString(2, user.getPassword());
 			insertStatement.setBigDecimal(3, balance);
 
 			int rowsAffected = insertStatement.executeUpdate();
@@ -121,9 +107,10 @@ public class UserDao extends Dao {
 				ResultSet idRes = lastIdStatement.executeQuery();
 				if (succeeded = idRes.next()) {
 					long id = Long.valueOf(idRes.getString(1));
-					User.Role role = Role.USER;
 					
-					user = new User(id, role, login, balance);
+					user.setRole(Role.USER);
+					user.setUserId(id);
+					user.setBalance(balance);
 				}
 			}
 			return succeeded;
@@ -148,13 +135,13 @@ public class UserDao extends Dao {
 		}
 	}
 
-	public void updateBalance(User user, Bet bet) throws DaoException {
+	public void updateBalance(Bet bet) throws DaoException {
 		Connection conn = pool.getConnection();
 		BigDecimal updateAmount = bet.getWinning().subtract(bet.getAmount());
 		try (PreparedStatement updateBalance = 
 						conn.prepareStatement(INCR_USER_BALANCE)) {
 			updateBalance.setBigDecimal(1, updateAmount);
-			updateBalance.setLong(2, user.getUserId());
+			updateBalance.setLong(2, bet.getUser().getUserId());
 			updateBalance.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("Exception updating balance" 

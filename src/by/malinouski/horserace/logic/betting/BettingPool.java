@@ -9,7 +9,6 @@
 package by.malinouski.horserace.logic.betting;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 

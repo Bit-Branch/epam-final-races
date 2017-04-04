@@ -8,10 +8,12 @@
  */
 package by.malinouski.horserace.logic.entity;
 
+import java.io.Serializable;
+
 /**
  * @author makarymalinouski
  *
  */
-public interface Entity {
+public interface Entity extends Serializable {
 
 }

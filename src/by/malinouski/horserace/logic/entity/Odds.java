@@ -16,7 +16,7 @@ package by.malinouski.horserace.logic.entity;
  * and odds in favor of winning
  * @author makarymalinouski
  */
-public class Odds {
+public class Odds implements Entity {
 	private int against;
 	private int infavor;
 	

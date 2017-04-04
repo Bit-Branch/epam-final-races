@@ -12,10 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
-import by.malinouski.horserace.constant.UtilStringConsts;
 
 /**
  * Servlet Filter implementation class ValidateFilter

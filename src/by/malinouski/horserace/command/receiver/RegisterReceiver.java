@@ -5,15 +5,13 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.Map;
-import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
-import by.malinouski.horserace.exception.UserNotCreatedException;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.Message;
 import by.malinouski.horserace.logic.entity.User;
 
 /**
@@ -21,41 +19,30 @@ import by.malinouski.horserace.logic.entity.User;
  *
  */
 public class RegisterReceiver extends CommandReceiver {
-	private static final Object SMTH_WRONG = "Something went wrong. Please, try again.";
+	private static final Logger logger = 
+			LogManager.getLogger(RegisterReceiver.class);
+	private static final String SMTH_WRONG = "Something went wrong. Please, try again.";
+	private static final String COULDNT_ADD_USER = "Could not add new user (need to localize!)";
 	
-	public RegisterReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-	}
-
 	@Override
-	public Optional<? extends Entity> act() {
+	public Entity act(Entity entity) {
+//		Map<String, Entity> entityMap = new ConcurrentHashMap<>();
+		User user = (User) entity;
 		UserDao dao = new UserDao();
-		String login = ((String[]) requestMap.get(RequestMapKeys.LOGIN))[0];
-		String password = ((String[]) requestMap.get(RequestMapKeys.PASSWORD))[0];
 		boolean isUserCreated;
 		try {
-			isUserCreated = dao.addUser(login, password);
-			logger.debug("user created: " + isUserCreated);
-			requestMap.put(RequestMapKeys.IS_LOGGED_IN, isUserCreated);
+			isUserCreated = dao.addUser(user);
 			if (isUserCreated) {
-				User user = dao.getUser();
-				logger.debug(user);
-				requestMap.put(RequestMapKeys.USER, user);
-				requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
-				return Optional.of(user);
+//				entityMap.put(RequestMapKeys.USER, user);
+				return user;
 			} else {
-				requestMap.put(RequestMapKeys.RESULT, SMTH_WRONG);
-				requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.LOGIN);
-				return Optional.empty();
+				return new Message(COULDNT_ADD_USER);
+//				entityMap.put(RequestMapKeys.MESSAGE, message);
 			}
 		} catch (DaoException e) {
 			logger.error("Error while creating user " + e);
-			requestMap.put(RequestMapKeys.RESULT, SMTH_WRONG);
-			return Optional.empty();
-		} catch (UserNotCreatedException e) {
-			logger.error("User was not created " + e);
-			return Optional.empty();
-		}
+			return new Message("Mistake occured (localize!!)");
+		} 	
+//		return entityMap;
 	}
-
 }

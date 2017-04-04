@@ -8,12 +8,6 @@
  */
 package by.malinouski.horserace.constant;
 
-import java.math.BigDecimal;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneOffsetTransitionRule;
-import java.util.Locale;
-
 /**
  * @author makarymalinouski
  *
@@ -42,6 +36,7 @@ public class NumericConsts {
 	public static final double DIVISOR_COEFF = 1.1;
 	public static final double MIN_FACTOR = 1.1;
 	public static final double USER_INIT_BALANCE = 100;
+	public static final int MAX_SCHEDULE_ENTRIES = 100;
 
 	private NumericConsts() {
 	}

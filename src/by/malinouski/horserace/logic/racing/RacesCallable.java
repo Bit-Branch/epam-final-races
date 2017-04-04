@@ -9,11 +9,8 @@
 package by.malinouski.horserace.logic.racing;
 
 import java.time.LocalDateTime;
-import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +19,6 @@ import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.dao.HorseDao;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
-import by.malinouski.horserace.logic.entity.HorseUnit;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.generator.ResultsGenerator;
 

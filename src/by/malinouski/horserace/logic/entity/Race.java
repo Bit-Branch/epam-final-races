@@ -15,9 +15,6 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.SortedSet;
-
-import org.apache.logging.log4j.message.Message;
 
 import by.malinouski.horserace.constant.EntityConsts;
 

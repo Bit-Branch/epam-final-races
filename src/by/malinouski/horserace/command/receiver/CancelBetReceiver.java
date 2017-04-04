@@ -8,9 +8,6 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.Map;
-import java.util.Optional;
-
 import by.malinouski.horserace.logic.entity.Entity;
 
 /**
@@ -19,20 +16,12 @@ import by.malinouski.horserace.logic.entity.Entity;
  */
 public class CancelBetReceiver extends CommandReceiver {
 
-	/**
-	 * @param requestMap
-	 */
-	public CancelBetReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-		// TODO Auto-generated constructor stub
-	}
-
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<? extends Entity> act() {
-		return null;
+	public Entity act(Entity entity) {
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 }

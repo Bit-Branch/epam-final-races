@@ -1,34 +1,31 @@
 package by.malinouski.horserace.servlet;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.command.Command;
-import by.malinouski.horserace.command.receiver.factory.CommandReceiverFactory;
-import by.malinouski.horserace.command.receiver.initiator.CommandInitiator;
 import by.malinouski.horserace.connection.ConnectionPool;
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestConsts;
 import by.malinouski.horserace.constant.RequestMapKeys;
-import by.malinouski.horserace.logic.entity.Race;
+import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.User;
+import by.malinouski.horserace.parser.EntityParser;
+import by.malinouski.horserace.parser.factory.EntityParserFactory;
 
 /**
  * Servlet implementation class MainServlet
  */
-@WebServlet(asyncSupported = true, 
-			urlPatterns = {"/main", "/register", "/login"})
+@WebServlet(asyncSupported = true, urlPatterns = {"/main", "/register", "/login"})
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LogManager.getLogger(MainServlet.class);
@@ -37,45 +34,39 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
 		
-    	Map<String, Object> requestMap = processRequest(request, response);
-		
-    	request.setAttribute(RequestMapKeys.ENTITIES, 
-    							requestMap.get(RequestMapKeys.ENTITIES));
-    	request.getRequestDispatcher(
-					(String) requestMap.get(RequestMapKeys.REDIRECT_PATH))
-												.forward(request, response);
+    	processRequest(request);
+    	request.getRequestDispatcher(PathConsts.HOME).forward(request, response);
 	}
 
     @Override
 	protected void doPost(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
 
-    	Map<String, Object> requestMap = processRequest(request, response);
-		Object isLoggedIn = requestMap.get(RequestMapKeys.IS_LOGGED_IN);
-		
-		if (isLoggedIn != null && (Boolean) isLoggedIn) {
-			logger.debug(requestMap.get(RequestMapKeys.USER));
-			request.getSession().setAttribute(RequestMapKeys.USER, 
-										requestMap.get(RequestMapKeys.USER));
-		}
-		response.sendRedirect(PathConsts.ROOT + 
-						requestMap.get(RequestMapKeys.REDIRECT_PATH));
+    	processRequest(request);
+		response.sendRedirect(PathConsts.ROOT + PathConsts.HOME);
 	}
     
-	protected Map<String, Object> processRequest(HttpServletRequest request, 
-			HttpServletResponse response) throws ServletException, IOException { 	
+	protected void processRequest(HttpServletRequest request) 
+													throws ServletException, IOException { 	
 		
-		request.getServletContext().log(
-				"Log level is enabled: " + logger.getLevel());
+		request.getServletContext().log("Log level is enabled: " + logger.getLevel());
 		
-		Map<String, Object> requestMap = new HashMap<>();
-		requestMap.putAll(request.getParameterMap());
-		requestMap.put(RequestMapKeys.USER, 
-				request.getSession().getAttribute(RequestMapKeys.USER));
-
-		new CommandReceiverFactory(requestMap).getReceiver().act();
+		User user = (User) request.getSession().getAttribute(RequestConsts.USER);
+		logger.debug(user);
+		String commandStr = request.getParameter(RequestConsts.COMMAND_PARAM);
+		Command command = Command.valueOf(commandStr.toUpperCase());
 		
-		return requestMap;
+		EntityParserFactory fact = new EntityParserFactory();
+		EntityParser parser = fact.getParser(command);
+		Entity reqEntity = parser.parse(request.getParameterMap(), user);
+		Entity retEntity = command.execute(reqEntity);
+		
+		String name = retEntity.getClass().getSimpleName();
+		if (RequestConsts.MESSAGE.equals(name)) {
+			request.setAttribute(name, retEntity);
+		} else {
+			request.getSession().setAttribute(name, retEntity);
+		}
 	}
 	
 	@Override

@@ -8,17 +8,16 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.SortedSet;
 
-import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.EntityContainer;
 import by.malinouski.horserace.logic.entity.Race;
-import by.malinouski.horserace.logic.racing.RacesSchedule;
 
 
 /**
@@ -26,31 +25,24 @@ import by.malinouski.horserace.logic.racing.RacesSchedule;
  *
  */
 public class ScheduleReceiver extends CommandReceiver {
+	private static final Logger logger = LogManager.getLogger(ScheduleReceiver.class);
 	
-	/**
-	 * @param requestMap 
-	 */
-	public ScheduleReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-	}
-
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<? extends Entity> act() {
+	public Entity act(Entity entity) {
+		EntityContainer<Race> racesCont = new EntityContainer<>();
 		RaceDao dao = new RaceDao();
 		try {
 //			RacesSchedule schedule = RacesSchedule.getInstance();
 //			schedule.getUpcommingRaces();
 			SortedSet<Race> raceSet = dao.selectNextRaces();
-			requestMap.put(RequestMapKeys.ENTITIES, raceSet);
+			racesCont.setEntities(raceSet);
 		} catch (DaoException e) {
 			logger.error("Exception while preparing schedule: " + e);
-		} finally {
-			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
 		}
-		return Optional.empty();
+		return racesCont;
 	}
 
 }

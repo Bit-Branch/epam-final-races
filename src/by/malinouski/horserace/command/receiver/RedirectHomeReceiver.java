@@ -8,16 +8,7 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Queue;
-import java.util.concurrent.Future;
-
-import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.logic.entity.Entity;
-import by.malinouski.horserace.logic.entity.Race;
 
 /**
  * @author makarymalinouski
@@ -25,20 +16,12 @@ import by.malinouski.horserace.logic.entity.Race;
  */
 public class RedirectHomeReceiver extends CommandReceiver {
 
-	/**
-	 * @param requestMap 
-	 */
-	public RedirectHomeReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-	}
-
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<? extends Entity> act() {
-		requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
-		return Optional.empty();
+	public Entity act(Entity entity) {
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 }

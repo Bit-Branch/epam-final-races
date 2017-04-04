@@ -8,16 +8,17 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.SortedSet;
 
-import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.malinouski.horserace.dao.BetDao;
 import by.malinouski.horserace.exception.DaoException;
+import by.malinouski.horserace.exception.WinAmountAlreadySetException;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.EntityContainer;
 import by.malinouski.horserace.logic.entity.User;
 
 /**
@@ -25,31 +26,25 @@ import by.malinouski.horserace.logic.entity.User;
  *
  */
 public class AllBetsReceiver extends CommandReceiver {
-
-	/**
-	 * @param requestMap
-	 */
-	public AllBetsReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-		// TODO Auto-generated constructor stub
-	}
-
+	private static final Logger logger = 
+			LogManager.getLogger(AllBetsReceiver.class);
+	
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<? extends Entity> act() {
-		User user = (User) requestMap.get(RequestMapKeys.USER);
-		BetDao dao = new BetDao();
+	public Entity act(Entity entity) {
+		User user = (User) entity;
+		EntityContainer<Bet> betsContainer = new EntityContainer<>();
 		try {
+			BetDao dao = new BetDao();
 			SortedSet<Bet> bets = dao.selectBetsByUser(user);
-			requestMap.put(RequestMapKeys.RESULT, bets);
-		} catch (DaoException e) {
+			betsContainer.setEntities(bets);
+		} catch (DaoException | WinAmountAlreadySetException e) {
 			logger.error("Couldn't retreive bets " + e.getMessage());
-		} finally {
-			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
-		}
-		return Optional.empty();
+		} 
+		
+		return betsContainer;
 	}
 
 }

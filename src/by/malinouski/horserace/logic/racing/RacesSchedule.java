@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.exception.NoRacesScheduledException;
 import by.malinouski.horserace.logic.entity.Race;
 
@@ -23,7 +24,6 @@ import by.malinouski.horserace.logic.entity.Race;
  */
 public class RacesSchedule {
 
-	public static final int MAX_ENTRIES = 100;
 	private Lock lock = new ReentrantLock(); 
 	private LinkedHashMap<LocalDateTime, Race> racesSchedule;
 	
@@ -33,7 +33,7 @@ public class RacesSchedule {
 			@Override
 			protected boolean removeEldestEntry(
 					Map.Entry<LocalDateTime, Race> eldest) {
-				return size() > MAX_ENTRIES;
+				return size() > NumericConsts.MAX_SCHEDULE_ENTRIES;
 			}
 		};
 	}

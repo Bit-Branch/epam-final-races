@@ -54,9 +54,8 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
-		logger.debug(request.getSession().getAttribute(RequestConsts.USER));
 
-		if (request.getSession().getAttribute(RequestMapKeys.USER) != null) {
+		if (request.getSession().getAttribute(RequestConsts.USER) != null) {
 			logger.info("loggin in");
 			request.getRequestDispatcher(PathConsts.HOME).forward(request, response);
 		} else {

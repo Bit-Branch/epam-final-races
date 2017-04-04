@@ -8,18 +8,16 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
 import java.util.SortedSet;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.Message;
 import by.malinouski.horserace.logic.entity.Race;
-import by.malinouski.horserace.logic.racing.RacesCallable;
 import by.malinouski.horserace.logic.racing.RacesRunner;
 import by.malinouski.horserace.logic.racing.RacesSchedule;
 
@@ -28,21 +26,17 @@ import by.malinouski.horserace.logic.racing.RacesSchedule;
  *
  */
 public class StartRacesReceiver extends CommandReceiver {
-
-	/**
-	 * @param requestMap
-	 */
-	public StartRacesReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-	}
-
+	private static final Logger logger = 
+			LogManager.getLogger(StartRacesReceiver.class);
+	
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<? extends Entity> act() {
+	public Entity act(Entity entity) {
 		
 		SortedSet<Race> races;
+		Message message = new Message("Races not started (localize!!!)");
 		try {
 			races = new RaceDao().selectNextRaces();
 			if (!races.isEmpty()) {
@@ -50,12 +44,13 @@ public class StartRacesReceiver extends CommandReceiver {
 				races.forEach(race -> schedule.addRace(race));
 				RacesRunner runner = RacesRunner.getInstance();
 				runner.run(races);
-				return Optional.of(races.first());
+				message.setText("Races started (localize!!!)");
 			}
 		} catch (DaoException e) {
 			logger.error("Problems with getting races " + e);
 		}
-		return Optional.empty();
+		
+		return message;
 	}
 
 }

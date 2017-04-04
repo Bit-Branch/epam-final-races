@@ -1,6 +1,7 @@
 package by.malinouski.horserace.listener;
 
 import javax.servlet.AsyncEvent;
+import javax.servlet.AsyncListener;
 import javax.servlet.annotation.WebListener;
 
 import org.apache.logging.log4j.LogManager;

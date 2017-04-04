@@ -13,17 +13,17 @@
 		</li>
 	</ul>
 </nav>
-<h4>Welcome ${ sessionScope.user.login }!</h4><br/>
-Balance ${ sessionScope.user.balance }
+<h4>Welcome ${ sessionScope.User.login }!</h4><br/>
+Balance ${ sessionScope.User.balance }
 <section id="races">
 	<h3><fmt:message key="nav.races"/></h3>
-	<a href="${ pageContext.servletContext.contextPath }/main?requestType=schedule">
+	<a href="${ pageContext.servletContext.contextPath }/main?command=schedule">
 		<fmt:message key="nav.schedule"/>
 	</a>
-	<a href="${ pageContext.servletContext.contextPath }/main?requestType=results">
+	<a href="${ pageContext.servletContext.contextPath }/main?command=results">
 		<fmt:message key="nav.results"/>
 	</a>
-	<c:forEach var="race" items="${ entities }">
+	<c:forEach var="race" items="${ EntityContainer.entities }">
 		<table id="races-table">
 			<thead>
 				<tr>Date and Time</tr>
@@ -51,15 +51,15 @@ Balance ${ sessionScope.user.balance }
 </section>
 <section id="my-bets">
 	<h3><fmt:message key="nav.bets"/></h3>
-	<a href="${ pageContext.servletContext.contextPath }/main?requestType=allBets">
+	<a href="${ pageContext.servletContext.contextPath }/main?command=all_bets">
 		<fmt:message key="label.allBets"/>
 	</a></li>
 	<section id="place-bet">
 		<h4><fmt:message key="header.placeBet"/></h4>
 		<form id="place-bet" action="${ pageContext.servletContext.contextPath }/placeBet" 
 									method="post" onsubmit="return placeBet()">
-			<input type="hidden" name="requestType" value="placeBet"/>
-			<input type="hidden" name="login" value="${ sessionScope.login }"/>
+			<input type="hidden" name="command" value="place_bet"/>
+			<input type="hidden" name="login" value="${ sessionScope.User.login }"/>
 			<fmt:message key="label.raceDateTime"/>:
 			<input type="datetime-local" name="raceDateTime" required/>
 			<input type="number" name="amount" required
@@ -83,7 +83,7 @@ Balance ${ sessionScope.user.balance }
 	</section>
 </section>
 <section id="results">
-	${ sessionScope.bet }
+	${ sessionScope.Bet }
 	<h4><fmt:message key="header.results"/></h4>
 	<div id="content"></div>
 	<c:forEach var="unit" items="${ applicationScope.results.horseUnits }">

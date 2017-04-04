@@ -8,16 +8,16 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.Future;
 
-import by.malinouski.horserace.constant.RequestMapKeys;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.NoRacesScheduledException;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.Message;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.racing.RacesResults;
 
@@ -26,36 +26,28 @@ import by.malinouski.horserace.logic.racing.RacesResults;
  *
  */
 public class CancelRaceReceiver extends CommandReceiver {
-
-	/**
-	 * @param requestMap
-	 */
-	public CancelRaceReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-		// TODO Auto-generated constructor stub
-	}
-
+	private static final Logger logger = 
+			LogManager.getLogger(CancelRaceReceiver.class);
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<? extends Entity> act() {
-		String[] dateStr = (String[]) requestMap.get(RequestMapKeys.DATETIME);
-		LocalDateTime dateTime = LocalDateTime.parse(dateStr[0]);
-		
+	public Entity act(Entity entity) {
+		Race race = (Race) entity;
 		RacesResults results = RacesResults.getInstance();
 		try {
-			Future<Race> futureRace = results.getFutureRace(dateTime);
+			Future<Race> futureRace = results.getFutureRace(race.getDateTime());
 			boolean isCancelled = futureRace.cancel(true);
 			if (isCancelled) {
-				new RaceDao().cancelRace(dateTime);
+				new RaceDao().cancelRace(race);
+				return new Message("Race cancelled (LOCALIZE)");
 			}
 		} catch (NoRacesScheduledException e) {
 			logger.error("There are no races at the specified time " + e);
 		} catch (DaoException e) {
 			logger.error("Couldn't adjust database for cancellation " + e);
 		}
-		return Optional.empty();
+		return new Message("Encountered problems");
 	}
 
 }

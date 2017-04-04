@@ -52,6 +52,10 @@ public class Bet implements Entity {
 		this.horsesInBet = horsesInBet;
 	}
 	
+	public Bet() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public enum BetType {
 		WIN, SHOW, PLACE, QUINELLA, EXACTA, TRIFECTA
 	}
@@ -86,6 +90,10 @@ public class Bet implements Entity {
 		return amount;
 	}
 	
+	public BigDecimal getWinning() {
+		return winning;
+	}
+
 	/**
 	 * Sets the winning amount,
 	 * can be done only once
@@ -100,20 +108,37 @@ public class Bet implements Entity {
 		}
 	}
 	
-	public BigDecimal getWinning() {
-		return winning;
-	}
-	
 	public List<Integer> getHorsesInBet() {
 		return Collections.unmodifiableList(horsesInBet);
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setType(BetType type) {
+		this.type = type;
+	}
+
+	public void setRaceDateTime(LocalDateTime raceDateTime) {
+		this.raceDateTime = raceDateTime;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	public void setHorsesInBet(List<Integer> horsesInBet) {
+		this.horsesInBet = horsesInBet;
 	}
 	
 	@Override
 	public String toString() {
 		return String.format(
 				"Bet: id %d, user %s, race %s, type %s, "
-				+ "horses in bet %s, amount %s, winning %s",
-				betId, user.getLogin(), raceDateTime, type, 
-				horsesInBet, amount, winning);
+						+ "horses in bet %s, amount %s, winning %s",
+						betId, user.getLogin(), raceDateTime, type, 
+						horsesInBet, amount, winning);
 	}
 }
+

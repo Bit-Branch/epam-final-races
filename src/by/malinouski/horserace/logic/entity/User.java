@@ -15,6 +15,7 @@ public class User implements Entity {
 	private Role role;
 	private String login;
 	private BigDecimal balance;
+	private transient String password;
 	
 	public User(long id, Role role, String login, BigDecimal balance) {
 		userId = id;
@@ -23,6 +24,9 @@ public class User implements Entity {
 		this.balance = balance;
 	}
 	
+	public User() {
+	}
+
 	public long getUserId() {
 		return userId;
 	}
@@ -39,6 +43,31 @@ public class User implements Entity {
 		return balance;
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+
 	public enum Role {
 		USER, ADMIN
 	}

@@ -4,8 +4,6 @@ import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
 import javax.servlet.annotation.WebListener;
 
-import by.malinouski.horserace.constant.PathConsts;
-
 /**
  * Application Lifecycle Listener implementation class RaceResultsListener
  *

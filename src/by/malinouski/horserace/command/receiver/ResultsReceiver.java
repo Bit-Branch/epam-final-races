@@ -8,18 +8,15 @@
  */
 package by.malinouski.horserace.command.receiver;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Queue;
 import java.util.SortedSet;
-import java.util.concurrent.Future;
 
-import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.EntityContainer;
 import by.malinouski.horserace.logic.entity.Race;
 
 /**
@@ -27,29 +24,24 @@ import by.malinouski.horserace.logic.entity.Race;
  *
  */
 public class ResultsReceiver extends CommandReceiver {
+	private static final Logger logger = 
+			LogManager.getLogger(StartRacesReceiver.class);
 
-	/**
-	 * @param requestMap
-	 */
-	public ResultsReceiver(Map<String, Object> requestMap) {
-		super(requestMap);
-	}
 
 	/* (non-Javadoc)
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Optional<? extends Entity> act() {
+	public Entity act(Entity entity) {
 		RaceDao dao = new RaceDao();
+		EntityContainer<Race> racesCont = new EntityContainer<>();
 		try {
 			SortedSet<Race> raceSet = dao.selectPastRaces();
-			requestMap.put(RequestMapKeys.ENTITIES, raceSet);
+			racesCont.setEntities(raceSet);
 		} catch (DaoException e) {
 			logger.error("Exception while preparing results: " + e);
-		} finally {
-			requestMap.put(RequestMapKeys.REDIRECT_PATH, PathConsts.HOME);
-		}
-		return Optional.empty();
+		} 
+		return racesCont;
 	}
 
 }
