@@ -94,7 +94,7 @@ public class BetDao extends Dao {
 				bet.setBetId(resSet.getLong(1));
 			}
 		} catch (SQLException e) {
-			throw new DaoException("Couldn't insert bet " + e.getMessage());
+			throw new DaoException("Couldn't insert bet: " + e.getMessage());
 		} finally {
 			pool.returnConnection(conn);
 		}

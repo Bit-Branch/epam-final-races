@@ -25,7 +25,7 @@ public class NumericConsts {
 	public static final double EXTRA_PROB = 0.05;
 	public static final int HUNDRED = 100;
 	public static final int TEN = 10;
-	public static final long RACING_THREAD_SLEEP_TIME = 30000;
+	public static final long RACING_THREAD_SLEEP_TIME = 30;
 	public static final int ONE_HORSE = 1;
 	public static final int TWO_HORSES = 2;
 	public static final int WIN_INDEX = 0;
@@ -36,7 +36,7 @@ public class NumericConsts {
 	public static final double DIVISOR_COEFF = 1.1;
 	public static final double MIN_FACTOR = 1.1;
 	public static final double USER_INIT_BALANCE = 100;
-	public static final int MAX_SCHEDULE_ENTRIES = 100;
+	public static final int MAX_RACES = 100;
 
 	private NumericConsts() {
 	}

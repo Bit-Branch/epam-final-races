@@ -16,6 +16,7 @@ import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.parser.BetParser;
 import by.malinouski.horserace.parser.RacesSeriesParser;
 import by.malinouski.horserace.parser.EntityParser;
+import by.malinouski.horserace.parser.RaceParser;
 import by.malinouski.horserace.parser.UserParser;
 
 /**

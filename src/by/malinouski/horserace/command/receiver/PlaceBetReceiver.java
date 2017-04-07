@@ -17,9 +17,11 @@ import java.util.concurrent.FutureTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.BundleConsts;
 import by.malinouski.horserace.dao.BetDao;
 import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
+import by.malinouski.horserace.logic.betting.BetCallable;
 import by.malinouski.horserace.logic.betting.BetsWinTester;
 import by.malinouski.horserace.logic.betting.WinAmountCalculator;
 import by.malinouski.horserace.logic.entity.Bet;
@@ -46,31 +48,10 @@ public class PlaceBetReceiver extends CommandReceiver {
 			Bet bet = (Bet) entity;
 			BetDao betDao = new BetDao();
 			betDao.placeBet(bet);
-				
-			RacesResults results = RacesResults.getInstance();
 			
-			FutureTask<Bet> futureBet = new FutureTask<>(() -> {
-				LocalDateTime dateTime = bet.getRaceDateTime();
-				Future<Race> futureRace = results.getFutureRace(dateTime);
-				Race finishedRace = futureRace.get(); // waiting here
-				
-				BetsWinTester tester = new BetsWinTester();
-				WinAmountCalculator calc = new WinAmountCalculator();
-				
-				if (tester.isWinning(bet, finishedRace.getFinalPositions())) {
-					logger.debug("is winning " + bet);
-					BigDecimal win = calc.calculate(bet, finishedRace);
-					logger.debug("win " + win);
-					bet.setWinning(win);
-					betDao.updateWinBet(bet);
-				} else {
-					bet.setWinning(BigDecimal.ZERO);
-				}
-				
-				new UserDao().updateBalance(bet);
-				return bet;
-			});
-			
+			BetCallable betCall = new BetCallable(bet);
+			FutureTask<Bet> futureBet = new FutureTask<>(betCall);
+			futureBet.run();
 			return new FutureEntity<>(futureBet);
 		} catch (CancellationException e) {
 			logger.warn("Race was cancelled " + e.getMessage());
@@ -78,7 +59,7 @@ public class PlaceBetReceiver extends CommandReceiver {
 			logger.error("Exception while placing or updating bet " + e);
 		}
 
-		return new Message("Encountered problems (localize!!)");
+		return new Message(BundleConsts.PROBLEM_OCCURED);
 	}
 
 }

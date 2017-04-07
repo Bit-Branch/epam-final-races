@@ -6,6 +6,7 @@ package by.malinouski.horserace.command.receiver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.BundleConsts;
 import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
@@ -17,7 +18,6 @@ import by.malinouski.horserace.logic.entity.User;
  */
 public class LoginReceiver extends CommandReceiver {
 	static final Logger logger = LogManager.getLogger(LoginReceiver.class);
-	private static final String NO_MATCH_FOUND = "Passwords do not match. Please try again (need to localize!!!)";
 	
 	@Override
 	public Entity act(Entity entity) {
@@ -33,11 +33,11 @@ public class LoginReceiver extends CommandReceiver {
 			if (isUserFound) {
 				return user;
 			} else {
-				return new Message(NO_MATCH_FOUND);
+				return new Message(BundleConsts.NO_MATCH_FOUND);
 			}
 		} catch (DaoException e) {
 			logger.error("Error while finding user: " + e);
-			return new Message("Mistake");
+			return new Message(BundleConsts.PROBLEM_OCCURED);
 		}
 	}
 

@@ -16,6 +16,7 @@ package by.malinouski.horserace.logic.entity;
  * @author makarymalinouski
  */
 public class HorseUnit implements Entity, Cloneable {
+	private static final long serialVersionUID = 1L;
 	private Horse horse;
 	private Odds odds;
 	private double realProb;

@@ -11,5 +11,9 @@
 					pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required/><br/> 
 	<input type="submit" name="submit" value="Submit"/>
 </form>
-<p id="message">${ Message.text }</p>
+<p id="message">
+	<c:if test="${ !empty requestScope.Message }">
+		<fmt:message key="${ requestScope.Message.text }"/><br>
+	</c:if>
+</p>
 <%@ include file="footer.jspf" %>

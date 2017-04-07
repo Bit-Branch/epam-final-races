@@ -11,6 +11,7 @@ package by.malinouski.horserace.command.receiver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.BundleConsts;
 import by.malinouski.horserace.dao.UserDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
@@ -36,15 +37,14 @@ public class DeleteProfileReceiver extends CommandReceiver {
 			if (dao.findUser(user)) {
 				dao.deleteUser(user);
 				logger.debug("deleting user");
-				return new Message(
-						"User deleted. You will not be able to login again. (need to localize)");
+				return new Message(BundleConsts.USER_DELETED);
 			} else {
 				logger.debug("not deleting user");
-				return new Message("Coulnd't delete (need to localize this)");
+				return new Message(BundleConsts.USER_NOT_DELETED);
 			}
 		} catch (DaoException e) {
 			logger.error("Exception while deleting user " + e.getMessage());
-			return new Message("Problem occured (need to localize this)");
+			return new Message(BundleConsts.PROBLEM_OCCURED);
 		} 
 	}
 

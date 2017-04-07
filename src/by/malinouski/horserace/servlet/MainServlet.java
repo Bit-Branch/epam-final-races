@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +15,8 @@ import by.malinouski.horserace.command.Command;
 import by.malinouski.horserace.connection.ConnectionPool;
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.Message;
 import by.malinouski.horserace.logic.entity.User;
 import by.malinouski.horserace.parser.EntityParser;
 import by.malinouski.horserace.parser.factory.EntityParserFactory;
@@ -51,8 +50,8 @@ public class MainServlet extends HttpServlet {
 		
 		request.getServletContext().log("Log level is enabled: " + logger.getLevel());
 		
+		request.getSession().removeAttribute(RequestConsts.MESSAGE);
 		User user = (User) request.getSession().getAttribute(RequestConsts.USER);
-		logger.debug(user);
 		String commandStr = request.getParameter(RequestConsts.COMMAND_PARAM);
 		Command command = Command.valueOf(commandStr.toUpperCase());
 		
@@ -62,11 +61,11 @@ public class MainServlet extends HttpServlet {
 		Entity retEntity = command.execute(reqEntity);
 		
 		String name = retEntity.getClass().getSimpleName();
-		if (RequestConsts.MESSAGE.equals(name)) {
-			request.setAttribute(name, retEntity);
-		} else {
-			request.getSession().setAttribute(name, retEntity);
-		}
+//		if (RequestConsts.MESSAGE.equals(name)) {
+//			request.setAttribute(name, retEntity);
+//		} else {
+		request.getSession().setAttribute(name, retEntity);
+//		}
 	}
 	
 	@Override

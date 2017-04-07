@@ -18,6 +18,7 @@ import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.EntityContainer;
 import by.malinouski.horserace.logic.entity.Race;
+import by.malinouski.horserace.logic.racing.RacesCache;
 
 
 /**
@@ -35,10 +36,9 @@ public class ScheduleReceiver extends CommandReceiver {
 		EntityContainer<Race> racesCont = new EntityContainer<>();
 		RaceDao dao = new RaceDao();
 		try {
-//			RacesSchedule schedule = RacesSchedule.getInstance();
-//			schedule.getUpcommingRaces();
 			SortedSet<Race> raceSet = dao.selectNextRaces();
 			racesCont.setEntities(raceSet);
+			racesCont.setEntityName(Race.class.getSimpleName());
 		} catch (DaoException e) {
 			logger.error("Exception while preparing schedule: " + e);
 		}

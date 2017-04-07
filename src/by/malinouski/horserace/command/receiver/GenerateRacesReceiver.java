@@ -17,6 +17,7 @@ import java.util.SortedSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.BundleConsts;
 import by.malinouski.horserace.dao.HorseDao;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
@@ -30,7 +31,7 @@ import by.malinouski.horserace.logic.generator.HorsesLineupGenerator;
 import by.malinouski.horserace.logic.generator.HorsesOddsGenerator;
 import by.malinouski.horserace.logic.generator.RacesGenerator;
 import by.malinouski.horserace.logic.racing.RacesRunner;
-import by.malinouski.horserace.logic.racing.RacesSchedule;
+import by.malinouski.horserace.logic.racing.RacesCache;
 
 /**
  * @author makarymalinouski
@@ -42,11 +43,8 @@ public class GenerateRacesReceiver extends CommandReceiver {
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public 
-//	Map<String, Entity>
-	Entity act(Entity entity) {
+	public Entity act(Entity entity) {
 		
-//		Map<String, Entity> entityMap = new ConcurrentHashMap<>();
 		RacesSeries series = (RacesSeries) entity;
 		
 		HorseDao horseDao = new HorseDao();
@@ -68,24 +66,19 @@ public class GenerateRacesReceiver extends CommandReceiver {
 			
 			SortedSet<Race> races = racesGen.generate(datetime, numRaces, 
 														interval, units);
-			
 			new RaceDao().insertNewRaces(races);
-			RacesSchedule schedule = RacesSchedule.getInstance();
-			races.forEach(race -> schedule.addRace(race));
+			RacesCache cache = RacesCache.getInstance();
+			races.forEach(race -> cache.addRace(race));
 			
 			RacesRunner runner = RacesRunner.getInstance();
 			runner.run(races);
 			
-			Message message = new Message("Races where generated (need to localize!)");
-//			entityMap.put(RequestMapKeys.MESSAGE, message);
-			return message;
+			return new Message(BundleConsts.RACES_GENERATED);
+			
 		} catch (DaoException e) {
 			logger.error("Exception while accessing db: " + e);
-//			entityMap.put(RequestMapKeys.MESSAGE, 
-			return new Message("not generated");
+			return new Message(BundleConsts.RACES_NOT_GENERATED);
 		}
-		
-//		return entityMap;
 	}
 
 }

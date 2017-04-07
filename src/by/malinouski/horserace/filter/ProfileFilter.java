@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.constant.PathConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
+import by.malinouski.horserace.constant.RequestConsts;
 
 /**
  * Servlet Filter implementation class ProfileFilter
@@ -38,8 +38,8 @@ public class ProfileFilter implements Filter {
 			ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-		logger.debug(req.getSession().getAttribute(RequestMapKeys.USER));
-		if (req.getSession().getAttribute(RequestMapKeys.USER) != null) {
+		logger.debug(req.getSession().getAttribute(RequestConsts.USER));
+		if (req.getSession().getAttribute(RequestConsts.USER) != null) {
 			logger.info("chaining");
 			chain.doFilter(request, response);
 		} else {

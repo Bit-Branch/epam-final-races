@@ -6,17 +6,16 @@
  * Instructor Ihar Blinou
  * Student Makary Malinouski
  */
-package by.malinouski.horserace.parser.factory;
+package by.malinouski.horserace.parser;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 
-import by.malinouski.horserace.constant.RequestMapKeys;
+import by.malinouski.horserace.constant.ParamsMapKeys;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.entity.User;
-import by.malinouski.horserace.parser.EntityParser;
 
 /**
  * @author makarymalinouski
@@ -29,7 +28,7 @@ public class RaceParser extends EntityParser {
 	 */
 	@Override
 	public Entity parse(Map<String, String[]> paramMap, User user) {
-		String dateStr = paramMap.get(RequestMapKeys.DATETIME)[0];
+		String dateStr = paramMap.get(ParamsMapKeys.DATETIME)[0];
 		LocalDateTime dateTime = LocalDateTime.parse(dateStr);
 		
 		Race race = new Race(dateTime, Collections.emptyList());

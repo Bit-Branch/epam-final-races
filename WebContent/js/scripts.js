@@ -4,17 +4,17 @@ $(function() {
 //	$.get("ajax", function(data) {
 //		console.log(data);
 //	});
-	$.getScript('js/pagination.js', function() {
-	    $("#races-table") 
-		    .tablesorter({widthFixed: true, widgets: ['zebra']}) 
-		    .tablesorterPager({container: $("#pager")}); 
-	});
+	
+	var iframe = $('#results');
+	setTimeout(function() { iframe.src = iframe.src; }, 30000);
+	
+	
 });
 function placeBet() {
-	var formdata = new FormData($("#place-bet")[0]);
-	$.post("placeBet", formdata).done(function(data) {
+	var formdata = new FormData($("#place-bet"));
+	$.post("placeBet", formdata, function(data) {
 		console.log(data);
-		$(".content#results").html(data);
+		$("#content").html(data);
 	});
 	console.log("works");
 	return false;

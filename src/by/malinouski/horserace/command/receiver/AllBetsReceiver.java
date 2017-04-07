@@ -40,6 +40,7 @@ public class AllBetsReceiver extends CommandReceiver {
 			BetDao dao = new BetDao();
 			SortedSet<Bet> bets = dao.selectBetsByUser(user);
 			betsContainer.setEntities(bets);
+			betsContainer.setEntityName(Bet.class.getSimpleName());
 		} catch (DaoException | WinAmountAlreadySetException e) {
 			logger.error("Couldn't retreive bets " + e.getMessage());
 		} 

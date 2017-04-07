@@ -10,7 +10,7 @@ package by.malinouski.horserace.parser;
 
 import java.util.Map;
 
-import by.malinouski.horserace.constant.RequestMapKeys;
+import by.malinouski.horserace.constant.ParamsMapKeys;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.User;
 
@@ -22,8 +22,8 @@ public class UserParser extends EntityParser {
 
 	@Override
 	public Entity parse(Map<String, String[]> paramMap, User user) {
-		String login = paramMap.get(RequestMapKeys.LOGIN)[0];
-		String password = paramMap.get(RequestMapKeys.PASSWORD)[0];
+		String login = paramMap.get(ParamsMapKeys.LOGIN)[0];
+		String password = paramMap.get(ParamsMapKeys.PASSWORD)[0];
 		
 		User newUser = new User();
 		newUser.setLogin(login);

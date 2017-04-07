@@ -1,6 +1,6 @@
 package by.malinouski.horserace.constant;
 
-public class RequestMapKeys {
+public class ParamsMapKeys {
 	public static final String PARSER_TYPE = "parserType";
 	public static final String RESULT = "result";
 	public static final String PART = "part";
@@ -22,6 +22,6 @@ public class RequestMapKeys {
 	public static final String FUTURE_RESULT = "futureResult";
 	public static final String ENTITIES = "entities";
 
-	private RequestMapKeys() {
+	private ParamsMapKeys() {
 	}
 }

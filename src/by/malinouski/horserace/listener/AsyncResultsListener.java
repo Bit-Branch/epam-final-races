@@ -1,8 +1,11 @@
 package by.malinouski.horserace.listener;
 
+import java.util.Enumeration;
+
 import javax.servlet.AsyncEvent;
 import javax.servlet.AsyncListener;
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,9 +32,12 @@ public class AsyncResultsListener implements javax.servlet.AsyncListener {
     public void onComplete(AsyncEvent arg0) throws java.io.IOException { 
          // TODO Auto-generated method stub
     	logger.debug("completed " + arg0.getSuppliedRequest());
-    	Object race = arg0.getSuppliedRequest().getServletContext().getAttribute(RequestConsts.RACE);
-    	logger.debug(race);
-    	arg0.getSuppliedResponse().getWriter().write("");
+    	HttpServletRequest request = (HttpServletRequest)arg0.getSuppliedRequest();
+    	logger.debug(request.getSession().getId());
+    	Enumeration<String> attrs = request.getAttributeNames();
+    	while (attrs.hasMoreElements()) {
+    		logger.debug(request.getAttribute(attrs.nextElement()));
+    	}
     }
 
 	/**
@@ -39,6 +45,8 @@ public class AsyncResultsListener implements javax.servlet.AsyncListener {
      */
     public void onError(AsyncEvent arg0) throws java.io.IOException { 
          // TODO Auto-generated method stub
+    	logger.debug("error");
+    	arg0.getAsyncContext().complete();
     }
 
 	/**

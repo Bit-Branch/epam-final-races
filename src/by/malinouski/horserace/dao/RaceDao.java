@@ -75,6 +75,7 @@ public class RaceDao extends Dao {
 	private static final String REAL_PROB_KEY = "real_prob";
 	private static final String NUM_IN_RACE_KEY = "num_in_race";
 	private static final String FIN_POS_KEY = "fin_pos";
+	private static final String LIMIT = " LIMIT ";
 	
 	/**
 	 * Prepares set of next races by fetching info from db
@@ -92,13 +93,14 @@ public class RaceDao extends Dao {
 	/**
 	 * Prepares set of past races by fetching info from db
 	 * and creating necessary objects
+	 * @param maxRaces 
 	 * @return set of past races sorted by datetime from latest to earliest
 	 * @throws DaoException
 	 */
-	public SortedSet<Race> selectPastRaces() throws DaoException {
+	public SortedSet<Race> selectPastRaces(final int maxRaces) throws DaoException {
 		SortedSet<Race> races = new TreeSet<>((r1, r2) -> 
 										r2.getDateTime().compareTo(r1.getDateTime()));
-		selectRaces(races, WHERE_DATETIME_LT_NOW);
+		selectRaces(races, WHERE_DATETIME_LT_NOW + LIMIT + maxRaces);
 		return races;
 	}
 	
@@ -112,8 +114,6 @@ public class RaceDao extends Dao {
 	private void selectRaces(SortedSet<Race> races, 
 							 final String whereClause) throws DaoException {
 		Connection conn = pool.getConnection();
-		SortedSet<HorseUnit> units = new TreeSet<>((u1, u2) -> 
-				Integer.compare(u1.getNumberInRace(), u2.getNumberInRace()));
 		
 		try (PreparedStatement stm = 
 				conn.prepareStatement(SELECT_RACES + whereClause)) {
@@ -121,6 +121,8 @@ public class RaceDao extends Dao {
 			boolean hasRow = res.next();
 			
 			while (hasRow) {
+				SortedSet<HorseUnit> units = new TreeSet<>((u1, u2) -> 
+					Integer.compare(u1.getNumberInRace(), u2.getNumberInRace()));
 				Timestamp timestamp = res.getTimestamp(DATETIME_KEY);
 				List<HorseUnit> unitsList = 
 						new ArrayList<>(NumericConsts.NUM_HORSES_IN_RACE);

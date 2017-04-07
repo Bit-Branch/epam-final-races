@@ -39,16 +39,19 @@
 		</form>
 		<fmt:message key="label.startGeneratedRaces"/>
 		<a type="button" href="${ pageContext.servletContext.contextPath }/main?command=start_races">
-			<fmt:message key="button.start"/>	
+			<fmt:message key="button.start"/>
 		</a>
 	</section>
 	<section>
 		<h4><fmt:message key="label.cancelRace"/></h4>
-		<form action="${ pageContext.servletContext.contextPath }/admin" method="POST">
+		<form action="${ pageContext.servletContext.contextPath }/main" method="POST">
 			<input type="hidden" name="command" value="cancel_race"/>
-			<input type="datetime-local" name="raceDateTime" 
+			<input type="datetime-local" name="raceDateTime" required 
 						placeholder="<fmt:message key="label.raceDateTime"/>"/>
-			<input type="submit" name="cancelRace" value="<fmt:message key="button.cancel"/>">
+			<input type="submit" name="cancelRace" value="<fmt:message key="button.cancel"/>"/>
 	</section>
 </section>
-${ Message.text }
+<c:if test="${ !empty sessionScope.Message }">
+	<fmt:message key="${ sessionScope.Message.text }"/><br>
+</c:if>
+${ requestScope.EntityContainer.entitySet }<br>

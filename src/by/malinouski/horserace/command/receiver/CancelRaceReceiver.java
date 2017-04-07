@@ -13,6 +13,7 @@ import java.util.concurrent.Future;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.BundleConsts;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.NoRacesScheduledException;
@@ -40,14 +41,15 @@ public class CancelRaceReceiver extends CommandReceiver {
 			boolean isCancelled = futureRace.cancel(true);
 			if (isCancelled) {
 				new RaceDao().cancelRace(race);
-				return new Message("Race cancelled (LOCALIZE)");
+				logger.debug("Cancelled race");
+				return new Message(BundleConsts.RACE_CANCELLED);
 			}
 		} catch (NoRacesScheduledException e) {
 			logger.error("There are no races at the specified time " + e);
 		} catch (DaoException e) {
 			logger.error("Couldn't adjust database for cancellation " + e);
 		}
-		return new Message("Encountered problems");
+		return new Message(BundleConsts.PROBLEM_OCCURED);
 	}
 
 }

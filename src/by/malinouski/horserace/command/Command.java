@@ -18,17 +18,17 @@ import by.malinouski.horserace.command.receiver.StartRacesReceiver;
 import by.malinouski.horserace.logic.entity.Entity;
 
 public enum Command {
-	REGISTER(new RegisterReceiver()),
-	LOGIN(new LoginReceiver()),
-	SCHEDULE(new ScheduleReceiver()),
-	RESULTS(new ResultsReceiver()),
-	GENERATE_RACES(new GenerateRacesReceiver()),
-	START_RACES(new StartRacesReceiver()),
-	PLACE_BET(new PlaceBetReceiver()),
-	DELETE_PROFILE(new DeleteProfileReceiver()),
-	ALL_BETS(new AllBetsReceiver()),
-	CANCEL_BET(new CancelBetReceiver()),
-	CANCEL_RACE(new CancelRaceReceiver());
+	REGISTER (new RegisterReceiver()),
+	LOGIN (new LoginReceiver()),
+	SCHEDULE (new ScheduleReceiver()),
+	RESULTS (new ResultsReceiver()),
+	GENERATE_RACES (new GenerateRacesReceiver()),
+	START_RACES (new StartRacesReceiver()),
+	PLACE_BET (new PlaceBetReceiver()),
+	DELETE_PROFILE (new DeleteProfileReceiver()),
+	ALL_BETS (new AllBetsReceiver()),
+	CANCEL_BET (new CancelBetReceiver()),
+	CANCEL_RACE (new CancelRaceReceiver());
 	
 	private Lock lock = new ReentrantLock();
 	private CommandReceiver receiver;

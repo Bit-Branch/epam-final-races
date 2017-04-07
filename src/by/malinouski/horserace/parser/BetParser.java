@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import by.malinouski.horserace.constant.RequestMapKeys;
+import by.malinouski.horserace.constant.ParamsMapKeys;
 import by.malinouski.horserace.logic.entity.Bet;
 import by.malinouski.horserace.logic.entity.Bet.BetType;
 import by.malinouski.horserace.logic.entity.Entity;
@@ -35,10 +35,10 @@ public class BetParser extends EntityParser {
 	
 	@Override
 	public Entity parse(Map<String, String[]> paramMap, User user) {
-		String amountStr = paramMap.get(RequestMapKeys.AMOUNT)[0];
-		String betTypeStr = paramMap.get(RequestMapKeys.BET_TYPE)[0];
-		String dateTimeStr = paramMap.get(RequestMapKeys.DATETIME)[0];
-		String[] horsesNumArr = paramMap.get(RequestMapKeys.HORSE_NUMBER);
+		String amountStr = paramMap.get(ParamsMapKeys.AMOUNT)[0];
+		String betTypeStr = paramMap.get(ParamsMapKeys.BET_TYPE)[0];
+		String dateTimeStr = paramMap.get(ParamsMapKeys.DATETIME)[0];
+		String[] horsesNumArr = paramMap.get(ParamsMapKeys.HORSE_NUMBER);
 		
 		BigDecimal amount = new BigDecimal(amountStr);
 		BetType betType = BetType.valueOf(betTypeStr.toUpperCase());

@@ -11,6 +11,7 @@ package by.malinouski.horserace.logic.racing;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.dao.HorseDao;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
+import by.malinouski.horserace.exception.RaceCancelledException;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.generator.ResultsGenerator;
 
@@ -35,15 +37,15 @@ public class RacesCallable implements Callable<Race> {
 	}
 	
 	@Override
-	public Race call() {
+	public Race call() throws RaceCancelledException {
 		
 		LocalDateTime datetime = race.getDateTime();
 		logger.debug(datetime+"/now: " + LocalDateTime.now());
 		while (LocalDateTime.now().isBefore(datetime)) {
 			try { 
-				Thread.sleep(NumericConsts.RACING_THREAD_SLEEP_TIME); 
+				TimeUnit.SECONDS.sleep(NumericConsts.RACING_THREAD_SLEEP_TIME); 
 			} catch (InterruptedException e) { 
-				logger.error("Sleep interrupted: " + e); 
+				throw new RaceCancelledException("Race cancelled at " + LocalDateTime.now());
 			} 
 		}
 		ResultsGenerator gen = new ResultsGenerator();
@@ -53,6 +55,7 @@ public class RacesCallable implements Callable<Race> {
 		int winnersNumber = finalPos.get(0);
 		race.getHorseUnits().get(winnersNumber - 1).getHorse().incrNumWins();
 		race.setFinalPositions();
+		logger.debug(race.getFinalPositions());
 		race.setImmutable();
 		
 		try {

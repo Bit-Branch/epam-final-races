@@ -1,8 +1,22 @@
 
 <nav>
 	<ul>
-		<li><a href="#races"><fmt:message key="nav.races"/></a></li>
-		<li><a href="#my-bets"><fmt:message key="nav.bets"/></a></li>
+		<li><fmt:message key="nav.races"/></li>
+		<ul>
+			<li><a href="${ pageContext.servletContext.contextPath }/main?command=schedule">
+			<fmt:message key="nav.schedule"/>
+			</a></li>
+			<li><a href="${ pageContext.servletContext.contextPath }/main?command=results">
+			<fmt:message key="nav.results"/>
+			</a></li>
+		</ul>
+		<li><a href="#my-bets"><fmt:message key="nav.bets"/></a>
+		<ul>
+			<li><a href="${ pageContext.servletContext.contextPath }/main?command=all_bets">
+			<fmt:message key="label.allBets"/>
+			</a></li>
+		</ul>
+		</li>
 		<li><a href="${ pageContext.servletContext.contextPath }/jsp/profile.jsp">
 			<fmt:message key="nav.profile"/>
 		</li>
@@ -13,78 +27,85 @@
 		</li>
 	</ul>
 </nav>
-<h4>Welcome ${ sessionScope.User.login }!</h4><br/>
-Balance ${ sessionScope.User.balance }
-<section id="races">
-	<h3><fmt:message key="nav.races"/></h3>
-	<a href="${ pageContext.servletContext.contextPath }/main?command=schedule">
-		<fmt:message key="nav.schedule"/>
-	</a>
-	<a href="${ pageContext.servletContext.contextPath }/main?command=results">
-		<fmt:message key="nav.results"/>
-	</a>
-	<c:forEach var="race" items="${ EntityContainer.entities }">
-		<table id="races-table">
-			<thead>
-				<tr>Date and Time</tr>
-				<tr>
-					<td>Number</td>
-					<td>Name</td>
-					<td>Age</td>
-					<td>Odds</td>
-					<td>Finish</td>
-			</thead>
-			<tbody>
-				<tr><td colspan=5><c:out value="${ race.dateTime }"/></td></tr>
-				<c:forEach var="horseUnit" items="${ race.horseUnits }">
-				<tr>
-					<td><c:out value="${ horseUnit.numberInRace }"/></td>
-					<td><c:out value="${ horseUnit.horse.name }"/></td>
-					<td><c:out value="${ horseUnit.horse.age }"/></td>
-					<td><c:out value="${ horseUnit.odds }"/></td>
-					<td><c:out value="${ horseUnit.finalPosition }"/></td>
-				</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:forEach>
+<section id="content">
+	<h4><fmt:message key="label.welcome"/> ${ sessionScope.User.login }!</h4><br/>
+	Balance ${ sessionScope.User.balance }
+	
+	${ sessionScope.EntityContainer.entityAmount }<br>
+	${ sessionScope.EntityContainer.entityName }<br>
+	
+	<c:if test="${ !empty requestScope.Message }">
+		<fmt:message key="${ requestScope.Message.text }"/><br>
+	</c:if>
+	
+	<c:if test="${ sessionScope.EntityContainer.entityName eq 'Race' }">
+		<h3><fmt:message key="nav.races"/></h3>
+		<c:set var="from" value="${ 0 }"/>
+		<c:set var="to" value="${ 10 }"/>
+		<c:forEach var="race" items="${ sessionScope.EntityContainer.getEntities(0, 10)}">
+			<table id="races-table">
+				<thead>
+					<tr>Date and Time</tr>
+					<tr>
+						<td>Number</td>
+						<td>Name</td>
+						<td>Age</td>
+						<td>Odds</td>
+						<td>Finish</td>
+				</thead>
+				<tbody>
+					<tr><td colspan=5><c:out value="${ race.dateTime }"/></td></tr>
+					<c:forEach var="horseUnit" items="${ race.horseUnits }">
+					<tr>
+						<td><c:out value="${ horseUnit.numberInRace }"/></td>
+						<td><c:out value="${ horseUnit.horse.name }"/></td>
+						<td><c:out value="${ horseUnit.horse.age }"/></td>
+						<td><c:out value="${ horseUnit.odds }"/></td>
+						<td><c:out value="${ horseUnit.finalPosition }"/></td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table> 
+		</c:forEach>
+	</c:if>
+	<c:if test="${ sessionScope.EntityContainer.entityName eq 'Bet' }">
+		<h3><fmt:message key="nav.bets"/></h3>
+		<c:forEach var="bet" items="${ sessionScope.EntityContainer.getEntities(0, 10) }">
+			<c:out value="${ bet }"/><br>
+		</c:forEach>	
+	</c:if>
 </section>
-<section id="my-bets">
-	<h3><fmt:message key="nav.bets"/></h3>
-	<a href="${ pageContext.servletContext.contextPath }/main?command=all_bets">
-		<fmt:message key="label.allBets"/>
-	</a></li>
-	<section id="place-bet">
-		<h4><fmt:message key="header.placeBet"/></h4>
-		<form id="place-bet" action="${ pageContext.servletContext.contextPath }/placeBet" 
-									method="post" onsubmit="return placeBet()">
-			<input type="hidden" name="command" value="place_bet"/>
-			<input type="hidden" name="login" value="${ sessionScope.User.login }"/>
-			<fmt:message key="label.raceDateTime"/>:
-			<input type="datetime-local" name="raceDateTime" required/>
-			<input type="number" name="amount" required
-					placeholder="<fmt:message key="label.amount"/>"/><br/>
-			
-			win<input type="radio" name="betType" value="win" checked/>
-			show<input type="radio" name="betType" value="show"/>
-			place<input type="radio" name="betType" value="place"/>
-			quinella<input type="radio" name="betType" value="quinella"/>
-			exacta<input type="radio" name="betType" value="exacta"/>
-			trifecta<input type="radio" name="betType" value="trifecta"/><br/>
-			
-			<input type="number" min="1" name="horseNumber" required
-					placeholder="<fmt:message key="label.horse1Number"/>"/>
-			<input type="number" min="1" name="horseNumber"
-					placeholder="<fmt:message key="label.horse2Number"/>"/>
-			<input type="number" min="1" name="horseNumber"
-					placeholder="<fmt:message key="label.horse3Number"/>"/>
-			<input type="submit" value="<fmt:message key="button.submit"/>"/>
-		</form>
-	</section>
+<section id="place-bet">
+	<h4><fmt:message key="header.placeBet"/></h4>
+	<form id="place-bet" action="${ pageContext.servletContext.contextPath }/placeBet" 
+								method="post" onsubmit="return placeBet()">
+		<input type="hidden" name="command" value="place_bet"/>
+		<input type="hidden" name="login" value="${ sessionScope.User.login }"/>
+		<fmt:message key="label.raceDateTime"/>:
+		<input type="datetime-local" name="raceDateTime" required/>
+		<input type="number" name="amount" required
+				placeholder="<fmt:message key="label.amount"/>"/><br/>
+		
+		win<input type="radio" name="betType" value="win" checked/>
+		show<input type="radio" name="betType" value="show"/>
+		place<input type="radio" name="betType" value="place"/>
+		quinella<input type="radio" name="betType" value="quinella"/>
+		exacta<input type="radio" name="betType" value="exacta"/>
+		trifecta<input type="radio" name="betType" value="trifecta"/><br/>
+		
+		<input type="number" min="1" name="horseNumber" required
+				placeholder="<fmt:message key="label.horse1Number"/>"/>
+		<input type="number" min="1" name="horseNumber"
+				placeholder="<fmt:message key="label.horse2Number"/>"/>
+		<input type="number" min="1" name="horseNumber"
+				placeholder="<fmt:message key="label.horse3Number"/>"/>
+		<input type="submit" value="<fmt:message key="button.submit"/>"/>
+	</form>
 </section>
+
 <section id="results">
-	${ sessionScope.Bet }
 	<h4><fmt:message key="header.results"/></h4>
+	${ sessionScope.Bet }
 	<div id="content"></div>
 	<c:forEach var="unit" items="${ applicationScope.results.horseUnits }">
 		<c:out value="${ unit.horse }"/><br>

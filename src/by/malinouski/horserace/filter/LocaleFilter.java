@@ -36,7 +36,6 @@ public class LocaleFilter implements Filter {
 									req.getParameter(RequestConsts.COUNTRY));
 		res.setLocale(locale);
 		logger.debug(locale.getLanguage());
-		logger.debug(req.getHeader(RequestConsts.REFERER));
 		req.getSession().setAttribute(RequestConsts.LOCALE, locale);
 		res.sendRedirect(req.getHeader(RequestConsts.REFERER));
 	}

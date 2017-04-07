@@ -12,4 +12,8 @@
 	</form>
 </section>
 
+<c:if test="${ !empty requestScope.Message }">
+	<fmt:message key="${ requestScope.Message.text }"/><br>
+</c:if>
+
 <%@ include file="footer.jspf" %>

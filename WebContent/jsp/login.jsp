@@ -5,7 +5,11 @@
 	<input type="password" name="password" placeholder="<fmt:message key="label.password"/>" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{6,}$" required/><br/>
 	<input type="submit" value="<fmt:message key="button.submit"/>"/>
 </form>
-<p id="message">${ Message.text }</p>
+<p id="message">
+	<c:if test="${ !empty sessionScope.Message }">
+		<fmt:message key='${ sessionScope.Message.text }'/><br>
+	</c:if>
+</p>
 <a href="${ pageContext.servletContext.contextPath }/jsp/register.jsp">
 <fmt:message key="label.register"/>
 </a><br>

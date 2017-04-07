@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 
 import by.malinouski.horserace.constant.PathConsts;
 import by.malinouski.horserace.constant.RequestConsts;
-import by.malinouski.horserace.constant.RequestMapKeys;
 
 
 /**

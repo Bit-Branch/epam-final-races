@@ -11,7 +11,7 @@ package by.malinouski.horserace.parser;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import by.malinouski.horserace.constant.RequestMapKeys;
+import by.malinouski.horserace.constant.ParamsMapKeys;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.RacesSeries;
 import by.malinouski.horserace.logic.entity.User;
@@ -29,9 +29,9 @@ public class RacesSeriesParser extends EntityParser {
 	 */
 	@Override
 	public Entity parse(Map<String, String[]> paramMap, User user) {
-		String dateTimeStr = paramMap.get(RequestMapKeys.START_DATETIME)[0];
-		String numRacesStr = paramMap.get(RequestMapKeys.NUM_OF_RACES)[0];
-		String intervalStr = paramMap.get(RequestMapKeys.INTERVAL_BT_RACES)[0];
+		String dateTimeStr = paramMap.get(ParamsMapKeys.START_DATETIME)[0];
+		String numRacesStr = paramMap.get(ParamsMapKeys.NUM_OF_RACES)[0];
+		String intervalStr = paramMap.get(ParamsMapKeys.INTERVAL_BT_RACES)[0];
 
 		LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr); 
 		int numRaces = Integer.parseInt(numRacesStr); 

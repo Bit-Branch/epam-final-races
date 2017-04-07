@@ -13,13 +13,14 @@ import java.util.SortedSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.malinouski.horserace.constant.BundleConsts;
 import by.malinouski.horserace.dao.RaceDao;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.Message;
 import by.malinouski.horserace.logic.entity.Race;
 import by.malinouski.horserace.logic.racing.RacesRunner;
-import by.malinouski.horserace.logic.racing.RacesSchedule;
+import by.malinouski.horserace.logic.racing.RacesCache;
 
 /**
  * @author makarymalinouski
@@ -36,15 +37,15 @@ public class StartRacesReceiver extends CommandReceiver {
 	public Entity act(Entity entity) {
 		
 		SortedSet<Race> races;
-		Message message = new Message("Races not started (localize!!!)");
+		Message message = new Message(BundleConsts.RACES_NOT_STARTED);
 		try {
 			races = new RaceDao().selectNextRaces();
 			if (!races.isEmpty()) {
-				RacesSchedule schedule = RacesSchedule.getInstance();
+				RacesCache schedule = RacesCache.getInstance();
 				races.forEach(race -> schedule.addRace(race));
 				RacesRunner runner = RacesRunner.getInstance();
 				runner.run(races);
-				message.setText("Races started (localize!!!)");
+				message.setText(BundleConsts.RACES_STARTED);
 			}
 		} catch (DaoException e) {
 			logger.error("Problems with getting races " + e);

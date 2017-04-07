@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<fmt:setLocale value="${ sessionScope.locale }" scope="session"/>
-		<fmt:setBundle basename="resources.pagecontent"/>
+		<fmt:setBundle basename="resources.bundle.pagecontent"/>
 		<title><fmt:message key="label.title"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <%-- 		<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/js/jquery-3.1.1.slim.js"></script> --%>
