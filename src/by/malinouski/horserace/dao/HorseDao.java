@@ -38,9 +38,10 @@ public class HorseDao extends Dao {
 	private static final String TOT_WINS_KEY = "tot_wins";
 	
 	public Set<Horse> selectAllHorses() throws DaoException {
-		Connection conn = pool.getConnection();
+		
 		Set<Horse> horses = new HashSet<>();
-		try (PreparedStatement stm = conn.prepareStatement(SELECT_ALL)) {
+		try (Connection conn = pool.getConnection();
+				PreparedStatement stm = conn.prepareStatement(SELECT_ALL)) {
 			ResultSet res = stm.executeQuery();
 			while (res.next()) {
 				horses.add(new Horse(res.getLong(ID_KEY), 
@@ -52,15 +53,13 @@ public class HorseDao extends Dao {
 			return horses;
 		} catch (SQLException e) {
 			throw new DaoException("Exception while selecting horses: " + e);
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 
 	public void updateHorsesAfterRace(Horse winner) throws DaoException {
-		Connection conn = pool.getConnection();
 		
-		try (PreparedStatement numRacesStm = 
+		try (Connection conn = pool.getConnection();
+			 PreparedStatement numRacesStm = 
 					 conn.prepareStatement(UPDATE_NUM_RACES);
 			 PreparedStatement numWinsStm  = 
 					 conn.prepareStatement(UPDATE_NUM_WINS)) {
@@ -69,8 +68,6 @@ public class HorseDao extends Dao {
 			numWinsStm.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("Couldn't update " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 }

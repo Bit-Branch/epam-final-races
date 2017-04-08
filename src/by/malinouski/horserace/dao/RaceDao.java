@@ -113,9 +113,9 @@ public class RaceDao extends Dao {
 	
 	private void selectRaces(SortedSet<Race> races, 
 							 final String whereClause) throws DaoException {
-		Connection conn = pool.getConnection();
 		
-		try (PreparedStatement stm = 
+		try (Connection conn = pool.getConnection();
+  			 PreparedStatement stm = 
 				conn.prepareStatement(SELECT_RACES + whereClause)) {
 			ResultSet res = stm.executeQuery();
 			boolean hasRow = res.next();
@@ -157,10 +157,7 @@ public class RaceDao extends Dao {
 			}
 		} catch (SQLException e) {
 			throw new DaoException("\nException while accessing database: " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
-		}
-
+		} 
 	}
 
 	/**
@@ -169,9 +166,9 @@ public class RaceDao extends Dao {
 	 * @throws DaoException
 	 */
 	public void updateResults(Race race) throws DaoException {
-		Connection conn = pool.getConnection();
 		
-		try (PreparedStatement update = conn.prepareStatement(UPDATE_RACES)) {
+		try (Connection conn = pool.getConnection();
+			PreparedStatement update = conn.prepareStatement(UPDATE_RACES)) {
 			Timestamp stamp = Timestamp.valueOf(race.getDateTime());
 			
 			for (HorseUnit unit : race.getHorseUnits()) {
@@ -185,8 +182,6 @@ public class RaceDao extends Dao {
 			
 		} catch (SQLException e) {
 			throw new DaoException("Exception while updating results: " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 
@@ -196,8 +191,9 @@ public class RaceDao extends Dao {
 	 * @throws DaoException
 	 */
 	public void insertNewRaces(SortedSet<Race> races) throws DaoException {
-		Connection conn = pool.getConnection();
-		try (PreparedStatement insertRacesStm = conn.prepareStatement(INSERT_NEW_RACES);
+
+		try (Connection conn = pool.getConnection();
+			 PreparedStatement insertRacesStm = conn.prepareStatement(INSERT_NEW_RACES);
 			 PreparedStatement insertStatStm = conn.prepareStatement(INSERT_NEW_RACES_STAT)) {
 			
 			for (Race race : races) {
@@ -223,23 +219,19 @@ public class RaceDao extends Dao {
 			
 		} catch (SQLException e) {
 			throw new DaoException("Couldn't insert: " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 
 	public void cancelRace(Race race) throws DaoException {
-		Connection conn = pool.getConnection();
 
-		try (PreparedStatement cancel = conn.prepareStatement(CANCEL_RACE)) {
+		try (Connection conn = pool.getConnection();
+				PreparedStatement cancel = conn.prepareStatement(CANCEL_RACE)) {
 			cancel.setBoolean(1, true);
 			cancel.setTimestamp(2, Timestamp.valueOf(race.getDateTime()));
 			cancel.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("RaceDao: " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
-		}		
+		}	
 	}
 
 	

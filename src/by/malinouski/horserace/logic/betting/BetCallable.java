@@ -27,7 +27,7 @@ import by.malinouski.horserace.logic.racing.RacesResults;
  *
  */
 public class BetCallable implements Callable<Bet> {
-	private static final Logger logger = 
+	private static Logger logger = 
 			LogManager.getLogger(BetCallable.class);
 	private Bet bet;
 

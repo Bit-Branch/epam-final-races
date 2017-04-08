@@ -18,7 +18,7 @@ import by.malinouski.horserace.connection.ConnectionPool;
  *
  */
 public abstract class Dao {
-	static final Logger logger = LogManager.getLogger(Dao.class);
+	static  Logger logger = LogManager.getLogger(Dao.class);
 	protected ConnectionPool pool;
 	
 	public Dao() {

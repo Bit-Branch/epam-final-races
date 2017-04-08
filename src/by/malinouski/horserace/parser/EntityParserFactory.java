@@ -6,18 +6,13 @@
  * Instructor Ihar Blinou
  * Student Makary Malinouski
  */
-package by.malinouski.horserace.parser.factory;
+package by.malinouski.horserace.parser;
 
 import java.util.Map;
 
 import by.malinouski.horserace.command.Command;
 import by.malinouski.horserace.logic.entity.Entity;
 import by.malinouski.horserace.logic.entity.User;
-import by.malinouski.horserace.parser.BetParser;
-import by.malinouski.horserace.parser.RacesSeriesParser;
-import by.malinouski.horserace.parser.EntityParser;
-import by.malinouski.horserace.parser.RaceParser;
-import by.malinouski.horserace.parser.UserParser;
 
 /**
  * @author makarymalinouski

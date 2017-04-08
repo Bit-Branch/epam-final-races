@@ -25,7 +25,7 @@ import by.malinouski.horserace.logic.entity.User;
  * @author makarymalinouski
  *
  */
-public class AllBetsReceiver extends CommandReceiver {
+public class AllBetsReceiver extends CommandReceiver<User> {
 	private static final Logger logger = 
 			LogManager.getLogger(AllBetsReceiver.class);
 	
@@ -33,8 +33,8 @@ public class AllBetsReceiver extends CommandReceiver {
 	 * @see by.malinouski.horserace.command.receiver.CommandReceiver#act()
 	 */
 	@Override
-	public Entity act(Entity entity) {
-		User user = (User) entity;
+	public User act(User user) {
+	///	User user = (User) entity;
 		EntityContainer<Bet> betsContainer = new EntityContainer<>();
 		try {
 			BetDao dao = new BetDao();

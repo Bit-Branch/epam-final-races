@@ -30,7 +30,7 @@ public class ProxyConnection implements Connection {
 
 	private Connection conn;
 
-	public ProxyConnection(Connection conn) {
+	 ProxyConnection(Connection conn) {
 		this.conn = conn;
 	}
 
@@ -118,7 +118,15 @@ public class ProxyConnection implements Connection {
 	 * @see java.sql.Connection#close()
 	 */
 	@Override
-	public void close() throws SQLException {
+	public void close() {
+		ConnectionPool.getConnectionPool().returnConnection(this);
+	}
+	
+	/**
+	 * Really closes the proxied connection
+	 * @throws SQLException
+	 */
+	void reallyClose() throws SQLException {
 		conn.close();
 	}
 

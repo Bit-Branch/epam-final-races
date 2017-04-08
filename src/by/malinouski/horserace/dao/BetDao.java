@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import by.malinouski.horserace.connection.ConnectionPool;
 import by.malinouski.horserace.constant.NumericConsts;
 import by.malinouski.horserace.exception.DaoException;
 import by.malinouski.horserace.exception.WinAmountAlreadySetException;
@@ -61,13 +62,12 @@ public class BetDao extends Dao {
 	 * Inserts a new bet into database.
 	 * Sets the bet id (mutating bet parameter)
 	 * @param bet
-	 * @return id of the inserted bet
 	 * @throws DaoException
 	 */
 	public void placeBet(Bet bet) throws DaoException {
-		Connection conn = pool.getConnection();
 		
-		try (PreparedStatement insertNewBet = conn.prepareStatement(INSERT_NEW_BET);
+		try (Connection conn = ConnectionPool.getConnectionPool().getConnection();
+			 PreparedStatement insertNewBet = conn.prepareStatement(INSERT_NEW_BET);
 			 PreparedStatement lastInsId = conn.prepareStatement(LAST_INS_ID)) {
 			/* users_id, races_datetime, bets_types_id,   *
 			 * horses_id1, horses_id2, horses_id3, amount */
@@ -95,22 +95,18 @@ public class BetDao extends Dao {
 			}
 		} catch (SQLException e) {
 			throw new DaoException("Couldn't insert bet: " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 
 	public void updateWinBet(Bet bet) throws DaoException {
-		Connection conn = pool.getConnection();
 		
-		try (PreparedStatement updateBet = conn.prepareStatement(UPDATE_WINNING)) {
+		try (Connection conn = ConnectionPool.getConnectionPool().getConnection();
+			 PreparedStatement updateBet = conn.prepareStatement(UPDATE_WINNING)) {
 			updateBet.setBigDecimal(1, bet.getWinning());
 			updateBet.setLong(2,  bet.getBetId());
 			updateBet.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("Couldn't update bet " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 
@@ -122,12 +118,16 @@ public class BetDao extends Dao {
 	 * @throws WinAmountAlreadySetException 
 	 */
 	public SortedSet<Bet> selectBetsByUser(User user) 
-								throws DaoException, WinAmountAlreadySetException {
-		Connection conn = pool.getConnection();
-		SortedSet<Bet> bets = new TreeSet<>((b1, b2) -> 
-								b1.getRaceDateTime().compareTo(b2.getRaceDateTime()));
+							throws DaoException, WinAmountAlreadySetException {
 		
-		try (PreparedStatement selectBets = conn.prepareStatement(SELECT_BY_USER)) {
+		SortedSet<Bet> bets = new TreeSet<>((b1, b2) -> 
+											b1.getRaceDateTime().compareTo(
+											b2.getRaceDateTime())
+										);
+		
+		try (Connection conn = ConnectionPool.getConnectionPool().getConnection();
+			 PreparedStatement selectBets = conn.prepareStatement(SELECT_BY_USER)) {
+			
 			selectBets.setLong(1, user.getUserId());
 			ResultSet res = selectBets.executeQuery();
 			
@@ -156,17 +156,15 @@ public class BetDao extends Dao {
 	}
 
 	public void cancelBet(Bet bet) throws DaoException {
-		Connection conn = pool.getConnection();
 
-		try (PreparedStatement cancel = conn.prepareStatement(CANCEL_BET)) {
+		try (Connection conn = ConnectionPool.getConnectionPool().getConnection();
+				PreparedStatement cancel = conn.prepareStatement(CANCEL_BET)) {
 			cancel.setBoolean(1, true);
 			cancel.setLong(2, bet.getBetId());
 			cancel.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("BetDao: " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
-		}	
+		}
 		
 	}
 

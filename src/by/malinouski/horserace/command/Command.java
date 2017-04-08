@@ -16,6 +16,7 @@ import by.malinouski.horserace.command.receiver.ResultsReceiver;
 import by.malinouski.horserace.command.receiver.ScheduleReceiver;
 import by.malinouski.horserace.command.receiver.StartRacesReceiver;
 import by.malinouski.horserace.logic.entity.Entity;
+import by.malinouski.horserace.logic.entity.EntityContainer;
 
 public enum Command {
 	REGISTER (new RegisterReceiver()),
@@ -30,19 +31,14 @@ public enum Command {
 	CANCEL_BET (new CancelBetReceiver()),
 	CANCEL_RACE (new CancelRaceReceiver());
 	
-	private Lock lock = new ReentrantLock();
-	private CommandReceiver receiver;
 	
-	Command(CommandReceiver receiver) {
+	private CommandReceiver<? extends Entity> receiver;
+	
+	Command(CommandReceiver<? extends Entity> receiver) {
 		this.receiver = receiver;
 	}
 	
-	public Entity execute(Entity entity) {
-		lock.lock();
-		try {
-			return receiver.act(entity);
-		} finally {
-			lock.unlock();
-		}
+	public EntityContainer<? extends Entity> execute(Entity entity) {	
+		return receiver.act(entity);
 	}
 }

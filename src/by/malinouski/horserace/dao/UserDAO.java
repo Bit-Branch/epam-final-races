@@ -50,9 +50,10 @@ public class UserDao extends Dao {
 	 * @throws DaoException
 	 */
 	public boolean findUser(User user) throws DaoException {
-		Connection conn = pool.getConnection();
 
-		try (PreparedStatement statement = conn.prepareStatement(CHECK_PASS)) {
+		try (Connection conn = pool.getConnection();
+				PreparedStatement statement = conn.prepareStatement(CHECK_PASS)) {
+			
 			statement.setString(1, user.getLogin());
 			statement.setString(2, user.getPassword());
 			ResultSet res = statement.executeQuery();
@@ -77,8 +78,6 @@ public class UserDao extends Dao {
 			return hasRow;
 		} catch (SQLException e) { 
 			throw new DaoException(e);
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 	
@@ -90,10 +89,10 @@ public class UserDao extends Dao {
 	 * @throws DaoException
 	 */
 	public boolean addUser(User user) throws DaoException {
-		Connection conn = pool.getConnection();
 		BigDecimal balance = BigDecimal.valueOf(NumericConsts.USER_INIT_BALANCE);
 
-		try (PreparedStatement insertStatement = conn.prepareStatement(INSERT_USER);
+		try (Connection conn = pool.getConnection();
+				PreparedStatement insertStatement = conn.prepareStatement(INSERT_USER);
 				PreparedStatement lastIdStatement = conn.prepareStatement(LAST_ID)) {
 			insertStatement.setString(1, user.getLogin());
 			insertStatement.setString(2, user.getPassword());
@@ -116,29 +115,26 @@ public class UserDao extends Dao {
 			return succeeded;
 		} catch (SQLException e) { 
 			throw new DaoException(e);
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 
 	public void deleteUser(User user) throws DaoException {
-		Connection conn = pool.getConnection();
 
-		try (PreparedStatement deleteUser = conn.prepareStatement(DELETE_USER)) {
+		try (Connection conn = pool.getConnection();
+				PreparedStatement deleteUser = conn.prepareStatement(DELETE_USER)) {
 			deleteUser.setBoolean(1, true);
 			deleteUser.setLong(2, user.getUserId());
 			deleteUser.executeUpdate();
 		} catch (SQLException e) {
 			throw new DaoException("UserDao: " + e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
 		}
 	}
 
 	public void updateBalance(Bet bet) throws DaoException {
-		Connection conn = pool.getConnection();
 		BigDecimal updateAmount = bet.getWinning().subtract(bet.getAmount());
-		try (PreparedStatement updateBalance = 
+
+		try (Connection conn = pool.getConnection();
+				PreparedStatement updateBalance = 
 						conn.prepareStatement(INCR_USER_BALANCE)) {
 			updateBalance.setBigDecimal(1, updateAmount);
 			updateBalance.setLong(2, bet.getUser().getUserId());
@@ -146,9 +142,6 @@ public class UserDao extends Dao {
 		} catch (SQLException e) {
 			throw new DaoException("Exception updating balance" 
 													+ e.getMessage());
-		} finally {
-			pool.returnConnection(conn);
 		}
-		
 	}
 }

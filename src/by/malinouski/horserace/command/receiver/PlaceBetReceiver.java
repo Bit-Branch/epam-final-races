@@ -36,7 +36,7 @@ import by.malinouski.horserace.logic.racing.RacesResults;
  *
  */
 public class PlaceBetReceiver extends CommandReceiver {
-	private static final Logger logger = 
+	private static Logger logger = 
 			LogManager.getLogger(PlaceBetReceiver.class);
 
 	/* (non-Javadoc)
