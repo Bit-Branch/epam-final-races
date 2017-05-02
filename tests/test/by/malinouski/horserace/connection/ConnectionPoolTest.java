@@ -4,18 +4,18 @@ package test.by.malinouski.horserace.connection;
 import org.junit.AfterClass;
 import org.junit.Test;
 
-import by.malinouski.horserace.connection.ConnectionPool;
+import by.malinouski.hrace.connection.ConnectionPool;
 
 public class ConnectionPoolTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		ConnectionPool.getConnectionPool().close();
+		ConnectionPool.getInstance().close();
 	}
 
 	@Test
 	public void test() {
-		ConnectionPool.getConnectionPool(); 
+		ConnectionPool.getInstance(); 
 	}
 
 }

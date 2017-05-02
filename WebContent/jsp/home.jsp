@@ -1,7 +1,7 @@
 <%@ include file="header.jspf" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	
-	<main class="content">
+	<div class="content">
 	
 		<c:if test="${ sessionScope.User.role eq 'USER' }">
 			<%@ include file="user.jspf" %>
@@ -12,6 +12,6 @@
 		<c:if test="${ empty sessionScope.User }">
 			<jsp:forward page="/index.jsp"></jsp:forward>
 		</c:if>
-    </main>
+    </div>
 <%@ include file="footer.jspf" %>
 

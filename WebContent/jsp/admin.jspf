@@ -8,7 +8,7 @@
 				<fmt:message key="nav.results"/>
 			</a>
 		</li><li>
-			<a href="#manage-races">
+			<a href="${ pageContext.servletContext.contextPath }/index.jsp">
 				<fmt:message key="nav.manageRaces"/>
 			</a>
 		</li><li>
@@ -18,40 +18,11 @@
 		</li>
 	</ul>
 </nav>
-<section id ="schedule">
-	<h3><fmt:message key="nav.schedule"/></h3>
-	
-</section>
-<section id="results">
-	<h3><fmt:message key="nav.results"/></h3>
 
+<section id="schedule">
+	<%@ include file="content.jspf" %>
 </section>
-<section id="manage-races">
-	<h3><fmt:message key="nav.manageRaces"/></h3>
-	<section id="gen-races">
-		<h4><fmt:message key="label.generateRaces"/></h4>
-		<form action="${ pageContext.servletContext.contextPath }/main" method="POST">
-			<input type="hidden" name="command" value="generate_races"/>
-			<input type="number" min="1" name="numberOfRaces" placeholder="<fmt:message key="label.numRaces"/>"/>
-			<input type="datetime-local" name="startDateTime" placeholder="<fmt:message key="label.startDateTime"/>"/>
-			<input type="number" min="1" name="interval" placeholder="<fmt:message key="label.interval"/>"/>
-			<input type="submit" name="startRaces" value="<fmt:message key="button.start"/>">
-		</form>
-		<fmt:message key="label.startGeneratedRaces"/>
-		<a type="button" href="${ pageContext.servletContext.contextPath }/main?command=start_races">
-			<fmt:message key="button.start"/>
-		</a>
-	</section>
-	<section>
-		<h4><fmt:message key="label.cancelRace"/></h4>
-		<form action="${ pageContext.servletContext.contextPath }/main" method="POST">
-			<input type="hidden" name="command" value="cancel_race"/>
-			<input type="datetime-local" name="raceDateTime" required 
-						placeholder="<fmt:message key="label.raceDateTime"/>"/>
-			<input type="submit" name="cancelRace" value="<fmt:message key="button.cancel"/>"/>
-	</section>
+
+<section id="side">
+	<%@ include file="manageRaces.jspf" %>
 </section>
-<c:if test="${ !empty sessionScope.Message }">
-	<fmt:message key="${ sessionScope.Message.text }"/><br>
-</c:if>
-${ requestScope.EntityContainer.entitySet }<br>

@@ -10,32 +10,34 @@
 		<fmt:setBundle basename="resources.bundle.pagecontent"/>
 		<title><fmt:message key="label.title"/></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%-- 		<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/js/jquery-3.1.1.slim.js"></script> --%>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/js/scripts.js"></script>
-		
-<%-- 		
+<%-- 	 	<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/js/jquery-3.1.1.slim.js"></script>
+ --%>
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ 		<script type="text/javascript" src="${ pageContext.servletContext.contextPath }/js/scripts.js"></script>		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="https://fonts.googleapis.com/css?family=Raleway|Patua+One" rel="stylesheet">        
 		<link href="${ pageContext.request.contextPath }/css/styles.css" rel="stylesheet">
- --%>	
  	</head>
 	<body>
 		<header>
 			<h1><span>U</span>Bet</h1>
 			<span class="top-nav menu" onclick="displayMenu()">&#9776;</span> <!-- not working yet -->
 			<h2><fmt:message key="label.title"/></h2>
-			<img src="${ pageContext.request.contextPath }/img/globe.png" alt="lang" width="20" onclick="togleLang()">
+			<img id="toggle-lang" src="${ pageContext.request.contextPath }/img/globe.png" 
+					alt="lang" width="20" onclick="toggleLang()">
+		</header>
+		<main class="container">
 			<ul class="lang" id="ul-lang">
 				<li>
-					<a href="${ pageContext.request.contextPath }/locale?lang=en&cntr=US" class="top-nav lang">en</a>
+					<a href="${ pageContext.request.contextPath }/locale?lang=en&cntr=US" 
+							class="top-nav lang">&ensp;en</a>
 				</li>
 				<li>
-					<a href="${ pageContext.request.contextPath }/locale?lang=be&cntr=BY" class="top-nav lang">be</a>
+					<a href="${ pageContext.request.contextPath }/locale?lang=be&cntr=BY" 
+							class="top-nav lang">&ensp;be</a>
 				</li>
 				<li>
-					<a href="${ pageContext.request.contextPath }/locale?lang=ru&cntr=RU" class="top-nav lang">ru</a>
+					<a href="${ pageContext.request.contextPath }/locale?lang=ru&cntr=RU" 
+							class="top-nav lang">&ensp;ru</a>
 				</li>
 			</ul>
-		</header>
-		<div class="container">

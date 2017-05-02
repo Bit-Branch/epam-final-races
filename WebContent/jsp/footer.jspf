@@ -1,9 +1,4 @@
-		<a href="${pageContext.servletContext.contextPath }">Back</a>  
-		</div>
-		<aside>
-			<section>
-			</section>
-		</aside>
+		</main>
 		<footer>
 			<p>&#169;makarymalinouski</p>
 		</footer>

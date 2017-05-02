@@ -4,7 +4,7 @@ body {
 }
 
 header {
-	font-family: 'Patua One', cursive;
+	font-family: 'Patua One';
 	letter-spacing: 1.3px;
     background-color: #529A97;
     color: white;
@@ -20,6 +20,53 @@ header {
 header .lang {
 	position: fixed;	
 	top: 30px;
+	right: 15px;
+}
+
+#ul-lang {
+	position: fixed;
+	top: 20px;
+    right: 45px;
+	visibility: hidden;
+    list-style-type: circle;
+    z-index: 6;
+}
+
+#ul-lang li {
+	display: inline;
+	padding: 10px;
+		
+}
+
+#ul-lang a {
+	text-decoration: none;
+	color: #000000;
+}
+
+#ul-lang a::before {
+	content: " ";
+}
+
+input {
+    height: 20px;
+    background-color: rgba(255,255,255,0.7);
+    border: solid 1px wheat;
+    margin: 1px;
+    padding: 2px;
+}
+
+input[type="submit"] {
+    height: 30px;
+    padding: 10px;
+    background-color: #E7F2F0;
+    font-size: small;
+    line-height: 5px;
+    border: none;
+}
+
+#toggle-lang {
+	position: fixed;
+	top: 37px;
 	right: 15px;
 }
 
@@ -43,32 +90,43 @@ h2 {
 
 h3 {
 	margin: 5px;
-	background: #F2E17E;
+/* 	background: #F2E17E; */
 }
 
+main {
+	position: absolute;
+	top: 120px;
+}
+
+#login, #register {
+	background-color: rgba(167,139,127,0.6);
+/* 	border: 3px solid rgba(167,139,127, 0.6); */	
+	padding: 30px;	
+}
 
 nav {
 	display: none;
-	top: 120px;
-	left: 20px;
+	top: -40px;
+	left: -15px;
 	position: relative;
-	background-color: transparent;
+	background-color: rgba(167,139,127,0.6);
 	font-size: 1.5em;
+	padding-right: 10px; 
 
-}
-
-nav a {
-		color: #ffffff;
-}
-
-nav ul {
-	list-style: square;	
 }
 
 nav a:hover {
-	background-color: white;
-	color: #92006F;
-	margin-top: 2px;
+	background-color: rgba(136, 54, 68, 0.8);
+}
+  
+nav ul {
+   	list-style-type: none;
+}
+
+nav a:link, nav a:visited {
+	text-decoration: none;
+	margin: 5px;
+	color: antiquewhite;
 }
 
 .top-nav.menu {
@@ -78,6 +136,46 @@ nav a:hover {
 	left: 15px;
 	font-size: 1.3em;
 	margin-right: 5px;
+}
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    min-width: 200px;
+    background-color: black;
+    color: #fff;
+    font-size: small;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.pass:hover + .tooltiptext {
+    visibility: visible;
+}
+
+#info {
+	height: 380px;
+    width: auto;
+    overflow: auto;
+    background-color: rgba(255,255,255,0.7);
+    padding: 20px; 
+    display: inline-block;
+}
+
+#welcome {
+	color: white;
+	min-width: 200px; 
+}
+
+#side {
+	background: rgba(245,222,179,0.4);
+	padding: 10px;
 }
 
 .news {
@@ -101,6 +199,28 @@ ul.news {
 	opacity: 1;
 }
 
+#manage-races {
+	background: rgba(255,255,255,0.6);
+	padding: 10px;
+}
+
+table {
+	border: solid wheat;
+	padding: 10px;
+}
+
+table .datetime-row {
+	background-color: #E7F2F0;
+}
+
+table thead {
+	background-color: wheat;
+}
+
+table td {
+	padding: 5px;
+}
+
 aside {
 	display: none;
 }
@@ -119,13 +239,10 @@ aside {
 
     nav {
     	display: inline-block;
-    	top: 80px;
+    	top: -40px;
     	font-size: 1em;
     }
-    
-    nav a {
-    	margin: 5px;
-    }
+  
 
     li.lang {
     	display: none;
@@ -148,6 +265,20 @@ aside {
 		right: 220px
 	}
 	
+	#info, #welcome {
+	    left: 250px;
+	    top: -40px;
+	    position: absolute;
+    }
+	
+	section .profile {
+		left: 45%
+	}
+	
+	#results {
+		background-color: rgba(255,255,255,0.6);
+	}
+	
 	footer {
 		position: absolute;
 		bottom: 10px;
@@ -155,23 +286,32 @@ aside {
 		color: #ffffff;
 	}
 	
-	aside {
+	#side {
 		display: block;
 		position: fixed;
 		right: 0px;
 		top: 70px;
-		width: 200px;
+		width: 250px;
 		height: 100%;
-		background: #ffffff;
-		opacity: 0.5;
-		padding: 10px;
+	    overflow: auto;
 	}
 	
+	#race-gif {
+		width: 230px;
+	}
+	
+	table#fin-pos {
+		margin-top: 10px;
+	}
 } 
 
 @media only screen and (max-width: 1000px) and (min-width: 768px) {
 	section.news {
 		width: 45%;
+	}
+	
+	nav {
+		display: inline-block;
 	}
 }
 

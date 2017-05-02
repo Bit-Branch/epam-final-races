@@ -11,10 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import by.malinouski.horserace.logic.entity.Horse;
-import by.malinouski.horserace.logic.entity.HorseUnit;
-import by.malinouski.horserace.logic.generator.HorsesOddsGenerator;
-import by.malinouski.horserace.logic.generator.ResultsGenerator;
+import by.malinouski.hrace.logic.entity.Horse;
+import by.malinouski.hrace.logic.entity.HorseUnit;
+import by.malinouski.hrace.logic.generator.HorsesOddsGenerator;
+import by.malinouski.hrace.logic.generator.ResultsGenerator;
 
 @RunWith(Parameterized.class)
 public class GeneratorsTest {

@@ -1,0 +1,18 @@
+<table id="fin-results">
+	<thead>
+		<tr>
+			<td><fmt:message key='table.finishPos'/></td>
+			<td><fmt:message key='table.horseNumber'/></td>
+			<td><fmt:message key='table.horseName'/></td>
+		</tr>
+	</thead>
+	<body>
+		<tr class="row-1"></tr>
+		<tr class="row-2"></tr>
+		<tr class="row-3"></tr>
+		<tr class="row-4"></tr>
+		<tr class="row-5"></tr>
+		<tr class="row-6"></tr>
+		<tr class="row-7"></tr>
+	</body>
+</table>

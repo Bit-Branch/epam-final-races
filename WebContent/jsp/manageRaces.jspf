@@ -1,0 +1,35 @@
+<section id="manage-races">
+	<h3><fmt:message key="nav.manageRaces"/></h3>
+	<section id="gen-races">
+		<h4><fmt:message key="label.generateRaces"/></h4>
+		<form action="${ pageContext.servletContext.contextPath }/main" method="POST">
+			<input type="hidden" name="command" value="generate_races"/>
+			<input type="number" min="1" name="numberOfRaces" placeholder="<fmt:message key="label.numRaces"/>"/>
+			<input type="datetime-local" name="startDateTime" placeholder="<fmt:message key="label.startDateTime"/>"/>
+			<input type="number" min="1" name="interval" placeholder="<fmt:message key="label.interval"/>"/>
+			<input type="submit" name="startRaces" value="<fmt:message key="button.start"/>">
+		</form>
+		<form action="${ pageContext.servletContext.contextPath }/main">
+			<input type="hidden" name="command" value="start_races"/>
+			<p><fmt:message key="label.startGeneratedRaces"/>:</p>
+			<input type="submit" name="cancelRace" value="<fmt:message key="button.start"/>"/>
+		</form>
+	</section>
+	<section>
+		<h4><fmt:message key="label.cancelRace"/>:</h4>
+		<form action="${ pageContext.servletContext.contextPath }/main" method="POST">
+			<input type="hidden" name="command" value="cancel_race"/>
+			<input type="datetime-local" name="raceDateTime" required 
+						placeholder="<fmt:message key="label.raceDateTime"/>"/>
+			<input type="submit" name="cancelRace" value="<fmt:message key="button.cancel"/>"/>
+		</form>
+		<form action="${ pageContext.servletContext.contextPath }/main" method="POST">
+			<input type="hidden" name="command" value="cancel_all_races"/>
+			<p><fmt:message key="label.cancelAllRaces"/>:</p>
+			<input type="submit" name="cancelRace" value="<fmt:message key="button.cancel"/>"/>
+		</form>
+	</section>
+	<c:if test="${ !empty Message }">
+		<p id="message"><fmt:message key="${ Message.text }"/></p><br>
+	</c:if>
+</section>
