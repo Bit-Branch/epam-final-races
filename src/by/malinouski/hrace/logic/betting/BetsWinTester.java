@@ -40,44 +40,44 @@ public class BetsWinTester {
 		boolean isWinning = false;
 
 		switch(type) {
-		case WIN:
-		case EXACTA:
-		case TRIFECTA:
-			isWinning = true;
-			ListIterator<Integer> iter = horsesInBet.listIterator();
-			while (iter.hasNext()) {
-				int index = iter.nextIndex();
-				int horseNum = iter.next();
-				logger.debug(String.format("finPos %s: %s - %s", 
-								index, finPos.get(index), horseNum));
-				
-				if (horseNum != finPos.get(index)) {
-					isWinning = false;
-					break;
+			case WIN:
+			case EXACTA:
+			case TRIFECTA:
+				isWinning = true;
+				ListIterator<Integer> iter = horsesInBet.listIterator();
+				while (iter.hasNext()) {
+					int index = iter.nextIndex();
+					int horseNum = iter.next();
+					logger.debug(String.format("finPos %s: %s - %s", 
+									index, finPos.get(index), horseNum));
+					
+					if (horseNum != finPos.get(index)) {
+						isWinning = false;
+						break;
+					}
+					
 				}
+				break;
 				
-			}
-			break;
-			
-		case QUINELLA:
-			isWinning =	horsesInBet.contains(
-								finPos.get(NumericConsts.WIN_INDEX)) &&
-						horsesInBet.contains(
-								finPos.get(NumericConsts.SHOW_INDEX));
-			break;
-			
-		case SHOW:
-			int pos = finPos.indexOf(horsesInBet.get(0));
-			isWinning = pos == NumericConsts.WIN_INDEX || 
-						pos == NumericConsts.SHOW_INDEX;
-			break;
-			
-		case PLACE:
-			int pos2 = finPos.indexOf(horsesInBet.get(0));
-			isWinning = pos2 == NumericConsts.WIN_INDEX || 
-						pos2 == NumericConsts.SHOW_INDEX ||
-						pos2 == NumericConsts.PLACE_INDEX;
-			break;
+			case QUINELLA:
+				isWinning =	horsesInBet.contains(
+									finPos.get(NumericConsts.WIN_INDEX)) &&
+							horsesInBet.contains(
+									finPos.get(NumericConsts.SHOW_INDEX));
+				break;
+				
+			case SHOW:
+				int pos = finPos.indexOf(horsesInBet.get(0));
+				isWinning = pos == NumericConsts.WIN_INDEX || 
+							pos == NumericConsts.SHOW_INDEX;
+				break;
+				
+			case PLACE:
+				int pos2 = finPos.indexOf(horsesInBet.get(0));
+				isWinning = pos2 == NumericConsts.WIN_INDEX || 
+							pos2 == NumericConsts.SHOW_INDEX ||
+							pos2 == NumericConsts.PLACE_INDEX;
+				break;
 		}
 		
 		return isWinning;

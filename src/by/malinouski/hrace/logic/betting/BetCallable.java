@@ -57,7 +57,9 @@ public class BetCallable implements Callable<Bet> {
 			bet.setWinning(BigDecimal.ZERO);
 		}
 		
-		BigDecimal newBalance = new UserDao().updateBalance(bet);
+		BigDecimal updateAmount = bet.getWinning().subtract(bet.getAmount());
+		bet.getUser().setBalance(updateAmount);
+		BigDecimal newBalance = new UserDao().updateBalance(bet.getUser());
 		bet.getUser().setBalance(newBalance);
 		return bet;
 	}

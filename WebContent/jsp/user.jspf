@@ -1,6 +1,10 @@
 <nav>
 	<ul>
-		<li><a href="#races"><fmt:message key="nav.races"/></a>
+		<li>
+			<a href="${ pageContext.servletContext.contextPath }/index.jsp">
+				<fmt:message key="nav.home"/>
+			</a>
+		</li><li><a href="#races"><fmt:message key="nav.races"/></a>
 			<ul>
 				<li><a href="${ pageContext.servletContext.contextPath }/main?command=schedule">
 					<fmt:message key="nav.schedule"/>
@@ -15,6 +19,15 @@
 				<li><a href="${ pageContext.servletContext.contextPath }/main?command=all_bets">
 				<fmt:message key="label.allBets"/>
 				</a></li>
+			</ul>
+		</li>
+		<li><a href="#balance"><fmt:message key="nav.balance"/></a>
+			<ul>
+				<li>
+					<a href="${ pageContext.servletContext.contextPath }/jsp/addBalance.jsp">
+						<fmt:message key="nav.addBalance"/>
+					</a>
+				</li>
 			</ul>
 		</li>
 		<li><a href="#profile"><fmt:message key="nav.profile"/></a>

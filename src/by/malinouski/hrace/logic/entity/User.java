@@ -4,6 +4,7 @@
 package by.malinouski.hrace.logic.entity;
 
 import java.math.BigDecimal;
+import java.time.YearMonth;
 
 /**
  * @author makarymalinouski
@@ -19,6 +20,7 @@ public class User implements Entity {
 	private transient String password;
 	private transient byte[] salt;
 	private transient byte[] hash;
+	private transient CreditCard card;
 	
 	public User(long id, 
 				Role role, 
@@ -66,6 +68,10 @@ public class User implements Entity {
 		return hash;
 	}
 	
+	public CreditCard getCard() {
+		return card;
+	}
+	
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
@@ -94,6 +100,10 @@ public class User implements Entity {
 		this.hash = hash;
 	}
 	
+	public void setCard(CreditCard card) {
+		this.card = card;
+	}
+	
 	public enum Role {
 		USER, ADMIN
 	}
@@ -107,5 +117,35 @@ public class User implements Entity {
 	@Override
 	public EntityType ofType() {
 		return EntityType.USER;
+	}
+	
+	public class CreditCard {
+		private long number;
+		private String name;
+		private YearMonth valid;
+		private int cvv;
+		
+		public CreditCard(long number, String name, YearMonth valid2, int cvv) {
+			this.number = number;
+			this.name = name;
+			this.valid = valid2;
+			this.cvv = cvv;
+		}
+		
+		public long getNumber() {
+			return number;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public YearMonth getValid() {
+			return valid;
+		}
+		
+		public int getCvv() {
+			return cvv;
+		}
 	}
 }

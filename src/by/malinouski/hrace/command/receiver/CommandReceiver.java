@@ -4,6 +4,6 @@ import by.malinouski.hrace.logic.entity.Entity;
 
 public abstract class CommandReceiver {
 	
-	public abstract <T extends Entity> Entity act(T entity);
+	public abstract Entity act(Entity entity);
 
 }

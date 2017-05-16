@@ -1,15 +1,15 @@
 <nav>
 	<ul>
-		<li><a href="${ pageContext.servletContext.contextPath }/main?command=schedule">
+		<li>
+			<a href="${ pageContext.servletContext.contextPath }/index.jsp">
+				<fmt:message key="nav.home"/>
+			</a>
+		</li><li><a href="${ pageContext.servletContext.contextPath }/main?command=schedule">
 				<fmt:message key="nav.schedule"/>
 			</a>
 		</li><li>
 			<a href="${ pageContext.servletContext.contextPath }/main?command=results">
 				<fmt:message key="nav.results"/>
-			</a>
-		</li><li>
-			<a href="${ pageContext.servletContext.contextPath }/index.jsp">
-				<fmt:message key="nav.manageRaces"/>
 			</a>
 		</li><li>
 			<a href="${ pageContext.servletContext.contextPath }/logout">

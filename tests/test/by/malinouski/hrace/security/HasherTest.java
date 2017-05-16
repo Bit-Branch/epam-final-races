@@ -1,4 +1,4 @@
-package test.by.malinouski.horserace.security;
+package test.by.malinouski.hrace.security;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

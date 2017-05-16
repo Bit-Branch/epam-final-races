@@ -33,6 +33,8 @@ public class EntityParserFactory {
 				return new RacesSeriesParser();
 			case CANCEL_RACE:
 				return new RaceParser();
+			case ADD_BALANCE:
+				return new CreditParser();
 			case SCHEDULE:
 			case RESULTS:
 			case START_RACES:

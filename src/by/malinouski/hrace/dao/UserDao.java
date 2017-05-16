@@ -36,10 +36,6 @@ public class UserDao {
 			"UPDATE users SET deleted = ? WHERE id = ?";
 	private static final String UPDATE_CALL = 
 			"CALL updateBalance (?, ?, ?)"; // amount, users_id, new_balance
-	private static final String INCR_USER_BALANCE = 
-			"UPDATE users SET balance = balance + ? WHERE id = ?";
-	private static final String DECR_USER_BALANCE = 
-			"UPDATE users SET balance = balance - ? WHERE id = ?";
 	private static final String UPDATE_HASH = 
 			"UPDATE users SET hash = hex(?), salt = hex(?) WHERE id = ?";
 	private static final String ID_COL = "id";
@@ -129,6 +125,12 @@ public class UserDao {
 		}
 	}
 
+	/**
+	 * Marks user as deleted.
+	 * The user is not removed from the database
+	 * @param user
+	 * @throws DaoException
+	 */
 	public void deleteUser(User user) throws DaoException {
 
 		try (Connection conn = ConnectionPool.getInstance().getConnection();
@@ -156,7 +158,34 @@ public class UserDao {
 			throw new DaoException("Exception updating balance" + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Updates balance by the amount indicated in user's balance
+	 * NOTE: the amount indicated in user is the amount to add, not the whole one
+	 * @param user
+	 * @return
+	 * @throws DaoException
+	 */
+	public BigDecimal updateBalance(User user) throws DaoException {
+		try (Connection conn = ConnectionPool.getInstance().getConnection();
+				 CallableStatement updateBalance = conn.prepareCall(UPDATE_CALL)) {
+				
+				updateBalance.setBigDecimal(1, user.getBalance());
+				updateBalance.setLong(2, user.getUserId());
+				updateBalance.registerOutParameter(3, java.sql.Types.DECIMAL);
+				updateBalance.execute();
+				return updateBalance.getBigDecimal(3);
+			} catch (SQLException e) {
+				throw new DaoException("Exception updating balance" + e.getMessage());
+			}
+	}
 
+
+	/**
+	 * Updates users password
+	 * @param user
+	 * @throws DaoException
+	 */
 	public void updatePassword(User user) throws DaoException {
 		try (Connection conn = ConnectionPool.getInstance().getConnection();
 			 PreparedStatement updateHash = conn.prepareStatement(UPDATE_HASH)) {

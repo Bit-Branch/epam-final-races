@@ -17,18 +17,24 @@
 		<input type="number" name="amount" required
 				placeholder="<fmt:message key="label.amount"/>"/><br/>
 		
-		<input type="radio" name="betType" value="win" checked/>&ensp;win<br/>
-		<input type="radio" name="betType" value="show"/>&ensp;show<br/>
-		<input type="radio" name="betType" value="place"/>&ensp;place<br/>
-		<input type="radio" name="betType" value="quinella"/>&ensp;quinella<br/>
-		<input type="radio" name="betType" value="exacta"/>&ensp;exacta<br/>
-		<input type="radio" name="betType" value="trifecta"/>&ensp;trifecta<br/>
+		<input class="one-horse" type="radio" name="betType" value="win" checked/>&ensp;win
+		<span class="tooltiptext"><fmt:message key="bets.win"/></span><br/>
+		<input class="one-horse" type="radio" name="betType" value="show"/>&ensp;show
+		<span class="tooltiptext"><fmt:message key="bets.show"/></span><br/>
+		<input class="one-horse" type="radio" name="betType" value="place"/>&ensp;place
+		<span class="tooltiptext"><fmt:message key="bets.place"/></span><br/>
+		<input class="two-horses" type="radio" name="betType" value="quinella"/>&ensp;quinella
+		<span class="tooltiptext"><fmt:message key="bets.quinella"/></span><br/>
+		<input class="two-horses" type="radio" name="betType" value="exacta"/>&ensp;exacta
+		<span class="tooltiptext"><fmt:message key="bets.exacta"/></span><br/>
+		<input class="three-horses" type="radio" name="betType" value="trifecta"/>&ensp;trifecta
+		<span class="tooltiptext"><fmt:message key="bets.trifecta"/></span><br/>
 		
-		<input type="number" min="1" name="horseNumber" required
+		<input id="first-horse" type="number" min="1" name="horseNumber" required
 				placeholder="<fmt:message key="label.horse1Number"/>"/><br/>
-		<input type="number" min="1" name="horseNumber"
+		<input id="second-horse" type="number" min="1" name="horseNumber"
 				placeholder="<fmt:message key="label.horse2Number"/>"/><br/>
-		<input type="number" min="1" name="horseNumber"
+		<input id="third-horse" type="number" min="1" name="horseNumber"
 				placeholder="<fmt:message key="label.horse3Number"/>"/><br/>
 		<input type="submit" value="<fmt:message key="button.submit"/>"/>
 	</form>

@@ -51,7 +51,7 @@ public class HorsesOddsGenerator {
 		});
 	}
 
-	/*
+	/**
 	 * Calculates absolute probability of horse's winning based on info
 	 * from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4013968/figure/fig_002/
 	 * where it is suggested that prime horse age is 5

@@ -20,7 +20,24 @@ import by.malinouski.hrace.logic.entity.Bet.BetType;
 
 /**
  * @author makarymalinouski
- *
+ * 
+ * Caclulator that calculates the amount of win.
+ * Works by multiplication principle: 
+ * bet money are multiplied by factor,
+ * which in case of 'win' bet - is odds against divided by odds for;
+ * in case of 'exacta', 'trifecta' and 'quinella', 
+ * the factor for each horse adds up,
+ * but for 'quinella' it is then divided by DOUBLE_DIVISOR;
+ * for 'place' and for 'show' the factor is divided by 
+ * TRIPLE_ and DOUBLE_DIVISOR respectively,
+ * unless that would produce a result smaller than 1. 
+ * In that case:
+ * 	for 'show' the divisor is divided by DIVISOR_COEFF
+ * 	until multiplication factor would be larger than divisor,
+ * 	and then it is divided by that divisor;
+ * 	for 'place', first DOUBLE_DIVISOR tried, 
+ * 	and if that is still smaller than one,
+ * 	the same procedure as for 'show' is followed 
  */
 public class WinAmountCalculator {
 

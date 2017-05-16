@@ -32,6 +32,29 @@ $(function() {
 	});
 	
 	$("#place-bet-form").on("submit", function(event) { placeBet(event); });
+	
+	$(".one-horse").change(function() {
+		if (this.checked) {
+	    	$("#second-horse, #third-horse").css("display", "none")
+	    									.attr("required", false);
+	    }
+	});
+	
+	$(".two-horses").change(function() {
+	    if (this.checked) {
+	    	$("#second-horse").css("display", "inline-block")
+	    						.attr("required", true);
+	    	$("#third-horse").css("display", "none")
+    							.attr("required", false);
+	    }
+	});
+	
+	$(".three-horses").change(function() {
+	    if (this.checked) {
+	    	$("#second-horse, #third-horse").css("display", "inline-block")
+	    									.attr("required", true);
+	    }
+	});
 });
 
 

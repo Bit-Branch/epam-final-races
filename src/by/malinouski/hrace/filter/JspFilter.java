@@ -20,9 +20,9 @@ import by.malinouski.hrace.constant.RequestConsts;
 /**
  * Servlet Filter implementation class ProfileFilter
  */
-@WebFilter(filterName = "profile")
-public class ProfileFilter implements Filter {
-	private static final Logger logger = LogManager.getLogger(ProfileFilter.class);
+@WebFilter(filterName = "jsp")
+public class JspFilter implements Filter {
+	private static final Logger logger = LogManager.getLogger(JspFilter.class);
 
 	/**
 	 * @see Filter#destroy()
@@ -37,7 +37,8 @@ public class ProfileFilter implements Filter {
 			ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 
-		if (req.getSession().getAttribute(RequestConsts.USER) != null) {
+		if (req.getSession().getAttribute(RequestConsts.USER) != null ||
+				req.getRequestURI().endsWith(PathConsts.REGISTER)) {
 			logger.info("chaining");
 			chain.doFilter(request, response);
 		} else {

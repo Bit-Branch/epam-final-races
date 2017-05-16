@@ -64,6 +64,10 @@ input[type="submit"] {
     border: none;
 }
 
+#second-horse, #third-horse {
+	display: none;
+}
+
 #toggle-lang {
 	position: fixed;
 	top: 37px;
@@ -129,6 +133,13 @@ nav a:link, nav a:visited {
 	color: antiquewhite;
 }
 
+.balance, .profile {
+	left: 15px;
+	position: relative;
+	background-color: rgba(167,139,127,0.6);	
+	padding: 10px;
+}
+
 .top-nav.menu {
 	position: fixed;
 	left: 10px;
@@ -141,12 +152,11 @@ nav a:link, nav a:visited {
 /* Tooltip text */
 .tooltiptext {
     visibility: hidden;
-    min-width: 200px;
     background-color: black;
     color: #fff;
     font-size: small;
     text-align: center;
-    padding: 5px 0;
+    padding: 5px;
     border-radius: 6px;
  
     /* Position the tooltip text - see examples below! */
@@ -155,7 +165,7 @@ nav a:link, nav a:visited {
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.pass:hover + .tooltiptext {
+.pass:hover + .tooltiptext, input[type=radio]:hover + .tooltiptext {
     visibility: visible;
 }
 

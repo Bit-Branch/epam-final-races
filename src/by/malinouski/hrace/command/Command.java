@@ -1,5 +1,6 @@
 package by.malinouski.hrace.command;
 
+import by.malinouski.hrace.command.receiver.AddBalanceReceiver;
 import by.malinouski.hrace.command.receiver.AllBetsReceiver;
 import by.malinouski.hrace.command.receiver.CancelAllRacesReceiver;
 import by.malinouski.hrace.command.receiver.CancelBetReceiver;
@@ -29,7 +30,8 @@ public enum Command {
 	ALL_BETS (new AllBetsReceiver()),
 	CANCEL_BET (new CancelBetReceiver()),
 	CANCEL_RACE (new CancelRaceReceiver()),
-	CANCEL_ALL_RACES(new CancelAllRacesReceiver());
+	CANCEL_ALL_RACES(new CancelAllRacesReceiver()),
+	ADD_BALANCE(new AddBalanceReceiver());
 	
 	
 	private CommandReceiver receiver;

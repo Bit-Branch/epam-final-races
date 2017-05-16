@@ -24,6 +24,12 @@ public class ParamsMapKeys {
 	public static final String OLD_PASSWORD = "oldPassword";
 	public static final String NEW_PASSWORD = "newPassword";
 	public static final String REPEAT_PASSWORD = "repeatPassword";
+	public static final String CARD_NUM = "cardNum";
+	public static final String CARDHOLDER_NAME = "cardholderName";
+	public static final String VALID_DATE = "validDate";
+	public static final String CVV_NUM = "cvvNum";
+	public static final String VALID_MONTH = "validMonth";
+	public static final String VALID_YEAR = "validYear";
 
 	private ParamsMapKeys() {
 	}

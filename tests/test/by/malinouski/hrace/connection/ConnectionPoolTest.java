@@ -1,4 +1,4 @@
-package test.by.malinouski.horserace.connection;
+package test.by.malinouski.hrace.connection;
 
 
 import org.junit.AfterClass;

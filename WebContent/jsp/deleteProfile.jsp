@@ -10,11 +10,10 @@
 			   pattern="^(?=.*\d)(?=.*[a-zA-Z]).{6,}$" required/><br/>
 		<input type="submit" value="<fmt:message key='button.delete'/>"/>
 	</form>
+	<c:if test="${ !empty Message }">
+		<fmt:message key="${ Message.text }"/><br>
+	</c:if>
+	<a href="${ pageContext.servletContext.contextPath }"><fmt:message key="button.back"/></a>
 </section>
-
-<c:if test="${ !empty Message }">
-	<fmt:message key="${ Message.text }"/><br>
-</c:if>
-<a href="${ pageContext.servletContext.contextPath }"><fmt:message key="button.back"/></a>
 
 <%@ include file="footer.jspf" %>

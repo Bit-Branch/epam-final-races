@@ -1,4 +1,4 @@
-package test.by.malinouski.horserace.logic.generator;
+package test.by.malinouski.hrace.logic.generator;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -57,7 +56,7 @@ public class GeneratorsTest {
 		
 		int smartNumWins = 0;
 		
-		// run generator sufficient number of times for statistics to become true
+		// run generator sufficient number of times for statistics to become valid
 		for (int i = 0; i < trials; i++) {
 			List<Integer> l = resGen.generate(list);
 			if (l.get(0) == 2) {
@@ -82,9 +81,8 @@ public class GeneratorsTest {
 		
 		int smartNumWins = 0;
 		
-		// run generator sufficient number of times for statistics to become true
+		// run generator sufficient number of times for statistics to become valid
 		for (int i = 0; i < trials; i++) {
-			List<Integer> l = resGen.generate(list);
 			if (list.get(list.indexOf(u2)).getFinalPosition() == 1) {
 				smartNumWins++;
 			}
@@ -112,7 +110,7 @@ public class GeneratorsTest {
 		int warCount = 0;
 		int indigoCount = 0;
 		
-		// run generator sufficient number of times for statistics to become true
+		// run generator sufficient number of times for statistics to become valid
 		for (int i = 0; i < trials; i++) {
 			List<Integer> l = resGen.generate(list);
 //			System.out.printf("%s\n%s\n", l, list);
@@ -155,8 +153,7 @@ public class GeneratorsTest {
 		 * u1 win coeff: 1/4
 		 * u1 prob: 19/16
 		 * same way u2 prob: 4/10
-		 * so, final prob u1 must be (4/10)/(19/16 + 4/10) = 95/127
-		 */
+		 * so, final prob u1 must be (4/10)/(19/16 + 4/10) = 95/127 */
 		assertEquals("must be 95/127", 95/127.0, units.get(0).getRealProb(), 0.05);
 		
 	}
