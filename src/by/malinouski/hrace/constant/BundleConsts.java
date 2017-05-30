@@ -34,7 +34,7 @@ public class BundleConsts {
 	public static final String RACE_CANCELLED = "message.raceCancelled";
 	
 	/** The Constant RACE_NOT_CANCELLED. */
-	public static final String RACE_NOT_CANCELLED = "message.raceNotCancelled";;
+	public static final String RACE_NOT_CANCELLED = "message.raceNotCancelled";
 	
 	/** The Constant RACE_FINISHED. */
 	public static final String RACE_FINISHED = "message.raceFinished";
@@ -50,6 +50,9 @@ public class BundleConsts {
 	
 	/** The Constant PASS_DONT_MATCH. */
 	public static final String PASS_DONT_MATCH = "message.passwordsDontMatch";
+
+	/** The Constant NO_SUCH_RACE */
+	public static final String NO_SUCH_RACE = "message.noSuchRace";
 
 	private BundleConsts() {
 	}

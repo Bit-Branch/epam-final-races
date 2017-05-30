@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.malinouski.hrace.constant.NumericConsts;
 import by.malinouski.hrace.exception.NoRacesScheduledException;
 import by.malinouski.hrace.logic.entity.Race;
@@ -34,10 +31,12 @@ public class RacesCache {
 	private LinkedHashMap<LocalDateTime, Race> racesSchedule;
 	private boolean updated;
 	
-	@SuppressWarnings("serial")
 	private RacesCache() {
 		racesSchedule = new LinkedHashMap<LocalDateTime, Race>(
 								NumericConsts.MAX_RACES) {
+			
+			private static final long serialVersionUID = -3053200656354090311L;
+
 			@Override
 			protected boolean removeEldestEntry(
 					Map.Entry<LocalDateTime, Race> eldest) {
@@ -50,6 +49,9 @@ public class RacesCache {
 		private static final RacesCache instance = new RacesCache();
 	}
 	
+	/**
+	 * @return the singleton instance of this class
+	 */
 	public static RacesCache getInstance() {
 		return RacesCache.InstanceHolder.instance;
 	}
@@ -100,6 +102,10 @@ public class RacesCache {
 		racesSchedule.remove(race.getDateTime());
 	}
 
+	/**
+	 * Get all the races
+	 * @return collection of all the races in the cache
+	 */
 	public Collection<Race> getAllRaces() {
 		lock.lock();
 		try {
@@ -109,6 +115,10 @@ public class RacesCache {
 		}
 	}
 	
+	/**
+	 * Get only the future races
+	 * @return collection of upcoming races
+	 */
 	public Collection<Race> getUpcomingRaces() {
 		lock.lock();
 		try {
@@ -142,7 +152,23 @@ public class RacesCache {
 		updated = true;
 	}
 
+	/**
+	 * @return true if udateAllRaces(..) has been called before
+	 */
 	public boolean isUpdated() {
 		return updated;
+	}
+
+	/**
+	 * Checks whether there is such race in the cache
+	 * @param raceDateTime
+	 * @return true if there is, else false
+	 */
+	public boolean hasRace(LocalDateTime raceDateTime) {
+		if (racesSchedule.containsKey(raceDateTime)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -20,7 +20,7 @@ import by.malinouski.hrace.parser.EntityParserFactory;
 /**
  * Servlet implementation class MainServlet
  */
-@WebServlet(urlPatterns = {"/main", "/register", "/login", "/updatePass"})
+@WebServlet(urlPatterns = {"/main", "/register", "/login", "/updatePass", "/deleteProfile"})
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

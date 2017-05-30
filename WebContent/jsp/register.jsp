@@ -5,7 +5,6 @@
 		<input type="hidden" name="command" value="register"/><br/>
 		<input type="text" name="login" placeholder="<fmt:message key="label.login"/>" 
 						pattern="^\w{5,20}" required/><br/>
-		<input type="email" name="email" placeholder="E-mail" disabled/><br/>
 		<input type="password" class="pass" name="password" placeholder="<fmt:message key='label.password'/>" 
 	 					pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{10,}$"
 						required/>

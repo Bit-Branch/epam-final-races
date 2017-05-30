@@ -23,6 +23,7 @@ import by.malinouski.hrace.logic.entity.Bet;
 import by.malinouski.hrace.logic.entity.Entity;
 import by.malinouski.hrace.logic.entity.FutureEntity;
 import by.malinouski.hrace.logic.entity.Message;
+import by.malinouski.hrace.logic.racing.RacesCache;
 
 /**
  * The Class PlaceBetReceiver.
@@ -41,6 +42,8 @@ public class PlaceBetReceiver extends CommandReceiver {
 		Bet bet = (Bet) entity;
 		if (LocalDateTime.now().isAfter(bet.getRaceDateTime())) {
 			return new Message(BundleConsts.RACE_FINISHED);
+		} else if (!RacesCache.getInstance().hasRace(bet.getRaceDateTime())) {
+			return new Message(BundleConsts.NO_SUCH_RACE);
 		}
 		
 		try {

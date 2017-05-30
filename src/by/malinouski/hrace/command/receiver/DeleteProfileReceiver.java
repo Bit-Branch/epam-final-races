@@ -41,7 +41,7 @@ public class DeleteProfileReceiver extends CommandReceiver {
 				return new Message(BundleConsts.USER_DELETED);
 			} else {
 				logger.debug("not deleting user");
-				return new Message(BundleConsts.USER_NOT_DELETED);
+				return new Message(BundleConsts.PASS_DONT_MATCH);
 			}
 		} catch (DaoException e) {
 			logger.error("Exception while deleting user " + e.getMessage());

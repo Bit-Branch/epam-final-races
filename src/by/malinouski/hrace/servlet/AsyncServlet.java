@@ -25,6 +25,7 @@ import by.malinouski.hrace.constant.RequestConsts;
 import by.malinouski.hrace.logic.entity.Entity;
 import by.malinouski.hrace.logic.entity.EntityType;
 import by.malinouski.hrace.logic.entity.FutureEntity;
+import by.malinouski.hrace.logic.entity.Message;
 import by.malinouski.hrace.logic.entity.Race;
 import by.malinouski.hrace.logic.entity.User;
 import by.malinouski.hrace.logic.racing.RacesResults;
@@ -87,6 +88,7 @@ public class AsyncServlet extends HttpServlet {
 			FutureEntity<? extends Entity> futureEnt = (FutureEntity<?>) returnEnt;
 			AsyncContext async = request.startAsync();
 			async.setTimeout(NumericConsts.ASYNC_TIMEOUT);
+			
 			async.start(() -> {
 				try {
 					Entity entity = (Entity) futureEnt.get();
@@ -100,7 +102,9 @@ public class AsyncServlet extends HttpServlet {
 				async.complete();
 			});
 		} else if (returnEnt.ofType() == EntityType.MESSAGE) {
-			response.getWriter().write(gson.toJson(returnEnt));
+			request.getSession().setAttribute(EntityType.MESSAGE.getValue(), returnEnt);
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().write(((Message) returnEnt).getText());
 		}
 	}
 

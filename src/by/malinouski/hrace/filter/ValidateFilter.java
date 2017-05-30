@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import by.malinouski.hrace.constant.BundleConsts;
 import by.malinouski.hrace.constant.ParamsMapKeys;
-import by.malinouski.hrace.constant.PathConsts;
 import by.malinouski.hrace.constant.RequestConsts;
 import by.malinouski.hrace.logic.entity.Message;
 

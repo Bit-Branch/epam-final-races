@@ -41,6 +41,7 @@ public class UserValidator {
 				
 				if (compareHashes(user.getHash(), hash)) {
 					user.setPassword(null);
+					user.setHash(new byte[] {});
 					logger.info("User is valid");
 					return true;
 				}

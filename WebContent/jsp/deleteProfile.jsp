@@ -2,7 +2,7 @@
 
 <section class="profile" id="delete-profile">
 	<h5><fmt:message key="label.deleteProfile"/></h5>
-	<form action="${ pageContext.servletContext.contextPath }/main" method="post">
+	<form action="${ pageContext.servletContext.contextPath }/deleteProfile" method="post">
 		<input type="hidden" name="command" value="delete_profile"/>
 		<input type="hidden"  name="login" value="${ sessionScope.User.login }"/>
 		<input type="password" name="password" 
@@ -11,7 +11,7 @@
 		<input type="submit" value="<fmt:message key='button.delete'/>"/>
 	</form>
 	<p id="message"><m:printMessage/></p>
-
+	
 	<a href="${ pageContext.servletContext.contextPath }"><fmt:message key="button.back"/></a>
 </section>
 

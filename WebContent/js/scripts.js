@@ -1,5 +1,6 @@
 /*global $*/
 /*global window*/
+/*flobal location*/
 	
 $(function() {
 	// get race results no matter whether user placed a bet or not
@@ -77,6 +78,8 @@ function placeBet(event) {
 					}
 				}, 10000);
 			} 
+		} else if (this.status == 400) {
+			location.reload();
 		}
 	};
 	xhttp.open("POST", "/horserace-web/placeBet", true);

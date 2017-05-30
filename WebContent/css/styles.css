@@ -182,6 +182,10 @@ nav, .authorize, .balance, .profile {
 	min-width: 200px; 
 }
 
+p#message {
+    background-color: wheat;
+}
+
 #side {
 	background: rgba(245,222,179,0.4);
 	padding: 10px;

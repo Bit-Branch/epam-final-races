@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
-	id="WebApp_ID" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>horserace-web</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
@@ -24,6 +21,10 @@
     <url-pattern>/register</url-pattern>
     <url-pattern>/login</url-pattern>
     <url-pattern>/updatePass</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+  	<filter-name>deleteProfile</filter-name>
+  	<url-pattern>/deleteProfile</url-pattern>
   </filter-mapping>
   <filter-mapping>
     <filter-name>logout</filter-name>
