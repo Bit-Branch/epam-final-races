@@ -15,8 +15,9 @@ import by.malinouski.hrace.logic.entity.Entity;
 import by.malinouski.hrace.logic.entity.User;
 
 /**
- * @author makarymalinouski
+ * A factory for creating EntityParser objects.
  *
+ * @author makarymalinouski
  */
 public class EntityParserFactory {
 	public EntityParser getParser(Command command) {

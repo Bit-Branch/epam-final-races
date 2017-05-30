@@ -19,12 +19,30 @@ import by.malinouski.hrace.logic.entity.HorseUnit;
 import by.malinouski.hrace.logic.entity.Odds;
 
 /**
+ * The Class HorsesOddsGenerator.
+ *
  * @author makarymalinouski
  * Generator of the real probabilities of winning
- * for each horse in a list of horses (HorseUnits)
+ * for each horse in a list of horses (HorseUnits).
+ * Calculation of the probability of horse's winning is based on info
+ * from <a>https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4013968/figure/fig_002/</a>
+ * where it is suggested that prime horse age is 5
+ * and the decline in power rate is slower after the prime age
+ * than the increase before the prime age.
+ * Based on this info, the formula I made is following:
+ * for age 2 to 5:
+ * numWins/numRaces * (-((age - 5)/2)**4 + 5)
+ * for age 6 to 10:
+ * numWins/numRaces * (-((age - 5)/2)**2 + 5)
+ * 
+ * If numWins or numRace is 0, random coefficient
+ * with some min and max bounds
  */
 public class HorsesOddsGenerator {
+	
 	/**
+	 * Generate.
+	 *
 	 * @param horseUnits list mutated by setting the realProb
 	 * for each HorseUnit in the list
 	 * horse's age must be more than 2 and less then 11
@@ -51,21 +69,6 @@ public class HorsesOddsGenerator {
 		});
 	}
 
-	/**
-	 * Calculates absolute probability of horse's winning based on info
-	 * from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4013968/figure/fig_002/
-	 * where it is suggested that prime horse age is 5
-	 * and the decline in power rate is slower after the prime age
-	 * than the increase before the prime age.
-	 * Based on this info, the formula I made is following:
-	 * for age 2 to 5:
-	 * numWins/numRaces * (-((age - 5)/2)**4 + 5)
-	 * for age 6 to 10:
-	 * numWins/numRaces * (-((age - 5)/2)**2 + 5)
-	 * 
-	 * If numWins or numRace is 0, random coefficient
-	 * with some min and max bounds
-	 */
 	private double calcAbsProb(int age, int numWins, int numRaces) {
 		int primeAge = NumericConsts.HORSE_PRIME_AGE;
 		double coeff = NumericConsts.GROW_AGE_COEFF;
@@ -87,7 +90,8 @@ public class HorsesOddsGenerator {
 	}
 	
 	private Odds genOdds(HorseUnit unit, double realProb) {
-		int oddsFor = (int) Math.round(realProb * NumericConsts.TEN + NumericConsts.EXTRA_PROB);
+		int oddsFor = (int) Math.round(realProb 
+					* NumericConsts.TEN + NumericConsts.EXTRA_PROB);
 		int oddsAgainst = NumericConsts.TEN - oddsFor;
 		int gcd = calcGcd(oddsFor, oddsAgainst);
 		oddsFor /= gcd;

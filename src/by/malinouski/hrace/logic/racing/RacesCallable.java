@@ -24,14 +24,21 @@ import by.malinouski.hrace.exception.RaceCancelledException;
 import by.malinouski.hrace.logic.entity.Race;
 import by.malinouski.hrace.logic.generator.ResultsGenerator;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class RacesCallable.
  *
+ * @author makarymalinouski
  */
 public class RacesCallable implements Callable<Race> {
 	private static Logger logger = LogManager.getLogger(RacesCallable.class);
 	private Race race;
 	
+	/**
+	 * Instantiates a new races callable.
+	 *
+	 * @param race the race
+	 */
 	public RacesCallable(Race race) {
 		this.race = race;
 	}

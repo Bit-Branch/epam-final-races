@@ -51,9 +51,7 @@
 	</ul>
 </nav>
 <section id="user-content">
-	<c:if test="${ !empty Message }">
-		<fmt:message key="${ Message.text }"/><br>
-	</c:if>
+	<p id="message"><m:printMessage/></p>
 	<%@ include file="content.jspf" %>
 </section>
 <section id="side">

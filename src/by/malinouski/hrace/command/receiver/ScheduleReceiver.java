@@ -21,8 +21,9 @@ import by.malinouski.hrace.logic.entity.Race;
 
 
 /**
- * @author makarymalinouski
+ * The Class ScheduleReceiver.
  *
+ * @author makarymalinouski
  */
 public class ScheduleReceiver extends CommandReceiver {
 	private static final Logger logger = LogManager.getLogger(ScheduleReceiver.class);

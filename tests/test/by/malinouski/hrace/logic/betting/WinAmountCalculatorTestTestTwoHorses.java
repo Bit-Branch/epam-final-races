@@ -1,6 +1,6 @@
 package test.by.malinouski.hrace.logic.betting;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,11 +11,11 @@ import org.junit.Test;
 
 import by.malinouski.hrace.logic.betting.WinAmountCalculator;
 import by.malinouski.hrace.logic.entity.Bet;
+import by.malinouski.hrace.logic.entity.Bet.BetType;
 import by.malinouski.hrace.logic.entity.Horse;
 import by.malinouski.hrace.logic.entity.HorseUnit;
 import by.malinouski.hrace.logic.entity.Odds;
 import by.malinouski.hrace.logic.entity.Race;
-import by.malinouski.hrace.logic.entity.Bet.BetType;
 import by.malinouski.hrace.logic.generator.HorsesOddsGenerator;
 
 public class WinAmountCalculatorTestTestTwoHorses {

@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.malinouski.hrace.command.Command;
 import by.malinouski.hrace.connection.ConnectionPool;
 import by.malinouski.hrace.constant.PathConsts;
@@ -23,10 +20,9 @@ import by.malinouski.hrace.parser.EntityParserFactory;
 /**
  * Servlet implementation class MainServlet
  */
-@WebServlet(asyncSupported = true, urlPatterns = {"/main", "/register", "/login", "/updatePass"})
+@WebServlet(urlPatterns = {"/main", "/register", "/login", "/updatePass"})
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LogManager.getLogger(MainServlet.class);
 
     @Override
 	protected void doGet(HttpServletRequest request, 
@@ -41,14 +37,19 @@ public class MainServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
     	processRequest(request);
-    	request.getRequestDispatcher(PathConsts.HOME).forward(request, response);
-//		response.sendRedirect(PathConsts.ROOT + PathConsts.HOME);
+		response.sendRedirect(request.getHeader(RequestConsts.ORIGIN) 
+										+ PathConsts.ROOT + PathConsts.HOME);
 	}
     
+	/**
+	 * Process request.
+	 *
+	 * @param request the request
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void processRequest(HttpServletRequest request) 
 													throws ServletException, IOException { 	
-		
-		request.getServletContext().log("Log level is enabled: " + logger.getLevel());
 		
 		User user = (User) request.getSession().getAttribute(RequestConsts.USER);
 		String commandStr = request.getParameter(RequestConsts.COMMAND_PARAM);
@@ -60,17 +61,11 @@ public class MainServlet extends HttpServlet {
 		Entity retEntity = command.execute(reqEntity);
 		String entityName = retEntity.ofType().getValue();
 		
-		if (RequestConsts.USER.equals(entityName)) {
-			request.getSession().setAttribute(entityName, retEntity);
-		} else {
-			logger.debug(retEntity.ofType().getValue());
-			request.setAttribute(entityName, retEntity);
-		}
+		request.getSession().setAttribute(entityName, retEntity);
 	}
 	
 	@Override
 	public void destroy() {
-		logger.info("destroying servlet");
 		ConnectionPool.getInstance().close();
 	}
 }

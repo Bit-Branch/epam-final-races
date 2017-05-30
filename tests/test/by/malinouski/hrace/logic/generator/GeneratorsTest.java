@@ -48,7 +48,7 @@ public class GeneratorsTest {
 	
 	@Test
 	public void generateTestResults() {
-		u1.setRealProb(0.5);
+		u1.setRealProb(0.9);
 		u1.setNumberInRace(1);
 		u2.setRealProb(0.1);
 		u2.setNumberInRace(2);
@@ -63,7 +63,7 @@ public class GeneratorsTest {
 				smartNumWins++;
 			}
 		}
-		assertEquals("must be approximately equal", smartNumWins/(double) trials, 1/5.0, 0.1);
+		assertEquals("must be approximately equal", smartNumWins/(double) trials, 1/10.0, 0.05);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class GeneratorsTest {
 	 */
 	@Test
 	public void generateTestResultsMutated() {
-		u1.setRealProb(0.5);
+		u1.setRealProb(0.9);
 		u1.setNumberInRace(1);
 		u2.setRealProb(0.1);
 		u2.setNumberInRace(2);
@@ -83,11 +83,12 @@ public class GeneratorsTest {
 		
 		// run generator sufficient number of times for statistics to become valid
 		for (int i = 0; i < trials; i++) {
+			resGen.generate(list);
 			if (list.get(list.indexOf(u2)).getFinalPosition() == 1) {
 				smartNumWins++;
 			}
 		}
-		assertEquals("must be approximately equal", smartNumWins/(double) trials, 1/5.0, 0.1);
+		assertEquals("must be approximately equal", 1/10.0, smartNumWins/(double) trials, 0.05);
 	}
 	
 	@Test

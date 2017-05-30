@@ -34,8 +34,9 @@ import by.malinouski.hrace.logic.racing.RacesCache;
 import by.malinouski.hrace.logic.racing.RacesRunner;
 
 /**
- * @author makarymalinouski
+ * The Class GenerateRacesReceiver.
  *
+ * @author makarymalinouski
  */
 public class GenerateRacesReceiver extends CommandReceiver {
 	private static final Logger logger = LogManager.getLogger(GenerateRacesReceiver.class);

@@ -18,12 +18,22 @@ import javax.crypto.spec.PBEKeySpec;
 import by.malinouski.hrace.exception.HasherException;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class Hasher.
  *
+ * @author makarymalinouski
  */
 public class Hasher {
 
+	/**
+	 * Hash.
+	 *
+	 * @param password the password
+	 * @param salt the salt
+	 * @return the byte[]
+	 * @throws HasherException the hasher exception
+	 */
 	public byte[] hash(String password, byte[] salt) throws HasherException {
 		try {
 			KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 

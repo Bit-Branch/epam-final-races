@@ -26,8 +26,9 @@ import by.malinouski.hrace.security.SaltGenerator;
 import by.malinouski.hrace.security.UserValidator;
 
 /**
- * @author makarymalinouski
+ * The Class UpdatePasswordReceiver.
  *
+ * @author makarymalinouski
  */
 public class UpdatePasswordReceiver extends CommandReceiver {
 	private static Logger logger = 

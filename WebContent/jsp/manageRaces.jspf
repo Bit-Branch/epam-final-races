@@ -29,7 +29,6 @@
 			<input type="submit" name="cancelRace" value="<fmt:message key="button.cancel"/>"/>
 		</form>
 	</section>
-	<c:if test="${ !empty Message }">
-		<p id="message"><fmt:message key="${ Message.text }"/></p><br>
-	</c:if>
+	<p id="message"><m:printMessage/></p>
+
 </section>

@@ -20,9 +20,11 @@ import by.malinouski.hrace.logic.entity.Bet;
 import by.malinouski.hrace.logic.entity.User;
 import by.malinouski.hrace.logic.entity.User.Role;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class UserDao.
  *
+ * @author makarymalinouski
  */
 public class UserDao {
 	private static Logger logger = LogManager.getLogger(UserDao.class);
@@ -48,10 +50,11 @@ public class UserDao {
 	
 	/**
 	 * Finds user without checking the password correctness,
-	 * and sets the empty fields with info from db
+	 * and sets the empty fields with info from db.
+	 *
 	 * @param user - user to be found
 	 * @return true user found, or false if not found
-	 * @throws DaoException
+	 * @throws DaoException the dao exception
 	 */
 	public boolean findUser(User user) throws DaoException {
 
@@ -88,11 +91,11 @@ public class UserDao {
 	}
 	
 	/**
-	 * adds new user with specified params
-	 * @param login
-	 * @param password
+	 * adds new user with specified params.
+	 *
+	 * @param user the user
 	 * @return true if succeeded, else false
-	 * @throws DaoException
+	 * @throws DaoException the dao exception
 	 */
 	public boolean addUser(User user) throws DaoException {
 		BigDecimal balance = BigDecimal.valueOf(NumericConsts.USER_INIT_BALANCE);
@@ -128,8 +131,9 @@ public class UserDao {
 	/**
 	 * Marks user as deleted.
 	 * The user is not removed from the database
-	 * @param user
-	 * @throws DaoException
+	 *
+	 * @param user the user
+	 * @throws DaoException the dao exception
 	 */
 	public void deleteUser(User user) throws DaoException {
 
@@ -143,6 +147,13 @@ public class UserDao {
 		}
 	}
 
+	/**
+	 * Update balance.
+	 *
+	 * @param bet the bet
+	 * @return the big decimal
+	 * @throws DaoException the dao exception
+	 */
 	public BigDecimal updateBalance(Bet bet) throws DaoException {
 		BigDecimal updateAmount = bet.getWinning().subtract(bet.getAmount());
 
@@ -161,10 +172,11 @@ public class UserDao {
 	
 	/**
 	 * Updates balance by the amount indicated in user's balance
-	 * NOTE: the amount indicated in user is the amount to add, not the whole one
-	 * @param user
-	 * @return
-	 * @throws DaoException
+	 * NOTE: the amount indicated in user is the amount to add, not the whole one.
+	 *
+	 * @param user the user
+	 * @return the big decimal
+	 * @throws DaoException the dao exception
 	 */
 	public BigDecimal updateBalance(User user) throws DaoException {
 		try (Connection conn = ConnectionPool.getInstance().getConnection();
@@ -182,9 +194,10 @@ public class UserDao {
 
 
 	/**
-	 * Updates users password
-	 * @param user
-	 * @throws DaoException
+	 * Updates users password.
+	 *
+	 * @param user the user
+	 * @throws DaoException the dao exception
 	 */
 	public void updatePassword(User user) throws DaoException {
 		try (Connection conn = ConnectionPool.getInstance().getConnection();

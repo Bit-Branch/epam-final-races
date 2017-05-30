@@ -16,7 +16,10 @@ import java.util.Random;
 
 import by.malinouski.hrace.logic.entity.HorseUnit;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ResultsGenerator.
+ *
  * @author makarymalinouski
  * Generates results for horse races
  */
@@ -24,8 +27,9 @@ public class ResultsGenerator {
 
 	/**
 	 * generates final positions for each horse in the set,
-	 * and mutates the objects by setting their final positions
-	 * @param allHorses set of horses without final position
+	 * and mutates the objects by setting their final positions.
+	 *
+	 * @param list the list
 	 * @return convenience list with index corresponding to final pos minus 1
 	 */
 	public List<Integer> generate(List<HorseUnit> list) {

@@ -18,8 +18,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import by.malinouski.hrace.logic.entity.Race;
 
 /**
- * @author makarymalinouski
+ * The Class RacesRunner.
  *
+ * @author makarymalinouski
  */
 public class RacesRunner {
 	private Lock lock = new ReentrantLock();

@@ -17,8 +17,9 @@ import by.malinouski.hrace.logic.entity.Entity;
 import by.malinouski.hrace.logic.entity.User;
 
 /**
- * @author makarymalinouski
+ * The Class CreditParser.
  *
+ * @author makarymalinouski
  */
 public class CreditParser extends EntityParser {
 

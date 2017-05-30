@@ -24,13 +24,12 @@ import by.malinouski.hrace.constant.NumericConsts;
 import by.malinouski.hrace.exception.NoRacesScheduledException;
 import by.malinouski.hrace.logic.entity.Race;
 
+// TODO: Auto-generated Javadoc
 /**
  * @author makarymalinouski
  *
  */
 public class RacesCache {
-	private static final Logger logger = 
-			LogManager.getLogger(RacesCache.class);
 	private Lock lock = new ReentrantLock(); 
 	private LinkedHashMap<LocalDateTime, Race> racesSchedule;
 	private boolean updated;
@@ -55,17 +54,28 @@ public class RacesCache {
 		return RacesCache.InstanceHolder.instance;
 	}
 	
+	/**
+	 * Adds the race.
+	 *
+	 * @param race the race
+	 */
 	public void addRace(Race race) {
 		lock.lock();
 		try {
 			racesSchedule.put(race.getDateTime(), race);
-			logger.debug("Added race " + race.getDateTime());
 		} finally {
 			lock.unlock();
 		}
 		
 	}
 	
+	/**
+	 * Gets the race.
+	 *
+	 * @param dateTime the date time
+	 * @return the race
+	 * @throws NoRacesScheduledException the no races scheduled exception
+	 */
 	public Race getRace(LocalDateTime dateTime) 
 							throws NoRacesScheduledException {
 		lock.lock();
@@ -81,6 +91,11 @@ public class RacesCache {
 	}
 	
 
+	/**
+	 * Removes the race.
+	 *
+	 * @param race the race
+	 */
 	public void removeRace(Race race) {
 		racesSchedule.remove(race.getDateTime());
 	}
@@ -102,9 +117,10 @@ public class RacesCache {
 			 * has to go through each entry,
 			 * should think of using NavigableMap */
 			Iterator<Map.Entry<LocalDateTime, Race>> iter = 
-				racesSchedule.entrySet().stream().filter(entry -> 
-									LocalDateTime.now()
-									.compareTo(entry.getKey()) < 0)
+				racesSchedule.entrySet().stream()
+							.filter(entry -> 
+										LocalDateTime.now()
+										.compareTo(entry.getKey()) < 0)
 				.iterator();
 			
 			while (iter.hasNext()) {
@@ -116,6 +132,11 @@ public class RacesCache {
 		}
 	}
 
+	/**
+	 * Update all races.
+	 *
+	 * @param raceSet the race set
+	 */
 	public void updateAllRaces(Collection<Race> raceSet) {
 		raceSet.forEach(race -> addRace(race));
 		updated = true;

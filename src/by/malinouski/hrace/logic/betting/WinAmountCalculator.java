@@ -19,6 +19,8 @@ import by.malinouski.hrace.logic.entity.Race;
 import by.malinouski.hrace.logic.entity.Bet.BetType;
 
 /**
+ * The Class WinAmountCalculator.
+ *
  * @author makarymalinouski
  * 
  * Caclulator that calculates the amount of win.
@@ -37,7 +39,7 @@ import by.malinouski.hrace.logic.entity.Bet.BetType;
  * 	and then it is divided by that divisor;
  * 	for 'place', first DOUBLE_DIVISOR tried, 
  * 	and if that is still smaller than one,
- * 	the same procedure as for 'show' is followed 
+ * 	the same procedure as for 'show' is followed
  */
 public class WinAmountCalculator {
 

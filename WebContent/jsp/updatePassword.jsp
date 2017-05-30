@@ -16,9 +16,8 @@
 			   pattern="^(?=.*\d)(?=.*[a-zA-Z]).{6,}$" required/><br/>
 		<input type="submit" value="<fmt:message key='button.update'/>"/><br/>
 	</form>
-	<c:if test="${ !empty Message }">
-		<fmt:message key="${ Message.text }"/><br/>
-	</c:if>
+
+	<p id="message"><m:printMessage/></p>
 	<a href="${pageContext.servletContext.contextPath }"><fmt:message key="button.back"/></a>
 </section>
 

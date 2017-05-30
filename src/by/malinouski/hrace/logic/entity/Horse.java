@@ -11,11 +11,15 @@ package by.malinouski.hrace.logic.entity;
 import java.time.LocalDate;
 
 /**
- * @author makarymalinouski
+ * The Class Horse.
  *
+ * @author makarymalinouski
  */
 public class Horse implements Entity {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * May 27, 2017 3:43 PM UTC
+	 */
+	private static final long serialVersionUID = 7030654799287429682L;
 	private long horseId;
 	private String name;
 	private int yearBorn;

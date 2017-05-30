@@ -19,8 +19,17 @@ import java.util.concurrent.TimeoutException;
  */
 public class FutureEntity<T extends Entity> implements Entity, Future<T> {
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * May 27, 2017 3:42 PM UTC
+	 */
+	private static final long serialVersionUID = 6232271862674283102L;
 	private Future<T> entity;
+	
+	/**
+	 * Instantiates a new future entity.
+	 *
+	 * @param futureEntity the future entity
+	 */
 	public FutureEntity(Future<T> futureEntity) {
 		entity = futureEntity;
 	}

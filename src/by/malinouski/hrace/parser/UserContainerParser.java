@@ -16,14 +16,16 @@ import by.malinouski.hrace.logic.entity.Entity;
 import by.malinouski.hrace.logic.entity.EntityContainer;
 import by.malinouski.hrace.logic.entity.User;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class UserContainerParser.
  *
+ * @author makarymalinouski
  */
 public class UserContainerParser extends EntityParser {
 
 	/**
-	 * 
+	 * Instantiates a new user container parser.
 	 */
 	public UserContainerParser() {
 		// TODO Auto-generated constructor stub
@@ -41,6 +43,7 @@ public class UserContainerParser extends EntityParser {
 		User newUser = new User();
 		
 		user.setPassword(oldPass);
+		newUser.setUserId(user.getUserId());
 		newUser.setLogin(user.getLogin());
 		newUser.setPassword(newPass);
 		cont.setEntities(Arrays.asList(user, newUser));

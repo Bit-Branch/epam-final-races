@@ -22,8 +22,9 @@ import by.malinouski.hrace.logic.entity.Message;
 import by.malinouski.hrace.logic.entity.User;
 
 /**
- * @author makarymalinouski
+ * The Class AddBalanceReceiver.
  *
+ * @author makarymalinouski
  */
 public class AddBalanceReceiver extends CommandReceiver {
 	private static Logger logger = LogManager.getLogger(AddBalanceReceiver.class);

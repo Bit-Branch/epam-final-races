@@ -19,5 +19,12 @@ import by.malinouski.hrace.logic.entity.User;
  */
 public abstract class EntityParser {
 
+	/**
+	 * Parses the.
+	 *
+	 * @param paramMap the param map
+	 * @param user the user
+	 * @return the entity
+	 */
 	public abstract Entity parse(Map<String, String[]> paramMap, User user);
 }

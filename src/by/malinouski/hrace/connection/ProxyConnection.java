@@ -23,8 +23,9 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- * @author makarymalinouski
+ * The Class ProxyConnection.
  *
+ * @author makarymalinouski
  */
 public class ProxyConnection implements Connection {
 

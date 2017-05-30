@@ -20,8 +20,9 @@ import by.malinouski.hrace.logic.entity.User;
 import by.malinouski.hrace.security.UserValidator;
 
 /**
- * @author makarymalinouski
+ * The Class DeleteProfileReceiver.
  *
+ * @author makarymalinouski
  */
 public class DeleteProfileReceiver extends CommandReceiver {
 	private static final Logger logger = 

@@ -13,41 +13,53 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.malinouski.hrace.constant.RequestConsts;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet Filter implementation class LocaleFilter
+ * Servlet Filter implementation class LocaleFilter.
  */
 @WebFilter(filterName = "locale")
 public class LocaleFilter implements Filter {
-	private static final Logger logger = LogManager.getLogger(LocaleFilter.class);
-
+	
 	/**
+	 * Do filter.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param chain the chain
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ServletException the servlet exception
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, 
 					FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+		String lang = req.getParameter(RequestConsts.LANG);
+		String cntr = req.getParameter(RequestConsts.COUNTRY);
 		
-		Locale locale = new Locale(req.getParameter(RequestConsts.LANG), 
-									req.getParameter(RequestConsts.COUNTRY));
+		Locale locale = (lang != null && cntr != null) 
+					  ? new Locale(lang, cntr) 
+					  : Locale.getDefault(); 
 		res.setLocale(locale);
-		logger.debug(locale.getLanguage());
 		req.getSession().setAttribute(RequestConsts.LOCALE, locale);
 		res.sendRedirect(req.getHeader(RequestConsts.REFERER));
 	}
 
 	/**
+	 * Inits the.
+	 *
+	 * @param fConfig the f config
+	 * @throws ServletException the servlet exception
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		logger.info("initiated LocaleFilter");
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	@Override
 	public void destroy() {
 	}

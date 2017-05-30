@@ -6,13 +6,16 @@ package by.malinouski.hrace.logic.entity;
 import java.math.BigDecimal;
 import java.time.YearMonth;
 
+// TODO: Auto-generated Javadoc
 /**
  * @author makarymalinouski
  *
  */
 public class User implements Entity {
-	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * May 27, 2017 4:00 PM UTC
+	 */
+	private static final long serialVersionUID = 9025396325963843026L;
 	private long userId;
 	private Role role;
 	private String login;
@@ -22,6 +25,16 @@ public class User implements Entity {
 	private transient byte[] hash;
 	private transient CreditCard card;
 	
+	/**
+	 * Instantiates a new user.
+	 *
+	 * @param id the id
+	 * @param role the role
+	 * @param login the login
+	 * @param password the password
+	 * @param salt the salt
+	 * @param balance the balance
+	 */
 	public User(long id, 
 				Role role, 
 				String login, 
@@ -37,6 +50,9 @@ public class User implements Entity {
 		this.balance = balance;
 	}
 	
+	/**
+	 * Instantiates a new user.
+	 */
 	public User() {
 	}
 
@@ -104,6 +120,9 @@ public class User implements Entity {
 		this.card = card;
 	}
 	
+	/**
+	 * The Enum Role.
+	 */
 	public enum Role {
 		USER, ADMIN
 	}
@@ -119,13 +138,25 @@ public class User implements Entity {
 		return EntityType.USER;
 	}
 	
+	/**
+	 * The Class CreditCard.
+	 */
 	public class CreditCard {
 		private long number;
 		private String name;
 		private YearMonth valid;
 		private int cvv;
 		
-		public CreditCard(long number, String name, YearMonth valid2, int cvv) {
+		/**
+		 * Instantiates a new credit card.
+		 *
+		 * @param number the number
+		 * @param name the name
+		 * @param valid2 the valid 2
+		 * @param cvv the cvv
+		 */
+		public CreditCard(long number, String name, 
+							YearMonth valid2, int cvv) {
 			this.number = number;
 			this.name = name;
 			this.valid = valid2;

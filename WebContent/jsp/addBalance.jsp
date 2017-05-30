@@ -14,6 +14,7 @@
 				pattern="(\d){3}" required/><br/>
 		<input type="submit" name="submit" value="<fmt:message key='button.submit'/>"/><br/>
 	</form>
+	<p id="message"><m:printMessage/></p>	
 	<a href="${pageContext.servletContext.contextPath }"><fmt:message key="button.back"/></a>
 </section>
 

@@ -11,26 +11,32 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.malinouski.hrace.constant.PathConsts;
 import by.malinouski.hrace.constant.RequestConsts;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet Filter implementation class ProfileFilter
+ * Servlet Filter implementation class ProfileFilter.
  */
 @WebFilter(filterName = "jsp")
 public class JspFilter implements Filter {
-	private static final Logger logger = LogManager.getLogger(JspFilter.class);
-
+	
 	/**
+	 * Destroy.
+	 *
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
 	}
 
 	/**
+	 * Do filter.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param chain the chain
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ServletException the servlet exception
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, 
@@ -39,19 +45,20 @@ public class JspFilter implements Filter {
 
 		if (req.getSession().getAttribute(RequestConsts.USER) != null ||
 				req.getRequestURI().endsWith(PathConsts.REGISTER)) {
-			logger.info("chaining");
 			chain.doFilter(request, response);
 		} else {
-			logger.info("redirecting");
 			request.getRequestDispatcher(PathConsts.INDEX).forward(request, response);
 		}
 	}
 
 	/**
+	 * Inits the.
+	 *
+	 * @param fConfig the f config
+	 * @throws ServletException the servlet exception
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		logger.info("initiated profile filter");
 	}
 
 }

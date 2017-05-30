@@ -9,14 +9,20 @@
 package by.malinouski.hrace.logic.entity;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * Represents a unit with a horse
  * and information relating to 
- * particular horse at particular race
+ * particular horse at particular race.
+ * The object may be set immutable once,
+ * then none of the setters will work
  * @author makarymalinouski
  */
 public class HorseUnit implements Entity, Cloneable {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * May 27, 2017 3:44 PM UTC
+	 */
+	private static final long serialVersionUID = 2526164997157892651L;
 	private Horse horse;
 	private Odds odds;
 	private double realProb;
@@ -24,6 +30,11 @@ public class HorseUnit implements Entity, Cloneable {
 	private int finalPosition;
 	private boolean immutable;
 	
+	/**
+	 * Instantiates a new horse unit.
+	 *
+	 * @param horse the horse
+	 */
 	public HorseUnit(Horse horse) {
 		this.horse = horse;
 	}
@@ -75,6 +86,12 @@ public class HorseUnit implements Entity, Cloneable {
 		}
 	}
 	
+	/**
+	 * Sets the object immutable.
+	 * None of the setters will work after
+	 * this method is called.
+	 * Cannot be undone!
+	 */
 	public void setImmutable() {
 		immutable = true;
 	}
@@ -86,7 +103,8 @@ public class HorseUnit implements Entity, Cloneable {
 	@Override
 	public String toString() {
 		return String.format(
-				"HorseUnit: Horse %s, Odds %s, real prob %s, number in race %s, final position %s\n", 
+				"HorseUnit: Horse %s, Odds %s, real prob %s, "
+				+ "number in race %s, final position %s\n", 
 				horse, odds, realProb, numberInRace, finalPosition);
 	}
 	
@@ -126,14 +144,18 @@ public class HorseUnit implements Entity, Cloneable {
 	}
 	
 	/**
-	 * Makes a shallow copy of the horseUnit
-	 * Horse objects are not cloned,
+	 * Makes a shallow copy of the horseUnit. <br>
+	 * Horse objects are not cloned, <br>
 	 * hence all HorseUnits with the same horses
 	 * will point to the same horse
 	 */
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new AssertionError("Should not get here: " + e.getMessage());
+		}
 	}
 
 	@Override

@@ -18,8 +18,9 @@ import by.malinouski.hrace.logic.entity.Race;
 import by.malinouski.hrace.logic.entity.User;
 
 /**
- * @author makarymalinouski
+ * The Class RaceParser.
  *
+ * @author makarymalinouski
  */
 public class RaceParser extends EntityParser {
 

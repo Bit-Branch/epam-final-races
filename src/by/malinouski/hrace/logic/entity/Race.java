@@ -19,6 +19,8 @@ import java.util.List;
 import by.malinouski.hrace.constant.EntityConsts;
 
 /**
+ * The Class Race.
+ *
  * @author makarymalinouski
  * Class Race represents a horserace
  * at a particular time, 
@@ -30,7 +32,10 @@ import by.malinouski.hrace.constant.EntityConsts;
  * set once the race is over
  */
 public class Race implements Entity {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * May 27, 2017 3:57 PM UTC
+	 */
+	private static final long serialVersionUID = -4498426284722987054L;
 	private LocalDateTime dateTime;
 	private List<HorseUnit> horseUnits;
 	/* List of final positions by number in race 	  *
@@ -72,8 +77,10 @@ public class Race implements Entity {
 	 * @return race is finished
 	 */
 	public boolean isOver() {
-		Instant inst = dateTime.toInstant(
-				ZoneOffset.of(ZoneId.of(EntityConsts.TIME_ZONE).getId()));
+		String zoneId = ZoneId.of(EntityConsts.TIME_ZONE).getId();
+		ZoneOffset offset = ZoneOffset.of(zoneId);
+		Instant inst = dateTime.toInstant(offset);
+		
 		return inst.isAfter(Instant.now());
 	}
 	

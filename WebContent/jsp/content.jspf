@@ -1,69 +1,10 @@
 <c:choose>
 <c:when test="${ EntityContainer.childEntityType.value eq 'Race' }">
-	<div id="info">
-		<h3><fmt:message key="nav.races"/></h3>
-
-		<table id="races-table">
-			<thead>
-				<tr><td colspan="5"><fmt:message key='table.dateTime'/></td></tr>
-				<tr>
-					<td><fmt:message key='table.horseNumber'/></td>
-					<td><fmt:message key='table.horseName'/></td>
-					<td><fmt:message key='table.horseAge'/></td>
-					<td><fmt:message key='table.horseOdds'/></td>
-					<td><fmt:message key='table.finishPos'/></td>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="race" items="${ EntityContainer.getEntities(0, 50)}">
-					<tr class="datetime-row"><td colspan=5><c:out value="${ race.dateTime }"/></td></tr>
-					<c:forEach var="horseUnit" items="${ race.horseUnits }">
-					<tr>
-						<td><c:out value="${ horseUnit.numberInRace }"/></td>
-						<td><c:out value="${ horseUnit.horse.name }"/></td>
-						<td><c:out value="${ horseUnit.horse.age }"/></td>
-						<td><c:out value="${ horseUnit.odds }"/></td>
-						<td><c:out value="${ horseUnit.finalPosition }"/></td>
-					</tr>
-					</c:forEach>
-				</c:forEach>
-			</tbody>
-		</table> 
-	</div>
+	<%@ include file="showRaces.jspf" %>
 </c:when>
 
 <c:when test="${ EntityContainer.childEntityType.value eq 'Bet' }">
-	<div id="info">
-		<h3><fmt:message key="nav.bets"/></h3>
-		<table id="bets-table">
-			<thead>
-				<tr>
-					<td><fmt:message key='table.race'/></td>
-					<td><fmt:message key='table.betType'/></td>
-					<td><fmt:message key='table.horses'/></td>
-					<td><fmt:message key='table.betAmount'/></td>
-					<td><fmt:message key='table.winning'/></td>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="bet" items="${ EntityContainer.getEntities(0, 50) }">
-					<tr>
-						<td><c:out value="${ bet.raceDateTime }"/></td>
-						<td><c:out value="${ bet.betType }"/></td>
-						<td>
-							<c:forEach var="horseNum" items="${ bet.horsesInBet }">
-								<c:if test="${ horseNum ne 0 }">
-									<c:out value="${ horseNum }${' '}"/>
-								</c:if>
-							</c:forEach>
-						</td>
-						<td><c:out value="${ bet.amount }"/></td>
-						<td><c:out value="${ bet.winning }"/></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table> 
-	</div>
+	<%@ include file="showBets.jspf" %>
 </c:when>
 
 <c:otherwise>

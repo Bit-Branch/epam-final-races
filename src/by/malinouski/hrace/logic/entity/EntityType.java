@@ -1,5 +1,8 @@
 package by.malinouski.hrace.logic.entity;
 
+/**
+ * The Enum EntityType.
+ */
 public enum EntityType {
 	BET("Bet"), 
 	HORSE("Horse"), 

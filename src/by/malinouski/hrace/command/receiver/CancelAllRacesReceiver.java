@@ -27,8 +27,9 @@ import by.malinouski.hrace.logic.racing.RacesCache;
 import by.malinouski.hrace.logic.racing.RacesResults;
 
 /**
- * @author makarymalinouski
+ * The Class CancelAllRacesReceiver.
  *
+ * @author makarymalinouski
  */
 public class CancelAllRacesReceiver extends CommandReceiver {
 	private static Logger logger = 

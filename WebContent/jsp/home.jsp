@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	
 	<div class="content">
-	
 		<c:if test="${ sessionScope.User.role eq 'USER' }">
 			<%@ include file="user.jspf" %>
 		</c:if>

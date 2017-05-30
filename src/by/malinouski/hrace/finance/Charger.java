@@ -10,12 +10,19 @@ package by.malinouski.hrace.finance;
 
 import by.malinouski.hrace.logic.entity.User.CreditCard;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class Charger.
  *
+ * @author makarymalinouski
  */
 public class Charger {
 
+	/**
+	 * Charge.
+	 *
+	 * @param card the card
+	 */
 	public static void charge(CreditCard card) {
 	}
 

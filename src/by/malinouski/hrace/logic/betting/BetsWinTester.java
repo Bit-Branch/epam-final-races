@@ -18,9 +18,11 @@ import by.malinouski.hrace.constant.NumericConsts;
 import by.malinouski.hrace.logic.entity.Bet;
 import by.malinouski.hrace.logic.entity.Bet.BetType;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class BetsWinTester.
  *
+ * @author makarymalinouski
  */
 public class BetsWinTester {
 
@@ -28,23 +30,28 @@ public class BetsWinTester {
 							LogManager.getLogger(BetsWinTester.class);
 	
 	/**
-	 * Checks whether the bet is winning
-	 * @param bet
+	 * Checks whether the bet is winning.
+	 *
+	 * @param bet the bet
 	 * @param finPos list of final positions by horse number,<br>
-	 * where 0 is first position, 1 second etc.
+	 * where 0 is first position, 1 - second etc.
 	 * @return true if winning, false otherwise
 	 */
 	public boolean isWinning(Bet bet, List<Integer> finPos) {
 		List<Integer> horsesInBet = bet.getHorsesInBet();
 		BetType type = bet.getBetType();
 		boolean isWinning = false;
-
-		switch(type) {
+		
+		if (horsesInBet.isEmpty()) {
+			return false;
+		}
+		
+ 		switch(type) {
 			case WIN:
 			case EXACTA:
 			case TRIFECTA:
-				isWinning = true;
 				ListIterator<Integer> iter = horsesInBet.listIterator();
+				
 				while (iter.hasNext()) {
 					int index = iter.nextIndex();
 					int horseNum = iter.next();
@@ -55,7 +62,7 @@ public class BetsWinTester {
 						isWinning = false;
 						break;
 					}
-					
+					isWinning = true;
 				}
 				break;
 				

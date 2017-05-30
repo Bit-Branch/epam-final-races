@@ -22,8 +22,9 @@ import by.malinouski.hrace.logic.entity.Race;
 import by.malinouski.hrace.logic.racing.RacesCache;
 
 /**
- * @author makarymalinouski
+ * The Class ResultsReceiver.
  *
+ * @author makarymalinouski
  */
 public class ResultsReceiver extends CommandReceiver {
 	private static final Logger logger = 

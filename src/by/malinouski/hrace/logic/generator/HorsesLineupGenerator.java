@@ -17,8 +17,9 @@ import by.malinouski.hrace.constant.NumericConsts;
 import by.malinouski.hrace.logic.entity.HorseUnit;
 
 /**
- * @author makarymalinouski
+ * The Class HorsesLineupGenerator.
  *
+ * @author makarymalinouski
  */
 public class HorsesLineupGenerator {
 	

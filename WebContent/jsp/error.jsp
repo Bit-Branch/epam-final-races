@@ -7,8 +7,8 @@
 <title>Error</title>
 </head>
 <body>
-Ouch! It hurts!<br/>
-${pageContext.exception.message}<br/>
+Some error occured.<br/>
+Please, accept our apologies.<br/>
 <a href="${pageContext.servletContext.contextPath }">Back</a>  
 </body>
 </html>

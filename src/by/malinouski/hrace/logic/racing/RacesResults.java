@@ -19,12 +19,14 @@ import java.util.stream.Stream;
 import by.malinouski.hrace.exception.NoRacesScheduledException;
 import by.malinouski.hrace.logic.entity.Race;
 
+// TODO: Auto-generated Javadoc
 /**
  * @author makarymalinouski
  *
  */
 public class RacesResults {
 	
+	/** The Constant MAX_ENTRIES. */
 	public static final int MAX_ENTRIES = 100;
 	private Lock lock = new ReentrantLock(); 
 	private LinkedHashMap<LocalDateTime, Future<Race>> racesMap;
@@ -51,10 +53,11 @@ public class RacesResults {
 	
 	/**
 	 * Gets the future object holding race
-	 * at a corresponding date & time
-	 * @param dateTime
+	 * at a corresponding date & time.
+	 *
+	 * @param dateTime the date time
 	 * @return race
-	 * @throws NoRacesScheduledException
+	 * @throws NoRacesScheduledException the no races scheduled exception
 	 */
 	public Future<Race> getFutureRace(LocalDateTime dateTime) 
 									throws NoRacesScheduledException {
@@ -71,9 +74,10 @@ public class RacesResults {
 	}
 	
 	/**
-	 * Adds a Future<Race> only if it is not in the past 
-	 * @param dateTime
-	 * @param race
+	 * Adds a Future<Race> only if it is not in the past .
+	 *
+	 * @param dateTime the date time
+	 * @param race the race
 	 */
 	public void addFutureRace(LocalDateTime dateTime, Future<Race> race) {
 		lock.lock();
@@ -89,7 +93,8 @@ public class RacesResults {
 	/**
 	 * Checks whether there is a Future race with such LocalDateTime. <br>
 	 * Does not check whether it is cancelled
-	 * @param dateTime
+	 *
+	 * @param dateTime the date time
 	 * @return true if there is such race, false if not
 	 */
 	public boolean isPresent(LocalDateTime dateTime) {

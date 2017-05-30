@@ -19,9 +19,11 @@ import by.malinouski.hrace.connection.ConnectionPool;
 import by.malinouski.hrace.exception.DaoException;
 import by.malinouski.hrace.logic.entity.Horse;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class HorseDao.
  *
+ * @author makarymalinouski
  */
 public class HorseDao {
 
@@ -38,6 +40,12 @@ public class HorseDao {
 	private static final String TOT_RACES_KEY = "tot_races";
 	private static final String TOT_WINS_KEY = "tot_wins";
 	
+	/**
+	 * Select all horses.
+	 *
+	 * @return the sets the
+	 * @throws DaoException the dao exception
+	 */
 	public Set<Horse> selectAllHorses() throws DaoException {
 		
 		Set<Horse> horses = new HashSet<>();
@@ -57,6 +65,12 @@ public class HorseDao {
 		}
 	}
 
+	/**
+	 * Update horses after race.
+	 *
+	 * @param winner the winner
+	 * @throws DaoException the dao exception
+	 */
 	public void updateHorsesAfterRace(Horse winner) throws DaoException {
 		
 		try (Connection conn = ConnectionPool.getInstance().getConnection();

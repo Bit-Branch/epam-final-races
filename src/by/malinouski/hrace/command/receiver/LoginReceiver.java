@@ -14,6 +14,8 @@ import by.malinouski.hrace.logic.entity.User;
 import by.malinouski.hrace.security.UserValidator;
 
 /**
+ * The Class LoginReceiver.
+ *
  * @author makarymalinouski
  */
 public class LoginReceiver extends CommandReceiver {

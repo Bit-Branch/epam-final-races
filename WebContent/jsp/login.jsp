@@ -1,5 +1,6 @@
 <%@ include file="header.jspf" %>
-<div id="login">
+
+<section class="authorize" id="login">
 <form action="${ pageContext.servletContext.contextPath }/login" method="POST">
 	<input type="hidden" name="command" value="login"/><br/>
 	<input type="text" name="login" placeholder="<fmt:message key="label.login"/>" 
@@ -11,13 +12,11 @@
 	<span class="tooltiptext"><fmt:message key="label.passPattern"/></span><br/>
 	<input type="submit" value="<fmt:message key="button.submit"/>"/>
 </form>
-<p id="message">
-	<c:if test="${ !empty Message }">
-		<fmt:message key='${ Message.text }'/><br>
-	</c:if>
-</p>
+
+<p id="message"><m:printMessage/></p>
+
 <a href="${ pageContext.servletContext.contextPath }/jsp/register.jsp">
 <fmt:message key="label.register"/><br>
 </a><br>
-</div>
+</section>
 <%@ include file="footer.jspf" %>

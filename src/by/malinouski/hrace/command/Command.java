@@ -1,3 +1,11 @@
+/**
+ * Epam ET Final Project
+ * Horseraces
+ * March 2017
+ * Group #10
+ * Instructor Ihar Blinou
+ * Student Makary Malinouski
+ */
 package by.malinouski.hrace.command;
 
 import by.malinouski.hrace.command.receiver.AddBalanceReceiver;
@@ -40,6 +48,12 @@ public enum Command {
 		this.receiver = receiver;
 	}
 	
+	/**
+	 * Execute.
+	 *
+	 * @param entity the entity
+	 * @return the entity
+	 */
 	public Entity execute(Entity entity) {	
 		return receiver.act(entity);
 	}

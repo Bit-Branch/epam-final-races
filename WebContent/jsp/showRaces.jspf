@@ -1,0 +1,30 @@
+<div id="info">
+	<h3><fmt:message key="nav.races"/></h3>
+	
+	<table id="races-table">
+		<thead>
+			<tr><td colspan="5"><fmt:message key='table.dateTime'/></td></tr>
+			<tr>
+				<td><fmt:message key='table.horseNumber'/></td>
+				<td><fmt:message key='table.horseName'/></td>
+				<td><fmt:message key='table.horseAge'/></td>
+				<td><fmt:message key='table.horseOdds'/></td>
+				<td><fmt:message key='table.finishPos'/></td>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="race" items="${ EntityContainer.getEntities(0, 50)}">
+				<tr class="datetime-row"><td colspan=5><c:out value="${ race.dateTime }"/></td></tr>
+				<c:forEach var="horseUnit" items="${ race.horseUnits }">
+				<tr>
+					<td><c:out value="${ horseUnit.numberInRace }"/></td>
+					<td><c:out value="${ horseUnit.horse.name }"/></td>
+					<td><c:out value="${ horseUnit.horse.age }"/></td>
+					<td><c:out value="${ horseUnit.odds }"/></td>
+					<td><c:out value="${ horseUnit.finalPosition }"/></td>
+				</tr>
+				</c:forEach>
+			</c:forEach>
+		</tbody>
+	</table> 
+</div>

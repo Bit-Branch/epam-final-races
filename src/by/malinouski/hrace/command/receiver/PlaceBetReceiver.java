@@ -25,8 +25,9 @@ import by.malinouski.hrace.logic.entity.FutureEntity;
 import by.malinouski.hrace.logic.entity.Message;
 
 /**
- * @author makarymalinouski
+ * The Class PlaceBetReceiver.
  *
+ * @author makarymalinouski
  */
 public class PlaceBetReceiver extends CommandReceiver {
 	private static Logger logger = 

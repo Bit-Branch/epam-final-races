@@ -1,15 +1,10 @@
 <div>
 	<form id="place-bet-form" action="${ pageContext.servletContext.contextPath }/placeBet" method="post">
-<!-- 								onsubmit="placeBet(event)">
- -->		
  		<h3><fmt:message key="header.placeBet"/></h3><br/>
 		<fmt:message key="label.balance"/>
 		<span id="balance">${ sessionScope.User.balance }</span>
 		<p id="bet-message"></p>
-		<%-- <c:if test="${ not empty sessionScope.Bet.winning }">
-			<fmt:message key="label.winning"/>
-			<c:out value="${ sessionScope.Bet.winning }"/><br/>
-		</c:if> --%>
+		
 		<input type="hidden" name="command" value="place_bet"/>
 		<input type="hidden" name="login" value="${ sessionScope.User.login }"/>
 		<fmt:message key="label.raceDateTime"/>:<br/>

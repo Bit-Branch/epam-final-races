@@ -15,8 +15,9 @@ import by.malinouski.hrace.logic.entity.Entity;
 import by.malinouski.hrace.logic.entity.User;
 
 /**
- * @author makarymalinouski
+ * The Class UserParser.
  *
+ * @author makarymalinouski
  */
 public class UserParser extends EntityParser {
 

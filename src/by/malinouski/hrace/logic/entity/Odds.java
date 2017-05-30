@@ -17,10 +17,19 @@ package by.malinouski.hrace.logic.entity;
  * @author makarymalinouski
  */
 public class Odds implements Entity {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * May 27, 2017 3:58 PM UTC
+	 */
+	private static final long serialVersionUID = -85690392749943170L;
 	private int against;
 	private int infavor;
 	
+	/**
+	 * Instantiates a new odds.
+	 *
+	 * @param against the against
+	 * @param infavor the infavor
+	 */
 	public Odds(int against, int infavor) {
 		this.against = against;
 		this.infavor = infavor;

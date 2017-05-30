@@ -11,8 +11,9 @@ package by.malinouski.hrace.command.receiver;
 import by.malinouski.hrace.logic.entity.Entity;
 
 /**
- * @author makarymalinouski
+ * The Class RedirectHomeReceiver.
  *
+ * @author makarymalinouski
  */
 public class RedirectHomeReceiver extends CommandReceiver {
 

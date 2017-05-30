@@ -1,0 +1,31 @@
+<div id="info">
+	<h3><fmt:message key="nav.bets"/></h3>
+	<table id="bets-table">
+		<thead>
+			<tr>
+				<td><fmt:message key='table.race'/></td>
+				<td><fmt:message key='table.betType'/></td>
+				<td><fmt:message key='table.horses'/></td>
+				<td><fmt:message key='table.betAmount'/></td>
+				<td><fmt:message key='table.winning'/></td>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="bet" items="${ EntityContainer.getEntities(0, 50) }">
+				<tr>
+					<td><c:out value="${ bet.raceDateTime }"/></td>
+					<td><c:out value="${ bet.betType }"/></td>
+					<td>
+						<c:forEach var="horseNum" items="${ bet.horsesInBet }">
+							<c:if test="${ horseNum ne 0 }">
+								<c:out value="${ horseNum }${' '}"/>
+							</c:if>
+						</c:forEach>
+					</td>
+					<td><c:out value="${ bet.amount }"/></td>
+					<td><c:out value="${ bet.winning }"/></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table> 
+</div>

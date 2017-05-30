@@ -29,6 +29,7 @@ import by.malinouski.hrace.logic.entity.HorseUnit;
 import by.malinouski.hrace.logic.entity.Odds;
 import by.malinouski.hrace.logic.entity.Race;
 
+// TODO: Auto-generated Javadoc
 /**
  * @author makarymalinouski
  *
@@ -82,9 +83,10 @@ public class RaceDao {
 	
 	/**
 	 * Prepares set of next races by fetching info from db
-	 * and creating necessary objects
+	 * and creating necessary objects.
+	 *
 	 * @return set of future races sorted by datetime
-	 * @throws DaoException
+	 * @throws DaoException the dao exception
 	 */
 	public SortedSet<Race> selectNextRaces() throws DaoException {
 		SortedSet<Race> races = new TreeSet<>((r1, r2) -> 
@@ -95,10 +97,11 @@ public class RaceDao {
 	
 	/**
 	 * Prepares set of past races by fetching info from db
-	 * and creating necessary objects
-	 * @param maxRaces 
+	 * and creating necessary objects.
+	 *
+	 * @param maxRaces the max races
 	 * @return set of past races sorted by datetime from latest to earliest
-	 * @throws DaoException
+	 * @throws DaoException the dao exception
 	 */
 	public SortedSet<Race> selectPastRaces(final int maxRaces) throws DaoException {
 		SortedSet<Race> races = new TreeSet<>((r1, r2) -> 
@@ -107,6 +110,12 @@ public class RaceDao {
 		return races;
 	}
 	
+	/**
+	 * Select next race only.
+	 *
+	 * @return the race
+	 * @throws DaoException the dao exception
+	 */
 	public Race selectNextRaceOnly() throws DaoException {
 		SortedSet<Race> races = new TreeSet<>((r1, r2) -> 
 							r1.getDateTime().compareTo(r2.getDateTime()));
@@ -164,9 +173,10 @@ public class RaceDao {
 	}
 
 	/**
-	 * Updates results of the races_stat
-	 * @param race
-	 * @throws DaoException
+	 * Updates results of the races_stat.
+	 *
+	 * @param race the race
+	 * @throws DaoException the dao exception
 	 */
 	public void updateResults(Race race) throws DaoException {
 		
@@ -189,9 +199,10 @@ public class RaceDao {
 	}
 
 	/**
-	 * Inserts new races statistics to races_stat
-	 * @param races
-	 * @throws DaoException
+	 * Inserts new races statistics to races_stat.
+	 *
+	 * @param races the races
+	 * @throws DaoException the dao exception
 	 */
 	public void insertNewRaces(SortedSet<Race> races) throws DaoException {
 
@@ -225,6 +236,12 @@ public class RaceDao {
 		}
 	}
 
+	/**
+	 * Cancel race.
+	 *
+	 * @param race the race
+	 * @throws DaoException the dao exception
+	 */
 	public void cancelRace(Race race) throws DaoException {
 
 		try (Connection conn = ConnectionPool.getInstance().getConnection();
@@ -237,6 +254,12 @@ public class RaceDao {
 		}	
 	}
 
+	/**
+	 * Cancel races.
+	 *
+	 * @param races the races
+	 * @throws DaoException the dao exception
+	 */
 	public void cancelRaces(Collection<Race> races) throws DaoException {
 		try (Connection conn = ConnectionPool.getInstance().getConnection();
 				PreparedStatement cancel = conn.prepareStatement(CANCEL_RACE)) {

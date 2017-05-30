@@ -17,13 +17,17 @@ import java.util.List;
 import by.malinouski.hrace.exception.WinAmountAlreadySetException;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * @author makarymalinouski
  *
  */
 public class Bet implements Entity {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * Computed on May 27, 2017 3:32 PM UTC
+	 */
+	private static final long serialVersionUID = -2402186316486792856L;
 	private long betId;
 	private User user;
 	private BetType betType;
@@ -36,6 +40,16 @@ public class Bet implements Entity {
 	 */
 	private List<Integer> horsesInBet;
 
+	/**
+	 * Instantiates a new bet.
+	 *
+	 * @param id the id
+	 * @param user the user
+	 * @param type the type
+	 * @param amount the amount
+	 * @param dateTime the date time
+	 * @param horsesInBet the horses in bet
+	 */
 	public Bet(long id, 
 					User user, 
 						Bet.BetType type,
@@ -50,7 +64,13 @@ public class Bet implements Entity {
 		this.horsesInBet = horsesInBet;
 	}
 	
+	/**
+	 * Instantiates a new bet of type WIN,
+	 * and with an empty list of horsesInBet
+	 */
 	public Bet() {
+		betType = BetType.WIN;
+		horsesInBet = Collections.emptyList();
 	}
 	
 	public long getBetId() {
@@ -135,11 +155,14 @@ public class Bet implements Entity {
 	public String toString() {
 		return String.format(
 				"Bet: id %d, user %s, race %s, type %s, "
-						+ "horses in bet %s, amount %s, winning %s",
+					+ "horses in bet %s, amount %s, winning %s",
 						betId, user.getLogin(), raceDateTime, betType, 
 						horsesInBet, amount, winning);
 	}
 	
+	/**
+	 * The Enum BetType.
+	 */
 	public enum BetType {
 		WIN, SHOW, PLACE, QUINELLA, EXACTA, TRIFECTA
 	}

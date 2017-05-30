@@ -17,8 +17,9 @@ import by.malinouski.hrace.exception.HasherException;
 import by.malinouski.hrace.logic.entity.User;
 
 /**
- * @author makarymalinouski
+ * The Class UserValidator.
  *
+ * @author makarymalinouski
  */
 public class UserValidator {
 	private static Logger logger = LogManager.getLogger(UserValidator.class);

@@ -18,13 +18,24 @@ import java.util.List;
  *
  */
 public class EntityContainer<T extends Entity> implements Entity {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * May 27, 2017 3:35 PM UTC
+	 */
+	private static final long serialVersionUID = -6548002973763578613L;
 	private ArrayList<T> entities;
 	
 	public List<T> getEntities() {
 		return entities;
 	}
 	
+	/**
+	 * Gets the entities.
+	 *
+	 * @param fromIndex the from index
+	 * @param toIndex the to index
+	 * @return the entities
+	 */
 	public List<T> getEntities(int fromIndex, int toIndex) {
 		if (fromIndex > getEntityAmount() - 1 || fromIndex >= toIndex) {
 			return Collections.emptyList();

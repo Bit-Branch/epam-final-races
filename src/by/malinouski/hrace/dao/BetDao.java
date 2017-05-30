@@ -29,9 +29,11 @@ import by.malinouski.hrace.logic.entity.Bet;
 import by.malinouski.hrace.logic.entity.User;
 import by.malinouski.hrace.logic.entity.Bet.BetType;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class BetDao.
  *
+ * @author makarymalinouski
  */
 public class BetDao {
 
@@ -61,8 +63,9 @@ public class BetDao {
 	/**
 	 * Inserts a new bet into database.
 	 * Sets the bet id (mutating bet parameter)
-	 * @param bet
-	 * @throws DaoException
+	 *
+	 * @param bet the bet
+	 * @throws DaoException the dao exception
 	 */
 	public void placeBet(Bet bet) throws DaoException {
 		
@@ -98,6 +101,12 @@ public class BetDao {
 		}
 	}
 
+	/**
+	 * Update win bet.
+	 *
+	 * @param bet the bet
+	 * @throws DaoException the dao exception
+	 */
 	public void updateWinBet(Bet bet) throws DaoException {
 		
 		try (Connection conn = ConnectionPool.getInstance().getConnection();
@@ -111,11 +120,12 @@ public class BetDao {
 	}
 
 	/**
-	 * Retrieves all the bets of the given user
-	 * @param user
+	 * Retrieves all the bets of the given user.
+	 *
+	 * @param user the user
 	 * @return set of bets sorted by race's datetime
-	 * @throws DaoException
-	 * @throws WinAmountAlreadySetException 
+	 * @throws DaoException the dao exception
+	 * @throws WinAmountAlreadySetException the win amount already set exception
 	 */
 	public SortedSet<Bet> selectBetsByUser(User user) 
 							throws DaoException, WinAmountAlreadySetException {
@@ -155,6 +165,12 @@ public class BetDao {
 		}
 	}
 
+	/**
+	 * Cancel bet.
+	 *
+	 * @param bet the bet
+	 * @throws DaoException the dao exception
+	 */
 	public void cancelBet(Bet bet) throws DaoException {
 
 		try (Connection conn = ConnectionPool.getInstance().getConnection();

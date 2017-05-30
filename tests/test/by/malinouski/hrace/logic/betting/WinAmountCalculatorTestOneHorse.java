@@ -1,6 +1,6 @@
 package test.by.malinouski.hrace.logic.betting;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

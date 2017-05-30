@@ -22,15 +22,22 @@ import by.malinouski.hrace.logic.entity.Bet;
 import by.malinouski.hrace.logic.entity.Race;
 import by.malinouski.hrace.logic.racing.RacesResults;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author makarymalinouski
+ * The Class BetCallable.
  *
+ * @author makarymalinouski
  */
 public class BetCallable implements Callable<Bet> {
 	private static Logger logger = 
 			LogManager.getLogger(BetCallable.class);
 	private Bet bet;
 
+	/**
+	 * Instantiates a new bet callable.
+	 *
+	 * @param bet the bet
+	 */
 	public BetCallable(Bet bet) {
 		this.bet = bet;
 	}

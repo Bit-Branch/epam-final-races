@@ -21,8 +21,9 @@ import by.malinouski.hrace.logic.entity.User;
 import by.malinouski.hrace.logic.entity.Bet.BetType;
 
 /**
- * @author makarymalinouski
+ * The Class BetParser.
  *
+ * @author makarymalinouski
  */
 public class BetParser extends EntityParser {
 

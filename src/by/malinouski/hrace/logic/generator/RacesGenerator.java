@@ -14,19 +14,25 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.malinouski.hrace.logic.entity.HorseUnit;
 import by.malinouski.hrace.logic.entity.Race;
 
 /**
- * @author makarymalinouski
+ * The Class RacesGenerator.
  *
+ * @author makarymalinouski
  */
 public class RacesGenerator {
-	private static final Logger logger = LogManager.getLogger(RacesGenerator.class);
 
+	/**
+	 * Generate specified amount of races with specified horseUnits.
+	 *
+	 * @param firstDateTime the date time of the first race
+	 * @param numRaces the number races
+	 * @param intervalMinutes the interval between races in minutes
+	 * @param units the horseUnits in the races
+	 * @return the sorted set of races, sorted by DateTime
+	 */
 	public SortedSet<Race> generate(LocalDateTime firstDateTime, 
 						int numRaces, int intervalMinutes, List<HorseUnit> units) {
 		
@@ -35,13 +41,7 @@ public class RacesGenerator {
 		LocalDateTime dateTime = firstDateTime;
 		for (int i = 0; i <  numRaces; i++) {
 			List<HorseUnit> unitsShallowCopy = new ArrayList<>(units.size());
-			units.forEach(u -> {
-				try {
-					unitsShallowCopy.add((HorseUnit) u.clone());
-				} catch (CloneNotSupportedException e) {
-					logger.error("Shouldn't get here");
-				}
-			});
+			units.forEach(u -> unitsShallowCopy.add((HorseUnit) u.clone()));
 			Race race = new Race(dateTime, unitsShallowCopy);
 			races.add(race);
 			dateTime = dateTime.plusMinutes(intervalMinutes);

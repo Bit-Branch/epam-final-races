@@ -20,8 +20,9 @@ import by.malinouski.hrace.security.Hasher;
 import by.malinouski.hrace.security.SaltGenerator;
 
 /**
- * @author makarymalinouski
+ * The Class RegisterReceiver.
  *
+ * @author makarymalinouski
  */
 public class RegisterReceiver extends CommandReceiver {
 	private static final Logger logger = 

@@ -22,8 +22,9 @@ import by.malinouski.hrace.logic.entity.EntityContainer;
 import by.malinouski.hrace.logic.entity.User;
 
 /**
- * @author makarymalinouski
+ * The Class AllBetsReceiver.
  *
+ * @author makarymalinouski
  */
 public class AllBetsReceiver extends CommandReceiver {
 	private static Logger logger = LogManager.getLogger(AllBetsReceiver.class);

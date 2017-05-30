@@ -11,8 +11,9 @@ package by.malinouski.hrace.logic.entity;
 import java.io.Serializable;
 
 /**
- * @author makarymalinouski
+ * The Interface Entity.
  *
+ * @author makarymalinouski
  */
 public interface Entity extends Serializable {
 	EntityType ofType();
